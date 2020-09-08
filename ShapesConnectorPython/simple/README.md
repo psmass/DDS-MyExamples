@@ -1,5 +1,7 @@
 # Simple Example
 
+![](https://github.com/psmass/DDSexamples/blob/master/RtiAsOne.png). 
+
 ## Example description
 In this simple example, `writer.py` periodically publishes data for a
 *Square* topic, and `reader.py` subscribes to the topic and prints all the
