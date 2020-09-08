@@ -2,6 +2,8 @@
 
 
 *** THIS DIRECTORY CONTAINS: ***
+
 Only a Subscriber - the Subscriber uses XML App Creation, w/Dynamic Data, Waitset event handling and reading.
+
 The Content Filter Topic is also created via the XML (System Designer)
    
