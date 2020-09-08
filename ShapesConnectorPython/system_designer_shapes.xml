@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/6.0.1/rti_dds_profiles.xsd" version="6.0.1">
+    <types>
+      <struct name="ShapeType" extensibility="appendable">
+        <member name="color" type="string" stringMaxLength="128" key="true"/>
+        <member name="x" type="long"/>
+        <member name="y" type="long"/>
+        <member name="shapesize" type="long"/>
+      </struct>
+      <enum name="ShapeFillKind">
+        <enumerator name="SOLID_FILL" value="0"/>
+        <enumerator name="TRANSPARENT_FILL" value="1"/>
+        <enumerator name="HORIZONTAL_HATCH_FILL" value="2"/>
+        <enumerator name="VERTICAL_HATCH_FILL" value="3"/>
+      </enum>
+      <struct name="ShapeTypeExtended" baseType="ShapeType">
+        <member name="fillKind" type="nonBasic" nonBasicTypeName="ShapeFillKind"/>
+        <member name="angle" type="float32"/>
+      </struct>
+    </types>
+
+    <qos_library name="NewQosLibrary1">
+      <qos_profile name="NewQosProfile1" base_name="BuiltinQosLib::Generic.BestEffort">
+        <base_name>
+          <element>BuiltinQosSnippetLib::Optimization.ReliabilityProtocol.LargeData</element>
+          <element>BuiltinQosSnippetLib::Optimization.Discovery.Common</element>
+        </base_name>
+        <datareader_qos>
+          <reliability>
+            <kind>RELIABLE_RELIABILITY_QOS</kind>
+          </reliability>
+        </datareader_qos>
+        <datawriter_qos>
+          <reliability>
+            <kind>RELIABLE_RELIABILITY_QOS</kind>
+          </reliability>
+        </datawriter_qos>
+      </qos_profile>
+    </qos_library>
+
+    <domain_library name="NewDomainLibrary1">
+      <domain name="NewDomain1" domain_id="0">
+        <register_type name="ShapeType" type_ref="ShapeType"/>
+        <topic name="Triangle" register_type_ref="ShapeType"/>
+        <topic name="Circle" register_type_ref="ShapeType"/>
+      </domain>
+    </domain_library>
+
+    <domain_participant_library name="NewParticipantLibrary1">
+      <domain_participant name="ShapesParticipant1" domain_ref="NewDomainLibrary1::NewDomain1">
+        <publisher name="TrianglePublisher1">
+          <data_writer name="TriangleWriter" topic_ref="Triangle"/>
+        </publisher>
+        <subscriber name="TriangleSubscriber1">
+          <data_reader name="TriangleReader" topic_ref="Triangle"/>
+        </subscriber>
+      </domain_participant>
+
+      <domain_participant name="ShapesParticipant2" domain_ref="NewDomainLibrary1::NewDomain1">
+        <publisher name="CirclePublisher1">
+          <data_writer name="CircleWriter" topic_ref="Circle"/>
+        </publisher>
+        <subscriber name="CircleSubscriber1">
+          <data_reader name="CircleReader" topic_ref="Circle"/>
+        </subscriber>
+      </domain_participant>
+    </domain_participant_library>
+
+
+</dds>
