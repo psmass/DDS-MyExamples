@@ -7,7 +7,7 @@ This project provides a host of DDS programming examples. Each project uses Visu
 
 Using these examples assumes you have licensed access to RTI's Connext DDS libraries and tools (you can get a Free 30 day trial license at www.rti.com)
 
-The code will Publish and Subscribe to standard Shapes (example here is a Blue Square) which can be subscribed to by the Connext DDS Shapes Demo and visa-versa. Particularly of interest to the user is that most examples use **RTI Best Practices - Waitsets (vs. Listener) as well as XML App Creation w/Dynamic Data.**  As well, the XML files themselves were created by RTI's System Designer Tool. In some cases (i.e. compiled Participant creation, only the QOS section of the XML is used).
+The code will Publish and Subscribe to standard Shapes (example here is a Blue Square) which can be subscribed to by the Connext DDS Shapes Demo and visa-versa. Particularly of interest to the user is that most examples use **RTI Best Practices - Waitsets (vs. Listener) with XML App Creation w/Dynamic Data.**  As well, the XML files themselves were created by RTI's System Designer Tool. In some cases (i.e. compiled Participant creation, only the QOS section of the XML is used).
 
 Environment: MacOS (Catalina), Visual Studio Code
 
