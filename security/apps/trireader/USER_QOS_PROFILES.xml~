@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation="/Applications/rti_connext_dds-5.3.1/resource/schema/rti_dds_qos_profiles.xsd"
+     version="5.3.1">
+
+     <!-- TODO: Do a global search and replace on "demo_app".  Replace this with -->
+     <!-- TODO: the name of your application (i.e. "shapes"). -->
+     <!-- TODO: Of particular importance is the paths to the various security -->
+     <!-- TODO: certificates and artifacts - these must be absolute paths -->
+
+    <qos_library name="trireaderLib">
+
+        <qos_profile name="trireaderParticipantQos" base_name="BuiltinQosLib::Generic.Security" is_default_qos="true">
+
+            <participant_factory_qos>
+                <logging>
+                    <verbosity>ERROR</verbosity>
+                    <category>ALL</category>>
+                    <print_format>VERBOSE</print_format>
+                    <output_file>trireader_log.txt</output_file>
+                </logging>
+            </participant_factory_qos>
+
+            <participant_qos>
+                <!-- TODO: These can help identify your app in tools like Admin Console -->
+                <participant_name>
+                    <name>Securedtrireader</name>
+                    <role_name>trireader</role_name>
+                </participant_name>
+
+                <!-- TODO: SHMEM is disable for demos -->
+                <transport_builtin>
+                    <mask>UDPv4</mask>
+                </transport_builtin>
+
+                <discovery>
+                    <!--
+                    <initial_peers>
+                        <element>builtin.udpv4://239.255.0.1</element>
+                        <element>builtin.udpv4://127.0.0.1</element>
+                    </initial_peers>
+                    -->
+                    <multicast_receive_addresses>
+                        <element>239.255.0.1</element>
+                    </multicast_receive_addresses>
+                </discovery>
+                <!--
+                <discovery_config>
+                    <default_domain_announcement_period>
+                        <sec>DURATION_INFINITE_SEC</sec>
+                        <nanosec>DURATION_INFINITE_NSEC</nanosec>
+                    </default_domain_announcement_period>
+                </discovery_config>
+                -->
+                <resource_limits>
+                    <type_code_max_serialized_length>16384</type_code_max_serialized_length>
+                    <type_object_max_serialized_length>16384</type_object_max_serialized_length>
+                </resource_limits>
+                <property>
+                    <value>
+                        <!-- This block of transport config improves performance -->
+                        <!-- Adjust according to your network configuration -->
+                        <element>
+                            <name>dds.transport.UDPv4.builtin.recv_socket_buffer_size</name>
+                            <value>1048576</value>
+                        </element>
+                        <element>
+                            <name>dds.transport.UDPv4.builtin.parent.message_size_max</name>
+                            <value>65530</value>
+                        </element>
+                        <element>
+                            <name>dds.transport.UDPv4.builtin.send_socket_buffer_size</name>
+                            <value>65530</value>
+                        </element>
+                        <element>
+                            <name>dds.transport.UDPv4.builtin.disable_interface_tracking</name>
+                            <value>1</value>
+                        </element>
+
+                        <!-- This section configures DDS Secure -->
+                        <!-- TODO: You can increase the logging level below for troubleshooting -->
+                        <!-- TODO: For full visibility, set the level to 7 (debug) -->
+                        <element>
+                            <name>com.rti.serv.secure.logging.log_level</name>
+                            <value>3</value>
+                        </element>
+                        <!-- TODO: Set the location for the security logging file -->
+                        <element>
+                            <name>com.rti.serv.secure.logging.log_file</name>
+                            <value>$(DDS_SECURE_DEMO_HOME)/apps/trireader/deploy/trireader_secure_log.txt</value>
+                        </element>
+                        <!-- TODO: If you'd like to receive Security log messages at a remote location -->
+                        <!-- TODO: set the property below to true.  The log messages will then be published -->
+                        <!-- TODO: to DDS topics and can be viewed in tools lik Admin Console -->
+
+                        <!-- TODO: Add entries for other Secure logging settings -->
+                        <element>
+                            <name>com.rti.serv.secure.logging.distribute.enable</name>
+                            <value>true</value>
+                        </element>
+
+                        <!-- TODO: The properties below set the paths to the configuration files reuired -->
+                        <!-- TODO: by DDS Secure.  The examples below use full paths, so change them -->
+                        <!-- TODO: for your system as appropriate -->
+
+                        <!-- The Idenity CA's identity certificate -->
+                        <element>
+                            <name>com.rti.serv.secure.authentication.ca_file</name>
+                            <value>$(DDS_SECURE_DEMO_HOME)/apps/deployall/cacert.pem</value>
+                        </element>
+                        <!-- The Permission CA's identity certificate -->
+                        <element>
+                            <name>com.rti.serv.secure.access_control.permissions_authority_file</name>
+                            <value>$(DDS_SECURE_DEMO_HOME)/apps/deployall/permissionscacert.pem</value>
+                        </element>
+                        <!-- Common Domain Governance file, signed by Permissions CA -->
+                        <element>
+                            <name>com.rti.serv.secure.access_control.governance_file</name>
+                            <value>$(DDS_SECURE_DEMO_HOME)/apps/deployall/demo_governance_signed.p7s</value>
+                        </element>
+                        <!-- TODO: Add entry for CRL -->
+
+                        <!-- This applications's identity certificate -->
+                        <element>
+                            <name>com.rti.serv.secure.authentication.certificate_file</name>
+                            <value>$(DDS_SECURE_DEMO_HOME)/apps/trireader/deploy/trireader.pem</value>
+                        </element>
+                        <!-- This app's private key (KEEP PRIVATE!)-->
+                        <element>
+                            <name>com.rti.serv.secure.authentication.private_key_file</name>
+                            <value>$(DDS_SECURE_DEMO_HOME)/apps/trireader/deploy/private/trireaderkey.pem</value>
+                        </element>
+                        <!-- Permissions file for this application, signed by Permissions CA -->
+                        <element>
+                            <name>com.rti.serv.secure.access_control.permissions_file</name>
+                            <value>$(DDS_SECURE_DEMO_HOME)/apps/trireader/deploy/trireader_permissions_signed.p7s</value>
+                        </element>
+                    </value>
+                </property>
+            </participant_qos>
+        </qos_profile>
+
+        <!-- TODO: Use the profile below as a template for setting up profiles -->
+        <!-- TODO: for the data flows in your system.  Typically, it's a good -->
+        <!-- TODO: idea to create matching writer and reader QoS settings in -->
+        <!-- TODO: a single profile. In a typical application, you might have -->
+        <!-- TODO: anywhere from 3-12 individual data flow profiles -->
+
+        <qos_profile name="DataFlow1" base_name="BuiltinQosLib::Generic.Common" is_default_qos="false">
+
+            <datawriter_qos>
+                <publication_name>
+                    <name>TopicnameWriter</name>
+                    <role_name>TopicnameWriter</role_name>
+                </publication_name>
+
+                <history>
+                    <kind>KEEP_LAST_HISTORY_QOS</kind>
+                    <depth>6</depth>
+                </history>
+
+                <reliability>
+                    <kind>RELIABLE_RELIABILITY_QOS</kind>
+                    <max_blocking_time>
+                        <sec>1</sec>
+                        <nanosec>0</nanosec>
+                    </max_blocking_time>
+                </reliability>
+
+                <lifespan>
+                    <duration>
+                        <sec>5</sec>
+                        <nanosec>0</nanosec>
+                    </duration>
+                </lifespan>
+            </datawriter_qos>
+
+            <datareader_qos>
+                <subscription_name>
+                    <name>TopicnameReader</name>
+                    <role_name>TopicnameReader</role_name>
+                </subscription_name>
+
+                <!-- TODO: If you are fanning data out to many receivers, -->
+                <!-- TODO: you can specify a shared multicast receive -->
+                <!-- TODO: address for all data readers of the same topic. -->
+
+                <!--
+                <multicast>
+                    <value>
+                        <element>
+                            <receive_address>239.255.1.1</receive_address>
+                        </element>
+                    </value>
+                </multicast>
+                -->
+                <history>
+                    <kind>KEEP_LAST_HISTORY_QOS</kind>
+                    <depth>6</depth>
+                </history>
+            </datareader_qos>
+        </qos_profile>
+
+    </qos_library>
+</dds>

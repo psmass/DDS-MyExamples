@@ -1,0 +1,319 @@
+[1595503814.032613]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595503814.032886]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595503814.032913]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595503814.032933]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595503814.033650]RTI_Security_AccessControl_check_remote_datawriter:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595503814.033753]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595503814.033775]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595503814.033785]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595503814.038022]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595503869.538775]RTI_Security_AccessControl_check_create_datawriter:endpoint not allowed: no rule found; default DENY
+[1595505050.738838]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595514159.819378]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693324.441098]RTI_Security_AccessControl_check_remote_datawriter:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693329.235199]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693329.235246]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693329.235260]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595693335.678652]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693339.976516]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693339.976544]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693339.976552]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595693579.099145]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693801.537234]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693819.092861]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693831.785172]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693831.785209]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595693831.785221]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595694134.772146]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595694151.133551]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595694508.192566]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595694512.723621]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595701214.241090]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595701218.776007]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595702173.234600]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595702286.713575]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595702430.032488]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595702687.314404]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595704645.943080]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595763831.104059]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595763871.097652]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595763961.250040]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595764413.117662]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595764530.411015]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595764653.785464]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595764659.332472]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595764659.332508]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595764659.332532]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595764718.537513]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595764738.294061]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595764745.252686]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595764745.252713]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595764745.252723]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595764788.613517]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595765102.788610]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595765228.735573]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595765233.489164]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595765233.489204]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595765233.489242]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595872962.364929]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595872967.081439]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595872967.935306]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595872967.935387]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595872967.935441]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595872967.937205]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873469.953751]RTI_Security_AccessControl_validate_permissions:failed to verify permissions document signature
+[1595873469.953793]RTI_Security_AccessControl_validate_local_permissions:failed to validate local permissions. XML file:
+[1595873469.953804]RTI_Security_AccessControl_validate_local_permissions:MIME-Version: 1.0
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha1"; boundary="----00B657D787FFC5B876C2A25EE57D323B"
+
+This is an S/MIME signed message
+
+------00B657D787FFC5B876C2A25EE57D323B
+Content-Type: text/plain
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="/Applications/rti_connext_dds-6.0.1/resource/schema/dds_security_permissions.xsd">
+
+    <permissions>
+
+        <grant name="trireaderPermissions">
+
+            <!-- TODO: Change the fields below to match those in your appname.cnf file.  Change 'demo_app' to your app's name -->
+            <subject_name>/C=US/ST=MA/O=Real Time Innovations/CN=trireader/emailAddress=trireader@rti.com</subject_name>
+
+            <validity>
+                <!-- Format is CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] in GMT -->
+                <not_before>2013-06-01T13:00:00</not_before>
+                <not_after>2033-06-01T13:00:00</not_after>
+            </validity>
+
+            <allow_rule>
+                <domains>
+                    <id_range>
+                        <min>0</min>
+                        <max>6</max>
+                    </id_range>
+                </domains>
+                <publish>
+                    <topics>
+                      <topic>Square</topic>
+                      <topic>Circle</topic>
+                    </topics>
+                </publish>
+                <subscribe>
+                    <topics>
+                        <topic>*</topic>
+                    </topics>
+                </subscribe>
+            </allow_rule>
+
+            <deny_rule>
+                <domains>
+                    <id_range>
+                        <min>0</min>
+                        <max>6</max>
+                    </id_range>
+                </domains>
+
+                <publish>
+                    <topics>
+                        <topic>secure_topic_this_app_can_NOT_write</topic>
+                        <topic>secure_topic_this_app_can_NOT_write</topic>
+                    </topics>
+                </publish>
+
+                <subscribe>
+                    <topics>
+                        <topic>secure_topic_this_app_can_NOT_read</topic>
+                        <topic>secure_topic_this_app_can_NOT_read</topic>
+                    </topics>
+                </subscribe>
+
+            </deny_rule>
+
+            <default>DENY</default>
+
+        </grant>
+    </permissions>
+</dds>
+
+------00B657D787FFC5B876C2A25EE57D323B
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+
+MIIGnAYJKoZIhvcNAQcCoIIGjTCCBokCAQExCzAJBgUrDgMCGgUAMAsGCSqGSIb3
+DQEHAaCCA5gwggOUMIICfAIJAIBWxNsBzrUKMA0GCSqGSIb3DQEBBQUAMIGLMQsw
+CQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVN1bm55dmFsZTEeMBwG
+A1UECgwVUmVhbCBUaW1lIElubm92YXRpb25zMRcwFQYDVQQDDA5SVEkgQ2VydCBX
+b3JsZDEiMCAGCSqGSIb3DQEJARYTcGVybWlzc2lvbnNAcnRpLmNvbTAeFw0yMDA3
+MTcxNDM0MzRaFw0zMDA3MTUxNDM0MzRaMIGLMQswCQYDVQQGEwJVUzELMAkGA1UE
+CAwCQ0ExEjAQBgNVBAcMCVN1bm55dmFsZTEeMBwGA1UECgwVUmVhbCBUaW1lIElu
+bm92YXRpb25zMRcwFQYDVQQDDA5SVEkgQ2VydCBXb3JsZDEiMCAGCSqGSIb3DQEJ
+ARYTcGVybWlzc2lvbnNAcnRpLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+AQoCggEBALUcXeJUgPbyYT9BWCSsg3+V6QctXb1Fg4dLWBb6DKoeY+9uifLF7ETs
+EaQv/NOeev8BECc9t0rEpxwXl9cvS/w2lAI0NmTCnj9+DFO/0iyHoWwf2LsY7uBC
+rVnwTGvwHYHIOjJc8fLq6Qssdin2ptvaO4aIqmcJNoa3zCP2bjJQ7SFHElayxjSy
+erwerJHDfvVF37DybPjDTsi9sTFjdFkGw550s5QEe3/Oc/7qwhitU9hbpI32eFPA4wEFd
+n98Zko8qep2PZJwjNajxn2FCO7lOFD74vEX6gQ6Es47vf/q6DSGRQ5N+zTPCd1wQ
+1HH+7acvE95R0JlvM9DpIW69favCLCECAwEAATANBgkqhkiG9w0BAQUFAAOCAQEA
+NX7kG5BdtsxOMoomOou7nrwcCxmM45SVR5laXjGdp3qvQnL9aVej8wQQixN8Kxr/
+li2B5pV5WByoLBQRJ4juTnWuSUBmZQ8VzegigG0YPnmntYMqFYPm7MwViwZnSWPt
+x7SFv+ZLJcVNe3dWDUNrCDTeZcqGlQj20pr+Kz3WG7Qj4+GE+n4jsMNyL2Di8Krf
+dd0cD0UV1FVBEpZ/O5nA1oyMPw+SVjcHegjHyX4KqLaG9Yyl47Hdg5QmxUkQwR+W
+4vwc3+L0ptR7SC1lOelsk5kjy66dHFGyvnJqhbdMwpEiHQR+bDWnpBShVrlCXxIn
+rOh12gtneczgAJ6yF0sWhTGCAswwggLIAgEBMIGZMIGLMQswCQYDVQQGEwJVUzEL
+MAkGA1UECAwCQ0ExEjAQBgNVBAcMCVN1bm55dmFsZTEeMBwGA1UECgwVUmVhbCBU
+aW1lIElubm92YXRpb25zMRcwFQYDVQQDDA5SVEkgQ2VydCBXb3JsZDEiMCAGCSqG
+SIb3DQEJARYTcGVybWlzc2lvbnNAcnRpLmNvbQIJAIBWxNsBzrUKMAkGBSsOAwIa
+BQCgggEHMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8X
+DTIwMDcyMjE0MTczOFowIwYJKoZIhvcNAQkEMRYEFMADLJY5tDcJaUVlopTtGPLM
+Nwt2MIGnBgkqhkiG9w0BCQ8xgZkwgZYwCwYJYIZIAWUDBAEqMAgGBiqFAwICCTAK
+BggqhQMHAQECAjAKBggqhQMHAQECAzAIBgYqhQMCAhUwCwYJYIZIAWUDBAEWMAsG
+CWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgICAIAwDQYIKoZIhvcN
+AwICAUAwBwYFKw4DAgcwDQYIKoZIhvcNAwICASgwDQYJKoZIhvcNAQEBBQAEggEA
+WBUWbgvdXu5XwwB4N1KdVSzqK/S3gzZp4WeoMZsZt/PgZ5ctNlRThkVM6Ffsyo78
+FdLrK6MVDaDzkgW1bghD6F/3eiBh3fqlcWW/F0KssZoZwWs9O+yQG7R4rLbkXQy2
+JrQrRfv+oQ7AGboSJfeTuK0yXNCrs/f+Xbs/7ifbGQCuMQGSTzUdgrPrubmunucq
+dawvpyVKusOwybMa+ze0A/SBxkLGOBFSrzNNefNWsofDtWZ/lxCVrh8k3xqDcxFGn
+vR26BHZtJZ8ktSB1ysnuD3TzLYq1juh3SZLUb9FHChs11+K4REGILhfwFT5IA5sK
+7JGu4F34S7//O2hbiG/qlQ==
+
+------00B657D787FFC5B876C2A25EE57D323B--
+
+
+[1595873746.579906]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873746.580087]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873746.580108]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873746.580119]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595873756.646518]RTI_Security_AccessControl_check_remote_datawriter:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873756.646794]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873756.646844]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873756.646863]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595873828.003457]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873856.225564]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873860.551118]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873860.551167]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595873860.551179]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595874404.154026]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595879012.840820]RTI_Security_AccessControl_check_remote_datawriter:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595879015.404736]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595879015.404786]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595879015.404803]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595879017.600617]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595879022.637816]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595879022.637850]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595879022.637861]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595930502.503553]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595930502.504858]RTI_Security_AccessControl_check_remote_datawriter:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595930502.504994]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595930502.505033]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595930502.505041]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1595930502.505479]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595930502.505496]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1595930502.505504]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1596115322.799636]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596189632.688315]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194265.310909]RTI_Security_AccessControl_check_remote_datawriter:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194272.647537]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194272.647578]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194272.647592]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1596194279.899406]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194284.330779]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194284.330830]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194284.330841]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1596194369.899372]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194474.326895]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194502.143496]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194551.433248]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194555.907171]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194560.430694]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194575.300242]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194575.300976]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194575.300997]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1596194581.646322]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596194820.034905]RTI_Security_AccessControl_check_create_datawriter:endpoint not allowed: no rule found; default DENY
+[1596209094.446782]RTI_Security_AccessControl_check_remote_datawriter:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596209096.460897]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596209096.460959]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596209096.460980]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1596209108.300623]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596209114.142293]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596209114.142391]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1596209114.142406]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1596209259.264430]RTI_Security_AccessControl_check_create_datawriter:endpoint not allowed: no rule found; default DENY
+[1596209433.972651]RTI_Security_AccessControl_check_create_datawriter:endpoint not allowed: no rule found; default DENY
+[1596209522.315578]RTI_Security_AccessControl_check_create_datawriter:endpoint not allowed: no rule found; default DENY
+[1597242246.572032]RTI_Security_AccessControl_check_remote_datawriter:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242253.250516]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242253.250564]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242253.250578]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1597242324.962016]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242368.785338]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242368.785416]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242368.785435]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1597242489.162812]RTI_Security_AccessControl_check_remote_datawriter:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242489.163000]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242489.163027]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242489.163044]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1597242489.163411]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242489.163760]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242489.163803]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597242489.163879]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1597242552.246301]RTI_Security_AccessControl_check_create_datawriter:endpoint not allowed: no rule found; default DENY
+[1597242806.706945]RTI_Security_AccessControl_check_create_datawriter:endpoint not allowed: no rule found; default DENY
+[1597317348.521194]RTI_Security_AccessControl_check_create_datawriter:endpoint not allowed: no rule found; default DENY
+[1597319030.399976]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597319112.529455]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597319312.124794]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597319352.304598]RTI_Security_AccessControl_check_create_datawriter:endpoint not allowed: no rule found; default DENY
+[1597319411.017884]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597324185.416722]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597324306.016856]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597327678.806293]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597327798.908549]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597327859.615421]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597328039.629745]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597328099.686726]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597328160.062905]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597328219.947078]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597328281.818475]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597328460.395233]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597328521.002267]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597328580.975876]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597328641.816165]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597328820.759604]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597329422.350200]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597329482.677205]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597334457.159165]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597334518.221371]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597334786.034236]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597335597.956989]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597335842.091061]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597337041.494888]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597337673.062668]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597338064.177224]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597339838.077514]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597340228.742014]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597340477.056792]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597340801.457319]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597340928.212597]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597340983.213354]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597341046.715619]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597341103.143522]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597341973.629817]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597342424.747780]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597342487.589630]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597343808.928806]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597344630.772636]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597344647.069585]RTI_Security_AccessControl_check_remote_datawriter:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597344652.513064]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597344652.513992]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597344652.514043]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1597344692.333068]RTI_Security_AccessControl_check_remote_datareader:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597344724.384936]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597344724.385070]RTI_Security_AccessControl_check_remote_topic:need to check remote endpoint permissions, but remote participant permissions handle is NULL. Check that the remote participant is using security and that there are no errors about failing to validate or check its permissions.
+[1597344724.385119]RTI_Security_AccessControl_check_remote_topic:topic not allowed: cannot be published or subscribed
+[1597345275.293053]RTI_Security_AccessControl_check_create_datawriter:endpoint not allowed: no rule found; default DENY

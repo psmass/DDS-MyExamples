@@ -1,0 +1,120 @@
+MIME-Version: 1.0
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha1"; boundary="----00B657D787FFC5B876C2A25EE57D323B"
+
+This is an S/MIME signed message
+
+------00B657D787FFC5B876C2A25EE57D323B
+Content-Type: text/plain
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="/Applications/rti_connext_dds-6.0.1/resource/schema/dds_security_permissions.xsd">
+
+    <permissions>
+
+        <grant name="trireaderPermissions">
+
+            <!-- TODO: Change the fields below to match those in your appname.cnf file.  Change 'demo_app' to your app's name -->
+            <subject_name>/C=US/ST=MA/O=Real Time Innovations/CN=trireader/emailAddress=trireader@rti.com</subject_name>
+
+            <validity>
+                <!-- Format is CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] in GMT -->
+                <not_before>2013-06-01T13:00:00</not_before>
+                <not_after>2033-06-01T13:00:00</not_after>
+            </validity>
+
+            <allow_rule>
+                <domains>
+                    <id_range>
+                        <min>0</min>
+                        <max>6</max>
+                    </id_range>
+                </domains>
+                <publish>
+                    <topics>
+                      <topic>Square</topic>
+                      <topic>Circle</topic>
+                    </topics>
+                </publish>
+                <subscribe>
+                    <topics>
+                        <topic>*</topic>
+                    </topics>
+                </subscribe>
+            </allow_rule>
+
+            <deny_rule>
+                <domains>
+                    <id_range>
+                        <min>0</min>
+                        <max>6</max>
+                    </id_range>
+                </domains>
+
+                <publish>
+                    <topics>
+                        <topic>secure_topic_this_app_can_NOT_write</topic>
+                        <topic>secure_topic_this_app_can_NOT_write</topic>
+                    </topics>
+                </publish>
+
+                <subscribe>
+                    <topics>
+                        <topic>secure_topic_this_app_can_NOT_read</topic>
+                        <topic>secure_topic_this_app_can_NOT_read</topic>
+                    </topics>
+                </subscribe>
+
+            </deny_rule>
+
+            <default>DENY</default>
+
+        </grant>
+    </permissions>
+</dds>
+
+------00B657D787FFC5B876C2A25EE57D323B
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+
+MIIGnAYJKoZIhvcNAQcCoIIGjTCCBokCAQExCzAJBgUrDgMCGgUAMAsGCSqGSIb3
+DQEHAaCCA5gwggOUMIICfAIJAIBWxNsBzrUKMA0GCSqGSIb3DQEBBQUAMIGLMQsw
+CQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVN1bm55dmFsZTEeMBwG
+A1UECgwVUmVhbCBUaW1lIElubm92YXRpb25zMRcwFQYDVQQDDA5SVEkgQ2VydCBX
+b3JsZDEiMCAGCSqGSIb3DQEJARYTcGVybWlzc2lvbnNAcnRpLmNvbTAeFw0yMDA3
+MTcxNDM0MzRaFw0zMDA3MTUxNDM0MzRaMIGLMQswCQYDVQQGEwJVUzELMAkGA1UE
+CAwCQ0ExEjAQBgNVBAcMCVN1bm55dmFsZTEeMBwGA1UECgwVUmVhbCBUaW1lIElu
+bm92YXRpb25zMRcwFQYDVQQDDA5SVEkgQ2VydCBXb3JsZDEiMCAGCSqGSIb3DQEJ
+ARYTcGVybWlzc2lvbnNAcnRpLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+AQoCggEBALUcXeJUgPbyYT9BWCSsg3+V6QctXb1Fg4dLWBb6DKoeY+9uifLF7ETs
+EaQv/NOeev8BECc9t0rEpxwXl9cvS/w2lAI0NmTCnj9+DFO/0iyHoWwf2LsY7uBC
+rVnwTGvwHYHIOjJc8fLq6Qssdin2ptvaO4aIqmcJNoa3zCP2bjJQ7SFHElayxjSy
+JHDfvVF37DybPjDTsi9sTFjdFkGw550s5QEe3/Oc/7qwhitU9hbpI32eFPA4wEFd
+n98Zko8qep2PZJwjNajxn2FCO7lOFD74vEX6gQ6Es47vf/q6DSGRQ5N+zTPCd1wQ
+1HH+7acvE95R0JlvM9DpIW69favCLCECAwEAATANBgkqhkiG9w0BAQUFAAOCAQEA
+NX7kG5BdtsxOMoomOou7nrwcCxmM45SVR5laXjGdp3qvQnL9aVej8wQQixN8Kxr/
+li2B5pV5WByoLBQRJ4juTnWuSUBmZQ8VzegigG0YPnmntYMqFYPm7MwViwZnSWPt
+x7SFv+ZLJcVNe3dWDUNrCDTeZcqGlQj20pr+Kz3WG7Qj4+GE+n4jsMNyL2Di8Krf
+dd0cD0UV1FVBEpZ/O5nA1oyMPw+SVjcHegjHyX4KqLaG9Yyl47Hdg5QmxUkQwR+W
+4vwc3+L0ptR7SC1lOelsk5kjy66dHFGyvnJqhbdMwpEiHQR+bDWnpBShVrlCXxIn
+rOh12gtneczgAJ6yF0sWhTGCAswwggLIAgEBMIGZMIGLMQswCQYDVQQGEwJVUzEL
+MAkGA1UECAwCQ0ExEjAQBgNVBAcMCVN1bm55dmFsZTEeMBwGA1UECgwVUmVhbCBU
+aW1lIElubm92YXRpb25zMRcwFQYDVQQDDA5SVEkgQ2VydCBXb3JsZDEiMCAGCSqG
+SIb3DQEJARYTcGVybWlzc2lvbnNAcnRpLmNvbQIJAIBWxNsBzrUKMAkGBSsOAwIa
+BQCgggEHMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8X
+DTIwMDcyMjE0MTczOFowIwYJKoZIhvcNAQkEMRYEFMADLJY5tDcJaUVlopTtGPLM
+Nwt2MIGnBgkqhkiG9w0BCQ8xgZkwgZYwCwYJYIZIAWUDBAEqMAgGBiqFAwICCTAK
+BggqhQMHAQECAjAKBggqhQMHAQECAzAIBgYqhQMCAhUwCwYJYIZIAWUDBAEWMAsG
+CWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgICAIAwDQYIKoZIhvcN
+AwICAUAwBwYFKw4DAgcwDQYIKoZIhvcNAwICASgwDQYJKoZIhvcNAQEBBQAEggEA
+WBUWbgvdXu5XwwB4N1KdVSzqK/S3gzZp4WeoMZsZt/PgZ5ctNlRThkVM6Ffsyo78
+FdLrK6MVDaDzkgW1bghD6F/3eiBh3fqlcWW/F0KssZoZwWs9O+yQG7R4rLbkXQy2
+JrQrRfv+oQ7AGboSJfeTuK0yXNCrs/f+Xbs/7ifbGQCuMQGSTzUdgrPrubmunucq
+awvpyVKusOwybMa+ze0A/SBxkLGOBFSrzNNefNWsofDtWZ/lxCVrh8k3xqDcxFGn
+vR26BHZtJZ8ktSB1ysnuD3TzLYq1juh3SZLUb9FHChs11+K4REGILhfwFT5IA5sK
+7JGu4F34S7//O2hbiG/qlQ==
+
+------00B657D787FFC5B876C2A25EE57D323B--
+

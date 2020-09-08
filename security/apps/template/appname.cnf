@@ -1,0 +1,20 @@
+# This is an example local configuration file for OpenSSl.
+# Change the appropriate fields below for your application.
+
+# Replace 'demo_app' below with the name of your application
+appname=demo_app
+
+prompt=no
+distinguished_name	= req_distinguished_name
+
+[ req_distinguished_name ]
+
+# Modify the text to the right of the equals signs below to match
+# your application.
+
+countryName=US
+stateOrProvinceName=MA
+localityName=Boston
+organizationName=Real Time Innovations
+emailAddress=$appname@rti.com
+commonName=$appname
