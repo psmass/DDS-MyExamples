@@ -1,5 +1,9 @@
 # DDSexamples
- RTI Connext Pub/sub expamles using various DDS mechanisms
+
+
+
+
+RTI Connext Pub/sub expamles using various DDS mechanisms
  
 This project provides an example of setting up a simple RTI Connext DDS Application using Visual Studio Code (VSCode)
 
