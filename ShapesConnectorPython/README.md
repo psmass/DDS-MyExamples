@@ -9,6 +9,8 @@ data samples it receives.
 
 ## Running the example
 
+cd simple/
+
 Run the following commands in different shells:
 
     $ python reader.py
