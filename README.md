@@ -35,7 +35,7 @@ For full source debug - you'll need DDS source code (and built debug libraries) 
 Besure to point LLDB via the "relativePathBase":"${workspaceFolder}/cpp", statement in the vscode launch.json file.
 
 Recommended Directory Structure for each Example:(Change your makefile appropriately)
-
+```
 SHAPES (WORKSPACE)
     |
     +---.vscode 
@@ -47,7 +47,7 @@ SHAPES (WORKSPACE)
     + model
     + objs
 HOWTO: Shapes Publisher Code walkthrough
-
+```
 Create to ./model / ./cpp directories - in the structure shown above ShapeType.idl should be in the ./model dir if not: cp /Applications/rti_connext_dds-6.0.1/resource/idl/ShapeType.idl .
 
 VScode project should be in your work area - e.g. Shapes.code-workspace There should be four JSON files in .vscode - two of them will be specific to ShapesType
