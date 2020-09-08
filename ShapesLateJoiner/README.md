@@ -2,6 +2,7 @@
 
 
 *** THIS DIRECTORY CONTAINS: ***
+
 Contains only a publisher / writer using XML App create. No event monitoring is done. 
 
 To run this - compile and start the publisher (it only writes a Triangle topic ).
