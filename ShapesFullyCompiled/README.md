@@ -2,6 +2,7 @@
 
 
 *** THIS DIRECTORY CONTAINS: ***
+Basic Pub / Sub Compiled w/Sub Read Listener
 
-Contains both a publisher / writer and subscriber using compiled participants. Each uses a waitset to monitor events for each. The subcriber also does its reading via a waitset. This is both efficent (<3% CPU utilization) and **Better Practice** since the thread runs in the users context and any error does not ripple to other applications. ** Best Practice ** is to use an XML Application Created particpant as well as dynamic data and a waitset. See ShapesMatchWaitset.
+Contains both a publisher / writer and subscriber using compiled participants. The Subscriber uses a Listener to read the data. Neither Pub or Sub have an event handler. 
 
