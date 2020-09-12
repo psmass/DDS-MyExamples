@@ -80,7 +80,7 @@ static int subscriber_shutdown(
 
 extern "C" int subscriber_main(int domainId, int sample_count, bool sel_cft)
 {
-    #define PARAMS 4  // number of parameters to feed our filter
+    #define PARAMS 1  // number of parameters to feed our filter
     DDSDomainParticipant *participant = NULL;
     DDSSubscriber *subscriber = NULL;
     DDSTopic *topic = NULL;
@@ -97,8 +97,8 @@ extern "C" int subscriber_main(int domainId, int sample_count, bool sel_cft)
     DDSContentFilteredTopic *cft = NULL;
     /* For this filter we only allow 1 parameter*/
     DDS_StringSeq parameters(PARAMS);
-    const char *param_list[] = { "50", "150", "50", "150" };
-    //const char *param_list[] = { "RED" };
+    //const char *param_list[] = { "50", "150", "50", "150" };
+    const char *param_list[] = { "RED" };
 
     /* To customize the participant QoS, use 
     the configuration file USER_QOS_PROFILES.xml */
@@ -150,11 +150,11 @@ extern "C" int subscriber_main(int domainId, int sample_count, bool sel_cft)
         cft = participant->create_contentfilteredtopic_with_filter(
                 "ContentFilteredTopic",
                 topic,
-                "(x > %0 and x < %1) and (y > %2 and y < %3)",
-                //"color MATCH %0",
+                //"(x > %0 and x < %1) and (y > %2 and y < %3)",
+                "color MATCH %0",
                 parameters,
-                //DDS_STRINGMATCHFILTER_NAME);
-                DDS_SQLFILTER_NAME);
+                DDS_STRINGMATCHFILTER_NAME);
+                //DDS_SQLFILTER_NAME);
         if (cft == NULL) {
             printf("create_contentfilteredtopic error\n");
             subscriber_shutdown(participant);

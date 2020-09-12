@@ -199,8 +199,8 @@ extern "C" int publisherMain(int sampleCount)
 
     /* Main loop */
     for (count=0; (sampleCount == 0) || (count < sampleCount); ++count) {
-        printf("Writing Shape, count: %d, xloc: %d, yloc: %d\n", count, xloc, yloc);
-        fflush(stdout);
+        //printf("Writing Shape, count: %d, xloc: %d, yloc: %d\n", count, xloc, yloc);
+        //fflush(stdout);
         
         /* Set the data fields */
 		xloc = xloc + xdelta;
