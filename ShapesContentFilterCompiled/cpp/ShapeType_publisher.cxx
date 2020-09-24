@@ -141,6 +141,7 @@ void*  pthreadToProcWriterEvents(void *waitsetInfo) {
             }
         }
     }
+    exit(0);
 }
 
 /* Delete all entities */
@@ -284,7 +285,7 @@ extern "C" int publisher_main(int domainId, int sample_count)
     pthread_t tid;
     pthread_create(&tid, NULL, pthreadToProcWriterEvents, (void*) &myWaitsetInfo);
 
-    char *t_blue=(char *)"BLUE";
+    char t_blue[] = "BLUE";
     instance->color=t_blue;
     instance->shapesize=30;
 
