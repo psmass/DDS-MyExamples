@@ -158,11 +158,43 @@ extern "C" int subscriber_main(int domainId, int sample_count)
     DDS_Duration_t receive_period = {4,0};
     int status = 0;
 
-    /* To customize the participant QoS, use 
-    the configuration file USER_QOS_PROFILES.xml */
+    /* Example on setting QoS - Initial Peers list Programatically */
+    DDS_DomainParticipantQos participant_qos;
+    retcode = DDSTheParticipantFactory->get_default_participant_qos(participant_qos);
+    if (retcode != DDS_RETCODE_OK) { 
+        printf("get_default_participant_qos error\n");
+        return -1;
+    }
+
+    /* free original memory */
+    participant_qos.discovery.initial_peers.maximum(0);
+    
+    /* set new initial peer for sending discovery information  */
+    participant_qos.discovery.initial_peers.maximum(3);
+    participant_qos.discovery.initial_peers.length(3);
+    participant_qos.discovery.initial_peers[0] = DDS_String_dup("192.168.1.203");
+    participant_qos.discovery.initial_peers[1] = DDS_String_dup("4@builtin.udpv4://127.0.0.1");
+    participant_qos.discovery.initial_peers[2] = DDS_String_dup("builtin.shmem://");
+    
+    /* free original memory */
+    participant_qos.discovery.multicast_receive_addresses.maximum(0);
+    
+    /* set new multicast receive address for receiving multicast
+    discovery information */
+    participant_qos.discovery.multicast_receive_addresses.maximum(1);
+    participant_qos.discovery.multicast_receive_addresses.length(1);
+    participant_qos.discovery.multicast_receive_addresses[0] =    DDS_String_dup("239.255.0.1");
+
+    participant = DDSTheParticipantFactory->create_participant(
+        domainId, participant_qos,
+        NULL, DDS_STATUS_MASK_NONE);
+    /*
+    // To customize the participant QoS, use 
+    //the configuration file USER_QOS_PROFILES.xml 
     participant = DDSTheParticipantFactory->create_participant(
         domainId, DDS_PARTICIPANT_QOS_DEFAULT, 
-        NULL /* listener */, DDS_STATUS_MASK_NONE);
+        NULL, DDS_STATUS_MASK_NONE);
+        */
     if (participant == NULL) {
         fprintf(stderr, "create_participant error\n");
         subscriber_shutdown(participant);

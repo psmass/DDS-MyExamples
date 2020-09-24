@@ -177,7 +177,7 @@ extern "C" int publisher_main(int domainId, int sample_count)
         return -1;
     }
 
-    char *t_blue=(char *)"BLUE";
+    char t_blue[] = "BLUE";
     instance->color=t_blue;
     instance->shapesize=30;
 
