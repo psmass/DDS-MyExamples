@@ -28,6 +28,14 @@
             <mask>UDPv4</mask>
           </transport_builtin>
         </participant_qos>
+        <datareader_qos>
+          <liveliness>
+            <lease_duration>
+              <sec>1</sec>
+              <nanosec>0</nanosec>
+            </lease_duration>
+          </liveliness>
+        </datareader_qos>
         <datawriter_qos>
           <durability>
             <kind>TRANSIENT_LOCAL_DURABILITY_QOS</kind>

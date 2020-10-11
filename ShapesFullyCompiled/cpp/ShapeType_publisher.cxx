@@ -97,27 +97,52 @@ extern "C" int publisher_main(int domainId, int sample_count)
 
     /* To customize participant QoS, use 
     the configuration file USER_QOS_PROFILES.xml */
+    
+    
+    // create partipant from QoS default
     participant = DDSTheParticipantFactory->create_participant(
         domainId, DDS_PARTICIPANT_QOS_DEFAULT, 
-        NULL /* listener */, DDS_STATUS_MASK_NONE);
+        NULL , DDS_STATUS_MASK_NONE);
+    
+    
     /*
+    // set new initial peer for sending discovery information  
+    //    participant_qos.discovery.initial_peers.maximum(3);
+
     DDSTheParticipantFactory->get_default_participant_qos(participant_qos);
-    //Remove Shared Memory from default peers.
+
+    // free original memory 
+    participant_qos.discovery.initial_peers.maximum(0);
+
+    //Remove network / (SHMEM Only) from default peers.
+    participant_qos.discovery.initial_peers.maximum(2);
     participant_qos.discovery.initial_peers.length(2);
     participant_qos.discovery.initial_peers[0] =
-        DDS_String_dup("builtin.udpv4://127.0.0.1");
+    // DDS_String_dup("builtin.shmem://");
+    DDS_String_dup("192.168.1.204");
     participant_qos.discovery.initial_peers[1] =
-        DDS_String_dup("builtin.udpv4://239.255.0.1");
+        DDS_String_dup("239.255.40.1");
+    // DDS_String_dup("builtin.udpv4://127.0.0.1");
+
+    // free original memory 
+    participant_qos.discovery.multicast_receive_addresses.maximum(0);
+
+    participant_qos.discovery.multicast_receive_addresses.maximum(1);
+    participant_qos.discovery.multicast_receive_addresses.length(1);
+    participant_qos.discovery.multicast_receive_addresses[0] =    DDS_String_dup("239.255.20.1");
+
     participant = DDSTheParticipantFactory->create_participant(
                   domainId, participant_qos,
                  NULL,
                  DDS_STATUS_MASK_NONE); 
     */
+   
     if (participant == NULL) {
         fprintf(stderr, "create_participant error\n");
         publisher_shutdown(participant);
         return -1;
     }
+    
 
     /* To customize publisher QoS, use 
     the configuration file USER_QOS_PROFILES.xml */

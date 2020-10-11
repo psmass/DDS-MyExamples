@@ -166,21 +166,23 @@ extern "C" int subscriber_main(int domainId, int sample_count)
         return -1;
     }
 
-    /* free original memory */
+    /*
+    // free original memory 
     participant_qos.discovery.initial_peers.maximum(0);
     
-    /* set new initial peer for sending discovery information  */
+    // set new initial peer for sending discovery information  
     participant_qos.discovery.initial_peers.maximum(3);
     participant_qos.discovery.initial_peers.length(3);
-    participant_qos.discovery.initial_peers[0] = DDS_String_dup("192.168.1.203");
-    participant_qos.discovery.initial_peers[1] = DDS_String_dup("4@builtin.udpv4://127.0.0.1");
+ //   participant_qos.discovery.initial_peers[0] = DDS_String_dup("192.168.1.203");
+ //   participant_qos.discovery.initial_peers[1] = DDS_String_dup("4@builtin.udpv4://127.0.0.1");
+    participant_qos.discovery.initial_peers[0] = DDS_String_dup("builtin.shmem://");
+    participant_qos.discovery.initial_peers[1] = DDS_String_dup("builtin.shmem://");
     participant_qos.discovery.initial_peers[2] = DDS_String_dup("builtin.shmem://");
     
-    /* free original memory */
+    // free original memory 
     participant_qos.discovery.multicast_receive_addresses.maximum(0);
     
-    /* set new multicast receive address for receiving multicast
-    discovery information */
+    // set new multicast receive address for receiving multicast discovery information 
     participant_qos.discovery.multicast_receive_addresses.maximum(1);
     participant_qos.discovery.multicast_receive_addresses.length(1);
     participant_qos.discovery.multicast_receive_addresses[0] =    DDS_String_dup("239.255.0.1");
@@ -188,13 +190,15 @@ extern "C" int subscriber_main(int domainId, int sample_count)
     participant = DDSTheParticipantFactory->create_participant(
         domainId, participant_qos,
         NULL, DDS_STATUS_MASK_NONE);
-    /*
+    */
+    
     // To customize the participant QoS, use 
     //the configuration file USER_QOS_PROFILES.xml 
     participant = DDSTheParticipantFactory->create_participant(
         domainId, DDS_PARTICIPANT_QOS_DEFAULT, 
         NULL, DDS_STATUS_MASK_NONE);
-        */
+    
+
     if (participant == NULL) {
         fprintf(stderr, "create_participant error\n");
         subscriber_shutdown(participant);
