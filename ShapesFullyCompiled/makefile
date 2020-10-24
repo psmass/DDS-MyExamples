@@ -51,7 +51,7 @@ DEBUG_SFX = d
 else
 DEBUG_SFX = 
 endif
- 
+
 ifndef SHAREDLIB
 SHAREDLIB=0
 endif
@@ -66,10 +66,10 @@ endif
 
 
 INCLUDES = -I. -I$(NDDSHOME)/include -I$(NDDSHOME)/include/ndds 
-       
+
 LIBS = -L$(NDDSHOME)/lib/$(TARGET_ARCH) \
         \
-        \
+        -lrtimonitoring$(SHAREDLIB_SFX)$(DEBUG_SFX)\
         -lnddscpp$(SHAREDLIB_SFX)$(DEBUG_SFX) -lnddsc$(SHAREDLIB_SFX)$(DEBUG_SFX) -lnddscore$(SHAREDLIB_SFX)$(DEBUG_SFX) \
         $(SYSLIBS)
 
@@ -114,4 +114,4 @@ objs/$(TARGET_ARCH)/%.o : $(SOURCE_DIR)%.cxx   $(SOURCE_DIR)ShapeType.h
 
 clean:
 	rm -r objs/
-	
+

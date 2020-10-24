@@ -42,6 +42,7 @@ add and remove them dynamically from the domain.
 #include "ShapeType.h"
 #include "ShapeTypeSupport.h"
 #include "ndds/ndds_cpp.h"
+#include "monitor/monitor_common.h"  // Added to support static monitor libs
 
 /* Delete all entities */
 static int publisher_shutdown(
@@ -97,20 +98,61 @@ extern "C" int publisher_main(int domainId, int sample_count)
 
     /* To customize participant QoS, use 
     the configuration file USER_QOS_PROFILES.xml */
-    
-    
+
+    // Create a participant here and comment out QoS and Monitor settings bellow
+    // or keep this create Participant commented out and uncomment one or both
+    // the setting of discovery peers or static lib monitor enable
+    /*
     // create partipant from QoS default
     participant = DDSTheParticipantFactory->create_participant(
         domainId, DDS_PARTICIPANT_QOS_DEFAULT, 
         NULL , DDS_STATUS_MASK_NONE);
+    */
     
-    
-    /*
+
+
     // set new initial peer for sending discovery information  
     //    participant_qos.discovery.initial_peers.maximum(3);
 
-    DDSTheParticipantFactory->get_default_participant_qos(participant_qos);
 
+    // Enable Monitoring as part of qos settings for STATIC Libs - use make file for dyn libs
+    // *********  uncomment out to below ************************************
+    retcode = DDSTheParticipantFactory->get_default_participant_qos(participant_qos);
+    if (retcode !=DDS_RETCODE_OK) {
+        fprintf(stderr, "get_default_participant_qos error\n");
+        publisher_shutdown(participant);
+        return -1;
+    }
+
+    // This property indicates that the DomainParticipant 
+    //   has monitoring turned on. The property name MUST be  
+    //   "rti.monitor.library". The value can be anything.
+    retcode = DDSPropertyQosPolicyHelper::add_property(
+	participant_qos.property,
+	"rti.monitor.library", "rtimonitoring", DDS_BOOLEAN_FALSE); 
+    if (retcode != DDS_RETCODE_OK) {
+        fprintf(stderr, "add_property rtimonitoring error\n");
+        publisher_shutdown(participant);
+        return -1; 
+    }
+    // The property name "rti.monitor.create_function" 
+    //   indicates the entry point for the monitoring library. 
+    //   The value MUST be the value of the function pointer of 
+    //   RTIDefaultMonitor_create */
+   
+    retcode = DDSPropertyQosPolicyHelper::add_pointer_property(
+        participant_qos.property,
+        "rti.monitor.create_function_ptr", 
+        (void *) RTIDefaultMonitor_create);
+    if (retcode!= DDS_RETCODE_OK) { 
+        fprintf(stderr, "add_pointer_property rtimonitoring \n");
+        publisher_shutdown(participant);
+        return -1;
+    }
+    // ********************* end monitor enable ****************
+
+    
+    /*
     // free original memory 
     participant_qos.discovery.initial_peers.maximum(0);
 
@@ -130,12 +172,13 @@ extern "C" int publisher_main(int domainId, int sample_count)
     participant_qos.discovery.multicast_receive_addresses.maximum(1);
     participant_qos.discovery.multicast_receive_addresses.length(1);
     participant_qos.discovery.multicast_receive_addresses[0] =    DDS_String_dup("239.255.20.1");
+    */
 
     participant = DDSTheParticipantFactory->create_participant(
                   domainId, participant_qos,
                  NULL,
                  DDS_STATUS_MASK_NONE); 
-    */
+    
    
     if (participant == NULL) {
         fprintf(stderr, "create_participant error\n");

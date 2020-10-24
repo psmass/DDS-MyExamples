@@ -66,7 +66,7 @@ endif
 
 
 INCLUDES = -I. -I$(NDDSHOME)/include -I$(NDDSHOME)/include/ndds 
-       
+
 LIBS = -L$(NDDSHOME)/lib/$(TARGET_ARCH) \
         \
         \
@@ -114,4 +114,4 @@ objs/$(TARGET_ARCH)/%.o : $(SOURCE_DIR)%.cxx   $(SOURCE_DIR)ShapeType.h
 
 clean:
 	rm -r objs/
-	
+

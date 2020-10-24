@@ -33,7 +33,7 @@
 		<discovery>
                     <initial_peers>
                       <element>239.255.20.1</element> 
-                      <element>builtin.udpv4://192.168.1.204</element> 
+                      <element>builtin.udpv4://192.168.1.203</element> 
                       <element>builtin.shmem://</element>
                     </initial_peers>
                     
@@ -42,6 +42,22 @@
                     </multicast_receive_addresses>
                 </discovery>
 		-->
+
+		<property>
+		  <value>
+		    <!-- enable monitoring IFF makefile specifies dynamic lib (no .z) -->
+		    <!-- <element>
+		      <name>rti.monitor.library</name>
+		      <value>rtimonitoring</value>
+		    </element>
+		    <element>
+		      <name>rti.monitor.create_function</name>
+		      <value>RTIDefaultMonitor_create</value>
+		    </element>
+		    -->
+		  </value>
+		</property>
+
         </participant_qos> 
         <base_name>
         </base_name>
