@@ -1,0 +1,9 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/**",
+        "/Applications/rti_connext_dds-6.0.1/include",
+        "/Applications/rti_connext_dds-6.0.1/include/ndds",
+        "/Applications/rti_connext_dds-6.0.1/include/ndds/hpp"
+    ],
+}
