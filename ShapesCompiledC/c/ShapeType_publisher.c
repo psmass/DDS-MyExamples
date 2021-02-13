@@ -91,7 +91,7 @@ int publisher_main(int domainId, int sample_count)
     DDS_InstanceHandle_t instance_handle = DDS_HANDLE_NIL;
     const char *type_name = NULL;
     int count = 0;  
-    struct DDS_Duration_t send_period = {4,0};
+    struct DDS_Duration_t send_period = {0,200000000}; //sec, nanosec - set to 1/5 sec
 
     /* To customize participant QoS, use 
     the configuration file USER_QOS_PROFILES.xml */
@@ -128,7 +128,8 @@ int publisher_main(int domainId, int sample_count)
     /* To customize topic QoS, use 
     the configuration file USER_QOS_PROFILES.xml */
     topic = DDS_DomainParticipant_create_topic(
-        participant, "Example ShapeTypeExtended",
+        //participant, "Example ShapeTypeExtended",
+        participant, "Square",
         type_name, &DDS_TOPIC_QOS_DEFAULT, NULL /* listener */,
         DDS_STATUS_MASK_NONE);
     if (topic == NULL) {
@@ -162,6 +163,11 @@ int publisher_main(int domainId, int sample_count)
         return -1;
     }
 
+
+    char t_blue[] = "BLUE";
+    instance->parent.color=t_blue;
+    instance->parent.shapesize=30;
+
     /* For a data type that has a key, if the same instance is going to be
     written multiple times, initialize the key here
     and register the keyed instance prior to writing */
@@ -169,8 +175,22 @@ int publisher_main(int domainId, int sample_count)
     instance_handle = ShapeTypeExtendedDataWriter_register_instance(
         ShapeTypeExtended_writer, instance);
     */
+
+    
+    // instance_handle = ShapeTypeExtended_writer->register_instance(*instance);
+    int xdelta = 2;
+	int ydelta = 5;
+	int xmax = 250;
+	int ymax = 250;
+
     /* Main loop */
     for (count=0; (sample_count == 0) || (count < sample_count); ++count) {
+
+
+        instance->parent.x += xdelta;
+        if (instance->parent.x > xmax || instance->parent.x < 0) xdelta = xdelta * -1;
+        instance->parent.y += ydelta;
+        if (instance->parent.y > ymax || instance->parent.y < 0) ydelta = ydelta * -1;
 
         printf("Writing ShapeTypeExtended, count %d\n", count);
 

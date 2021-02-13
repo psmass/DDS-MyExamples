@@ -27,16 +27,16 @@ ifndef NDDSHOME
 NDDSHOME := "/Applications/rti_connext_dds-6.0.1"
 endif
 
-SOURCE_DIR = 
+SOURCE_DIR = ./c/
 
 TARGET_ARCH = x64Darwin17clang9.0
 
 ifndef COMPILER
-COMPILER = clang
+COMPILER = clang++
 endif
-COMPILER_FLAGS = -m64
+COMPILER_FLAGS = -m64 -Wno-return-type-c-linkage
 ifndef LINKER
-LINKER = clang
+LINKER = clang++
 endif
 LINKER_FLAGS = -m64
 SYSLIBS = -lm -lpthread -ldl
@@ -51,7 +51,7 @@ DEBUG_SFX = d
 else
 DEBUG_SFX = 
 endif
- 
+
 ifndef SHAREDLIB
 SHAREDLIB=0
 endif
@@ -66,11 +66,11 @@ endif
 
 
 INCLUDES = -I. -I$(NDDSHOME)/include -I$(NDDSHOME)/include/ndds 
-       
+
 LIBS = -L$(NDDSHOME)/lib/$(TARGET_ARCH) \
         \
-        \
-        -lnddsc$(SHAREDLIB_SFX)$(DEBUG_SFX) -lnddscore$(SHAREDLIB_SFX)$(DEBUG_SFX) \
+        -lrtimonitoring$(SHAREDLIB_SFX)$(DEBUG_SFX)\
+        -lnddscpp$(SHAREDLIB_SFX)$(DEBUG_SFX) -lnddsc$(SHAREDLIB_SFX)$(DEBUG_SFX) -lnddscore$(SHAREDLIB_SFX)$(DEBUG_SFX) \
         $(SYSLIBS)
 
 CDRSOURCES    = ShapeType.idl
@@ -80,6 +80,8 @@ COMMONSOURCES = $(notdir $(SOURCES))
 EXEC          = ShapeType_subscriber ShapeType_publisher
 DIRECTORIES   = objs.dir objs/$(TARGET_ARCH).dir
 COMMONOBJS    = $(COMMONSOURCES:%.c=objs/$(TARGET_ARCH)/%.o)
+
+all: $(TARGET_ARCH)
 
 # We actually stick the objects in a sub directory to keep your directory clean.
 $(TARGET_ARCH) : $(DIRECTORIES) $(COMMONOBJS) \
@@ -97,10 +99,10 @@ objs/$(TARGET_ARCH)/%.o : $(SOURCE_DIR)%.c   $(SOURCE_DIR)ShapeType.h
 # file is modified
 #
 #
-#  $(SOURCE_DIR)ShapeTypePlugin.c $(SOURCE_DIR)ShapeType.c $(SOURCE_DIR)ShapeTypeSupport.c \
+#  $(SOURCE_DIR)ShapeTypePlugin.cxx $(SOURCE_DIR)ShapeType.cxx $(SOURCE_DIR)ShapeTypeSupport.cxx \
 #  $(SOURCE_DIR)ShapeType.h $(SOURCE_DIR)ShapeTypePlugin.h $(SOURCE_DIR)ShapeTypeSupport.h : \
 #		$(SOURCE_DIR)ShapeType.idl
-#	$(NDDSHOME)/bin/rtiddsgen $(SOURCE_DIR)ShapeType.idl -replace -language C
+#	$(NDDSHOME)/bin/rtiddsgen $(SOURCE_DIR)ShapeType.idl -replace -language C++
 #
 # Here is how we create those subdirectories automatically.
 %.dir : 
@@ -109,4 +111,7 @@ objs/$(TARGET_ARCH)/%.o : $(SOURCE_DIR)%.c   $(SOURCE_DIR)ShapeType.h
 		echo "Making directory $*"; \
 		mkdir -p $* ; \
 	fi;
+
+clean:
+	rm -r objs/
 
