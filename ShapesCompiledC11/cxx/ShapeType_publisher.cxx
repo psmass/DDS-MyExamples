@@ -54,9 +54,7 @@ void publisher_main(int domain_id, int sample_count)
     // Create a DataWriter with default Qos (Publisher created in-line)
     dds::pub::DataWriter<ShapeTypeExtended> writer(dds::pub::Publisher(participant), topic);
 
-    ShapeTypeExtended sample;
-    sample.color("Blue");
-    sample.shapesize(int32_t(30));
+    ShapeTypeExtended sample( "blue", 0, 0, 30, ShapeFillKind::SOLID_FILL, 0);
 
     int xdelta = 2;
 	int ydelta = 5;

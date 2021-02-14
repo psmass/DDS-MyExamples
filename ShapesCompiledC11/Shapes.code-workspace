@@ -6,7 +6,8 @@
 	],
 	"settings": {
 		"files.associations": {
-			"*.gen": "cpp"
+			"*.gen": "cpp",
+			"*.idl": "cpp"
 		}
 	}
 }
