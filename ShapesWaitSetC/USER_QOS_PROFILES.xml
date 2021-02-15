@@ -160,6 +160,13 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
                 </participant_name>
 
             </participant_qos>
+            <participant_factory_qos>
+                <logging>
+                    <verbosity>SILENT</verbosity>
+                    <category>ALL</category>
+                    <print_format>MAXIMAL</print_format>
+                </logging>
+            </participant_factory_qos>
         </qos_profile>
 
     </qos_library>
