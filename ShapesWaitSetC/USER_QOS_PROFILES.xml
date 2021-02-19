@@ -135,10 +135,36 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
              A QoS profile groups a set of related QoS.
         -->
         <qos_profile name="ShapeType_Profile" base_name="BuiltinQosLib::Generic.StrictReliable" is_default_qos="true">
-            <!-- QoS used to configure the data writer created in the example code -->                
+            <!-- QoS used to configure the data writer created in the example code --> 
+            <participant_qos>
+            
+                <transport_builtin>
+                    <mask>UDPv4  </mask>
+                </transport_builtin>
+                 <!-- Add your initial peers and multicast receive address here, e.g: 
+                <discovery>
+                    <initial_peers>
+                        <element>239.255.20.1</element> 
+                        <element>builtin.udpv4://192.168.1.204</element>
+                        <element>builtin.shmem://</element>
+                    </initial_peers>
+                
+                    <multicast_receive_addresses>
+                        <element>239.255.20.1</element>
+                    </multicast_receive_addresses>
+        
+                </discovery>
+                 -->
+                <resource_limits>
+                    <type_code_max_serialized_length>8192</type_code_max_serialized_length>
+                    <type_object_max_serialized_length>8192</type_object_max_serialized_length>
+                </resource_limits>
+            </participant_qos> 
+    
             <datawriter_qos>
                 <publication_name>
                     <name>ShapeTypeDataWriter</name>
+                    <role_name>ShapeTypeWriterRole</role_name>
                 </publication_name>
             </datawriter_qos>
 
@@ -146,6 +172,7 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
             <datareader_qos>
                 <subscription_name>
                     <name>ShapeTypeDataReader</name>
+                    <role_name>ShapeTypeReaderRole</role_name>
                 </subscription_name>
             </datareader_qos>
             <participant_qos>
@@ -160,13 +187,19 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
                 </participant_name>
 
             </participant_qos>
+            <!--
             <participant_factory_qos>
                 <logging>
                     <verbosity>SILENT</verbosity>
                     <category>ALL</category>
-                    <print_format>MAXIMAL</print_format>
+                    <print_format>TIMESTAMPED</print_format>
+                    Optional. Be careful if this QoS XML file is used by
+                        different applications at the same time since more
+                        than one could try to write the logs into the same file. 
+                    <output_file>ddslog.txt</output_file>
                 </logging>
             </participant_factory_qos>
+            -->
         </qos_profile>
 
     </qos_library>
