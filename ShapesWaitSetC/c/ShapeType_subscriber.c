@@ -64,7 +64,6 @@ void handle_SIGINT(int unused)
   run_flag = false;
 }
 
-/*
 void*  pthreadToProcReaderEvents(void * reader) {
     DDS_DataReader *myReader = NULL;
     myReader = (DDS_DataReader *)reader;
@@ -75,20 +74,12 @@ void*  pthreadToProcReaderEvents(void * reader) {
     struct DDS_Duration_t timeout = { 0, 100000000 }; // 100ms 
     struct DDS_Duration_t delay_period = {1,0}; //sec, nanosec - set to 1/5 sec
 
-    printf("Created Reader Pthread\n");
-    if (myReader==NULL){
-        printf("ERROR MyReader NULL\n");
-    } else {
-        printf("MyReader OK\n");
-    }
-
     /// set up and attach desired conditions 
     status_condition = DDS_Entity_get_statuscondition((DDS_Entity *) myReader);
     if (status_condition == NULL) {
         printf("get_statuscondition error\n");
         goto reader_thread_exit;
     }
-    printf("Got Status condition\n");
 
     // Since a single status condition can match many statuses,
     // enable only those we're interested in.
@@ -99,8 +90,6 @@ void*  pthreadToProcReaderEvents(void * reader) {
         printf("set_enabled_statuses error\n");
         goto reader_thread_exit;
     }
-
-    printf("Enabled Status Conditions\n");
 
     // Create and attach conditions to the WaitSet
     // * -------------------------------------------
@@ -121,15 +110,12 @@ void*  pthreadToProcReaderEvents(void * reader) {
         printf("attach_condition error\n");
         goto reader_thread_exit;
     }
-
     
     shapeTypeExtended_reader = ShapeTypeExtendedDataReader_narrow(myReader);
     if (shapeTypeExtended_reader == NULL) {
         fprintf(stderr, "DataReader narrow error\n");
         goto reader_thread_exit;
     }
-
-    printf("Created Reader Narrow\n");
 
     // Thread Loop to read evants and data
     
@@ -150,8 +136,8 @@ void*  pthreadToProcReaderEvents(void * reader) {
             break;
         }
 
-        printf("got %d active conditions\n",
-               DDS_ConditionSeq_get_length(&active_conditions));
+        //printf("got %d active conditions\n",
+               //DDS_ConditionSeq_get_length(&active_conditions));
 
         for (i = 0; i < DDS_ConditionSeq_get_length(&active_conditions); ++i) {
             // Compare with Status Conditions 
@@ -216,7 +202,6 @@ void*  pthreadToProcReaderEvents(void * reader) {
     NDDS_Utility_sleep(&delay_period);
     return(NULL);
 }
-*/
 
 /* Delete all entities */
 static int subscriber_shutdown(
@@ -326,138 +311,12 @@ int subscriber_main(int domainId, int sample_count)
         goto subscriber_end;
     }
     
-    // **************************************************************************
-    // set up and attach desired conditions 
-    status_condition = DDS_Entity_get_statuscondition((DDS_Entity *) reader);
-    if (status_condition == NULL) {
-        printf("get_statuscondition error\n");
-        goto subscriber_end;
-    }
-    printf("Got Status condition\n");
-
-    // Since a single status condition can match many statuses,
-    // enable only those we're interested in.
-    retcode = DDS_StatusCondition_set_enabled_statuses(
-            status_condition,
-            DDS_DATA_AVAILABLE_STATUS | DDS_LIVELINESS_CHANGED_STATUS | DDS_SUBSCRIPTION_MATCHED_STATUS);
-    if (retcode != DDS_RETCODE_OK) {
-        printf("set_enabled_statuses error\n");
-        goto subscriber_end;
-    }
-
-    printf("Enabled Status Conditions\n");
-
-    // Create and attach conditions to the WaitSet
-    // * -------------------------------------------
-    // * Finally, we create the WaitSet and attach both the Read Conditions
-    // * and the Status Condition to it.
-    // *
-    waitset = DDS_WaitSet_new();
-    if (waitset == NULL) {
-        printf("create waitset error\n");
-        goto subscriber_end;
-    }
-
-    // Attach Read Conditions 
-    retcode = DDS_WaitSet_attach_condition(
-            waitset,
-            (DDS_Condition *) status_condition);
-    if (retcode != DDS_RETCODE_OK) {
-        printf("attach_condition error\n");
-        goto subscriber_end;
-    }
-
-    shapeTypeExtended_reader = ShapeTypeExtendedDataReader_narrow(reader);
-    if (shapeTypeExtended_reader == NULL) {
-        fprintf(stderr, "DataReader narrow error\n");
-        goto subscriber_end;
-    }
-
-    printf("Created Reader Narrow\n");
-
-    // Thread Loop to read evants and data
-    
-    while(run_flag) {  // CTRL C breaks us out in the main loop and cancels this thread
-         //* wait() blocks execution of the thread until one or more attached
-         // * Conditions become true, or until a user-specified timeout expires.
-         // *
-    
-        struct DDS_ConditionSeq active_conditions = DDS_SEQUENCE_INITIALIZER;
-        int i, j;
-
-        retcode = DDS_WaitSet_wait(waitset, &active_conditions, &timeout);
-        if (retcode == DDS_RETCODE_TIMEOUT) {
-            printf("wait timed out\n");
-            continue;
-        } else if (retcode != DDS_RETCODE_OK) {
-            printf("wait returned error: %d\n", retcode);
-            break;
-        }
-
-        //printf("got %d active conditions\n",
-               //DDS_ConditionSeq_get_length(&active_conditions));
-
-        for (i = 0; i < DDS_ConditionSeq_get_length(&active_conditions); ++i) {
-            // Compare with Status Conditions 
-            if (DDS_ConditionSeq_get(&active_conditions, i)
-                == (DDS_Condition *) status_condition) {
-                // A status condition triggered--see which ones 
-                // printf("status trigger\n");
-                DDS_StatusMask triggeredmask;
-                triggeredmask = DDS_Entity_get_status_changes(
-                        (DDS_Entity *) shapeTypeExtended_reader);
-
-                // Subscription matched 
-                if (triggeredmask & DDS_DATA_AVAILABLE_STATUS) {
-                    // * Current conditions match our conditions to read data, so
-                    // * we can read data just like we would do in any other
-                    // * example.
-                    // *
-                    struct ShapeTypeExtendedSeq data_seq = DDS_SEQUENCE_INITIALIZER;
-                    struct DDS_SampleInfoSeq info_seq = DDS_SEQUENCE_INITIALIZER;
-
-                    // * Access data using read(), take(), etc.  If you fail to do
-                    // * this the condition will remain true, and the WaitSet will
-                    // * wake up immediately - causing high CPU usage when it does
-                    // * not sleep in the loop 
-                    retcode = DDS_RETCODE_OK;
-                    while (retcode != DDS_RETCODE_NO_DATA) {
-                        retcode = ShapeTypeExtendedDataReader_take(
-                                shapeTypeExtended_reader,
-                                &data_seq,
-                                &info_seq,
-                                DDS_LENGTH_UNLIMITED,
-                                DDS_ANY_SAMPLE_STATE,
-                                DDS_ANY_VIEW_STATE,
-                                DDS_ANY_INSTANCE_STATE);
-
-                        for (j = 0; j < ShapeTypeExtendedSeq_get_length(&data_seq); ++j) {
-                            if (DDS_SampleInfoSeq_get_reference(&info_seq, j)->valid_data) {
-                                printf("Received data\n");
-                                ShapeTypeExtendedTypeSupport_print_data(
-                                    ShapeTypeExtendedSeq_get_reference(&data_seq, j));
-                            }
-                        }
-
-                        ShapeTypeExtendedDataReader_return_loan(
-                                shapeTypeExtended_reader,
-                                &data_seq,
-                                &info_seq);
-                    }
-                }
-            }
-        }
-        
-    }
-
-    /*
 	pthread_t rtid;
-    pthread_create(&rtid, NULL, pthreadToProcReaderEvents, (void*) &reader);
+    pthread_create(&rtid, NULL, pthreadToProcReaderEvents, (void*) reader);
 
 	// main loop - reading and writing done in respective threads so nothing to do here
     printf("Main Loop Entered ^C to stop\n");
 	while (run_flag == true) {	
-        printf("In mainloop\n");
         NDDS_Utility_sleep(&check_period);
 	}
 
@@ -465,7 +324,6 @@ int subscriber_main(int domainId, int sample_count)
     pthread_cancel(rtid);
     printf("Cancelled Thread\n");
 
-    */
 	subscriber_end: // reached by ^C or an error
     fflush(stdout); 
 
