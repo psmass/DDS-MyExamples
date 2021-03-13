@@ -1,0 +1,64 @@
+/*
+#ifdef DDS_IDL
+#define DDS_KEY __dds_key
+#else
+#define DDS_KEY
+#endif
+*/
+module tms {
+	/**
+	 * TMS topic names.
+	 */
+	const string TOPIC_ACTIVE_DIAGNOSTICS = "ActiveDiagnostics";  //  since: R1 published type: tms.ActiveDiagnosticMessages
+	const string TOPIC_AUTHORIZATION_TO_ENERGIZE_OUTCOME = "AuthorizationToEnergizeOutcome";  //  since: R2 published type: tms.AuthorizationToEnergizeOutcome
+	const string TOPIC_AUTHORIZATION_TO_ENERGIZE_REQUEST = "AuthorizationToEnergizeRequest";  //  since: R2 published type: tms.AuthorizationToEnergizeRequest
+	const string TOPIC_AUTHORIZATION_TO_ENERGIZE_RESPONSE = "AuthorizationToEnergizeResponse";  //  since: R2 published type: tms.AuthorizationToEnergizeResponse
+	const string TOPIC_CONFIG_RESERVATION_STATE = "ConfigReservationState";  //  since: R1 published type: tms.ConfigReservationList
+	const string TOPIC_COPY_CONFIG_REQUEST = "CopyConfigRequest";  //  since: R1 published type: tms.CopyConfigRequest
+	const string TOPIC_DC_DEVICE_POWER_MEASUREMENT_LIST = "DcDevicePowerMeasurementList";  //  since: DC1 published type: tms.dc.DevicePowerMeasurements
+	const string TOPIC_DC_LOAD_SHARING_REQUEST = "DcLoadSharingRequest";  //  since: DC1 published type: tms.dc.LoadSharingRequest
+	const string TOPIC_DC_LOAD_SHARING_STATUS = "DcLoadSharingStatus";  //  since: DC1 published type: tms.dc.LoadSharingStatus
+	const string TOPIC_DEVICE_ANNOUNCEMENT = "DeviceAnnouncement";  //  since: R3 published type: tms.ProductInfo
+	const string TOPIC_DEVICE_CLOCK_STATUS = "DeviceClockStatus";  //  since: R1 published type: tms.ClockStatus
+	const string TOPIC_DEVICE_GROUNDING = "DeviceGrounding";  //  since: R3 published type: tms.DeviceGroundingType
+	const string TOPIC_DEVICE_GROUNDING_STATUS = "DeviceGroundingStatus";  //  since: R3 published type: tms.DeviceGroundingStatus
+	const string TOPIC_DEVICE_PARAMETER_REQUEST = "DeviceParameterRequest";  //  since: R2 published type: tms.DeviceParameterRequest
+	const string TOPIC_DEVICE_PARAMETER_STATUS = "DeviceParameterStatus";  //  since: R2 published type: tms.DeviceParameterStatus
+	const string TOPIC_DEVICE_POWER_MEASUREMENT_LIST = "DevicePowerMeasurementList";  //  since: R1 published type: tms.DevicePowerMeasurements
+	const string TOPIC_DEVICE_POWER_PORT_LIST = "DevicePowerPortList";  //  since: R1 published type: tms.DevicePowerPortTypes
+	const string TOPIC_DEVICE_POWER_STATUS_LIST = "DevicePowerStatusList";  //  since: R1 published type: tms.DevicePowerPortStatuses
+	const string TOPIC_DISCOVERED_CONNECTION_LIST = "DiscoveredConnectionList";  //  since: R1 published type: tms.PowerConnectionList
+	const string TOPIC_ENGINE_STATE = "EngineState";  //  since: R1 published type: tms.EngineState
+	const string TOPIC_FINGERPRINT_NICKNAME = "FingerprintNickname";  //  since: R3 published type: tms.FingerprintNickname
+	const string TOPIC_FINGERPRINT_NICKNAME_REQUEST = "FingerprintNicknameRequest";  //  since: R3 published type: tms.ChangeNicknameRequest
+	const string TOPIC_GET_CONFIG_CONTENTS_REQUEST = "GetConfigContentsRequest";  //  since: R1 published type: tms.GetConfigContentsRequest
+	const string TOPIC_GET_CONFIG_DC_LOAD_SHARING_RESPONSE = "GetConfigDcLoadSharingResponse";  //  since: DC1 published type: tms.dc.LoadSharingRequest
+	const string TOPIC_GET_CONFIG_DEVICE_PARAMETER_RESPONSE = "GetConfigDeviceParameterResponse";  //  since: R1 published type: tms.DeviceParameterRequest
+	const string TOPIC_GET_CONFIG_GROUNDING_CIRCUIT_RESPONSE = "GetConfigGroundingCircuitResponse";  //  since: R3 published type: tms.GroundingCommand
+	const string TOPIC_GET_CONFIG_LOAD_SHARING_RESPONSE = "GetConfigLoadSharingResponse";  //  since: R1 published type: tms.LoadSharingRequest
+	const string TOPIC_GET_CONFIG_POWER_SWITCH_RESPONSE = "GetConfigPowerSwitchResponse";  //  since: R1 published type: tms.PowerSwitchCommand
+	const string TOPIC_GET_CONFIG_SOURCE_TRANSITION_RESPONSE = "GetConfigSourceTransitionResponse";  //  since: R1 published type: tms.SourceTransitionRequest
+	const string TOPIC_GET_CONFIG_STORAGE_CONTROL_RESPONSE = "GetConfigStorageControlResponse";  //  since: ESU1 published type: tms.esu.StorageControlRequest
+	const string TOPIC_GROUNDING_CIRCUIT_REQUEST = "GroundingCircuitRequest";  //  since: R3 published type: tms.GroundingCommand
+	const string TOPIC_HEARTBEAT = "Heartbeat";  //  since: R3 published type: tms.Heartbeat
+	const string TOPIC_LOAD_SHARING_REQUEST = "LoadSharingRequest";  //  since: R2 published type: tms.LoadSharingRequest
+	const string TOPIC_LOAD_SHARING_STATUS = "LoadSharingStatus";  //  since: R2 published type: tms.LoadSharingStatus
+	const string TOPIC_MICROGRID_CONNECTION_LIST = "MicrogridConnectionList";  //  since: R1 published type: tms.PowerConnectionList
+	const string TOPIC_MICROGRID_MEMBERSHIP_OUTCOME = "MicrogridMembershipOutcome";  //  since: R3 published type: tms.MicrogridMembershipApproval
+	const string TOPIC_MICROGRID_MEMBERSHIP_REQUEST = "MicrogridMembershipRequest";  //  since: R3 published type: tms.MicrogridMembershipRequest
+	const string TOPIC_OPERATOR_CONNECTION_LIST = "OperatorConnectionList";  //  since: R1 published type: tms.PowerConnectionList
+	const string TOPIC_OPERATOR_INTENT_REQUEST = "OperatorIntentRequest";  //  since: R1 published type: tms.OperatorIntentRequest
+	const string TOPIC_OPERATOR_INTENT_STATE = "OperatorIntentState";  //  since: R1 published type: tms.OperatorIntentState
+	const string TOPIC_POWER_SWITCH_REQUEST = "PowerSwitchRequest";  //  since: R1 published type: tms.PowerSwitchCommand
+	const string TOPIC_RELEASE_CONFIG_REQUEST = "ReleaseConfigRequest";  //  since: R1 published type: tms.ReleaseConfigRequest
+	const string TOPIC_REQUEST_RESPONSE = "RequestResponse";  //  since: R1 published type: tms.RequestResponse
+	const string TOPIC_RESERVE_CONFIG_REPLY = "ReserveConfigReply";  //  since: R1 published type: tms.ReserveConfigReply
+	const string TOPIC_RESERVE_CONFIG_REQUEST = "ReserveConfigRequest";  //  since: R1 published type: tms.ReserveConfigRequest
+	const string TOPIC_SOURCE_TRANSITION_REQUEST = "SourceTransitionRequest";  //  since: R1 published type: tms.SourceTransitionRequest
+	const string TOPIC_SOURCE_TRANSITION_STATE = "SourceTransitionState";  //  since: R1 published type: tms.SourceTransitionState
+	const string TOPIC_STANDARD_CONFIG_MASTER = "StandardConfigMaster";  //  since: R1 published type: tms.StandardConfigMaster
+	const string TOPIC_STORAGE_CONTROL_REQUEST = "StorageControlRequest";  //  since: ESU1 published type: tms.esu.StorageControlRequest
+	const string TOPIC_STORAGE_CONTROL_STATUS = "StorageControlStatus";  //  since: ESU1 published type: tms.esu.StorageControlStatus
+	const string TOPIC_STORAGE_INFO = "StorageInfo";  //  since: ESU1 published type: tms.esu.StorageInfo
+	const string TOPIC_STORAGE_STATE = "StorageState";  //  since: ESU1 published type: tms.esu.StorageState
+}; // tms module
