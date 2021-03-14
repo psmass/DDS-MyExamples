@@ -22,9 +22,9 @@
             "problemMatcher": ["$gcc"]
         },
         {
-            "label": "Run Publisher",
+            "label": "Run tmsApp",
             "type": "shell",
-            "command": "./objs/x64Darwin17Clang9.0/ShapeType_publisher",
+            "command": "./objs/x64Darwin17Clang9.0/tmsTestExampleApp",
             "dependsOn": [
                 "Build All"
             ],
@@ -35,9 +35,9 @@
             }
         },
         {
-            "label": "Build/Run Publisher",
+            "label": "Build/Run tmsTestExampleApp",
             "type": "shell",
-            "command": "./objs/x64Darwin17Clang9.0/ShapeType_publisher",
+            "command": "./objs/x64Darwin17Clang9.0/tmsTestExampleApp",
             "dependsOn": [
                 "Build Clean",
                 "Build All"
@@ -49,50 +49,9 @@
             }
         },
         {
-            "label": "Build/Debug Publisher",
+            "label": "Build/Debug tmsTestExampleApp",
             "type": "shell",
-            "command": "./objs/x64Darwin17Clang9.0/ShapeType_publisher",
-            "dependsOn": [
-                "Build Clean",
-                "Build Debug"
-            ],
-            "problemMatcher": ["$gcc"],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Run Subscriber",
-            "type": "shell",
-            "command": "./objs/x64Darwin17Clang9.0/ShapeType_subscriber",
-            "dependsOn": [
-                "Build All"
-            ],
-            "problemMatcher": ["$gcc"],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Build/Run Subscriber",
-            "type": "shell",
-            "command": "./objs/x64Darwin17Clang9.0/ShapeType_subscriber",
-            "dependsOn": [
-                "Build Clean",
-                "Build All"
-            ],
-            "problemMatcher": ["$gcc"],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Build/Debug Subscriber",
-            "type": "shell",
-            "command": "./objs/x64Darwin17Clang9.0/ShapeType_subscriber",
+            "command": "./objs/x64Darwin17Clang9.0/tmsTestExampleApp",
             "dependsOn": [
                 "Build Clean",
                 "Build Debug"

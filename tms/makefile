@@ -65,7 +65,7 @@ endif
 
 
 
-INCLUDES = -I. -I$(NDDSHOME)/include -I$(NDDSHOME)/include/ndds 
+INCLUDES = -I. -I./cpp -I$(NDDSHOME)/include -I$(NDDSHOME)/include/ndds 
        
 LIBS = -L$(NDDSHOME)/lib/$(TARGET_ARCH) \
         \
@@ -73,11 +73,9 @@ LIBS = -L$(NDDSHOME)/lib/$(TARGET_ARCH) \
         -lnddscpp$(SHAREDLIB_SFX)$(DEBUG_SFX) -lnddsc$(SHAREDLIB_SFX)$(DEBUG_SFX) -lnddscore$(SHAREDLIB_SFX)$(DEBUG_SFX) \
         $(SYSLIBS)
 
-CDRSOURCES    = tmsTestExample.idl
-SOURCES = $(SOURCE_DIR)tmsTestExamplePlugin.cxx $(SOURCE_DIR)tmsTestExample.cxx $(SOURCE_DIR)tmsTestExampleSupport.cxx
 COMMONSOURCES = $(notdir $(SOURCES))
 
-EXEC          = tmsTestExample_subscriber tmsTestExample_publisher
+EXEC          = tmsTestExampleApp
 DIRECTORIES   = objs.dir objs/$(TARGET_ARCH).dir
 COMMONOBJS    = $(COMMONSOURCES:%.cxx=objs/$(TARGET_ARCH)/%.o)
 
@@ -91,7 +89,7 @@ $(TARGET_ARCH) : $(DIRECTORIES) $(COMMONOBJS) \
 objs/$(TARGET_ARCH)/% : objs/$(TARGET_ARCH)/%.o
 	$(LINKER) $(LINKER_FLAGS)   -o $@ $@.o $(COMMONOBJS) $(LIBS)
 
-objs/$(TARGET_ARCH)/%.o : $(SOURCE_DIR)%.cxx   $(SOURCE_DIR)tmsTestExample.h 
+objs/$(TARGET_ARCH)/%.o : $(SOURCE_DIR)%.cxx  
 	$(COMPILER) $(COMPILER_FLAGS)  -o $@ $(DEFINES) $(INCLUDES) -c $<
 
 #

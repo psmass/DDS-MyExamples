@@ -38,13 +38,36 @@ add and remove them dynamically from the domain.
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
+#include <signal.h>
+#include <iostream>
 
-#include "tmsTestExample.h"
-#include "tmsTestExampleSupport.h"
 #include "ndds/ndds_cpp.h"
+#include <pthread.h>
+#include "tmsTestExample.h" //note this file uses static const vs #defs using gratuitous space, but is derived from the official TMS datamodel
+
+
+static bool run_flag = true;
+
+// Local prototypes
+void handle_SIGINT(int unused);
+int tms_app_main (unsigned int);
+int main (int argc, char *argv[]);
+
+//-------------------------------------------------------------------
+// handle_SIGINT - sets flag for orderly shutdown on Ctrl-C
+//-------------------------------------------------------------------
+
+void handle_SIGINT(int unused)
+{
+  // On CTRL+C - abort! //
+  run_flag = false;
+  std::cout << "CTRL-C detected" <<std::flush;
+}
+
 
 /* Delete all entities */
-static int publisher_shutdown(
+static int participant_shutdown(
     DDSDomainParticipant *participant)
 {
     DDS_ReturnCode_t retcode;
@@ -53,13 +76,13 @@ static int publisher_shutdown(
     if (participant != NULL) {
         retcode = participant->delete_contained_entities();
         if (retcode != DDS_RETCODE_OK) {
-            fprintf(stderr, "delete_contained_entities error %d\n", retcode);
+            std::cerr <<  "delete_contained_entities error " << retcode << std::endl << std::flush;
             status = -1;
         }
 
         retcode = DDSTheParticipantFactory->delete_participant(participant);
         if (retcode != DDS_RETCODE_OK) {
-            fprintf(stderr, "delete_participant error %d\n", retcode);
+            std::cerr <<  "delete_participant error " << retcode << std::endl << std::flush;
             status = -1;
         }
     }
@@ -82,119 +105,104 @@ static int publisher_shutdown(
 
 extern "C" int tms_app_main(int sample_count)
 {
+    DDSDomainParticipant * participant = NULL;
+	DDSDynamicDataWriter * device_announcement_writer = NULL;
+	DDSDynamicDataWriter * microgrid_membership_request_writer = NULL;
+	DDSDynamicDataReader * microgrid_membership_outcome_reader = NULL;
+    DDS_DynamicData * product_info_data = NULL;
+    DDS_DynamicData * microgrid_membership_request_data = NULL;
     DDS_ReturnCode_t retcode;
-    int count = 0;  
+
+    char this_device_id [tms_LEN_Fingerprint] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1};
+
+    unsigned long long count = 0;  
     DDS_Duration_t send_period = {1,0};
 
     /* To customize participant QoS, use 
     the configuration file USER_QOS_PROFILES.xml */
-    printf("Starting tms application\n");
+    std::cout << "Starting tms application\n" << std::flush;
 
-    DDSDomainParticipant * participant = DDSTheParticipantFactory->
+    participant = DDSTheParticipantFactory->
             create_participant_from_config(
                                 "TMS_ParticipantLibrary1::TMS_Participant1");
     if (participant == NULL) {
-        fprintf(stderr, "create_participant_from_config error\n");
-        publisher_shutdown(participant);
+        std::cerr << "create_participant_from_config error " << std::endl << std::flush;
+        participant_shutdown(participant);
         return -1;
     }
     
-    printf("Successfully Created Participant\n");
-
-    /* To customize publisher QoS, use 
-    the configuration file USER_QOS_PROFILES.xml */
-    publisher = participant->create_publisher(
-        DDS_PUBLISHER_QOS_DEFAULT, NULL /* listener */, DDS_STATUS_MASK_NONE);
-    if (publisher == NULL) {
-        fprintf(stderr, "create_publisher error\n");
-        publisher_shutdown(participant);
-        return -1;
+    std::cout << "Successfully Created Tactical Microgrid Participant from the System Designer config file"
+     << std::endl << std::flush;
+    
+	device_announcement_writer = DDSDynamicDataWriter::narrow(
+        participant->lookup_datawriter_by_name("TMS_Publisher1::DeviceAnnouncementTopicWriter"));
+    if (device_announcement_writer  == NULL) {
+        std::cerr << "TMS_Publisher1::DeviceAnnouncementTopicWriter: lookup_datawriter_by_name error "
+        << retcode << std::endl << std::flush; 
+		goto tms_app_main_end;
     }
+    std::cout << "Successfully Found: TMS_Publisher1::MicrogridDeviceAnnouncementTopicWriter" 
+    << std::endl << std::flush;
 
-    /* Register type before creating topic */
-    type_name = tms_MicrogridMembershipApprovalTypeSupport::get_type_name();
-    retcode = tms_MicrogridMembershipApprovalTypeSupport::register_type(
-        participant, type_name);
-    if (retcode != DDS_RETCODE_OK) {
-        fprintf(stderr, "register_type error %d\n", retcode);
-        publisher_shutdown(participant);
-        return -1;
+    microgrid_membership_request_writer = DDSDynamicDataWriter::narrow(
+		// Defined only in domain_participant_library. PUblisher name not defined QoS file
+        participant->lookup_datawriter_by_name("TMS_Publisher1::MicrogridMembershipRequestTopicWriter"));
+    if (microgrid_membership_request_writer  == NULL) {
+        std::cerr << "TMS_Publisher1::MicrogridMembershipRequestTopicWriter lookup_datawriter_by_name error " 
+        << retcode << std::endl << std::flush; 
+		goto tms_app_main_end;
     }
+    std::cout << "Successfully Found: TMS_Publisher1::MicrogridMembershipRequestTopicWriter" 
+    << std::endl << std::flush;
 
-    /* To customize topic QoS, use 
-    the configuration file USER_QOS_PROFILES.xml */
-    topic = participant->create_topic(
-        "Example tms_MicrogridMembershipApproval",
-        type_name, DDS_TOPIC_QOS_DEFAULT, NULL /* listener */,
-        DDS_STATUS_MASK_NONE);
-    if (topic == NULL) {
-        fprintf(stderr, "create_topic error\n");
-        publisher_shutdown(participant);
-        return -1;
-    }
+ 	microgrid_membership_outcome_reader = DDSDynamicDataReader::narrow(
+		// Defined only in domain_participant_library. PUblisher name not defined QoS file
+		participant->lookup_datareader_by_name("TMS_Subscriber1::MicrogridMembershipOutcomeTopicReader")); 
+    if (microgrid_membership_outcome_reader == NULL) {
+        std::cerr << "TMS_Publisher1::MicrogridMembershipOutcomeTopicReader"
+        << retcode << std::endl << std::flush;
+		goto tms_app_main_end;
+    } 
+    std::cout << "Successfully Found: MS_Publisher1::MicrogridMembershipOutcomeTopicReader" 
+    << std::endl << std::flush;   
 
-    /* To customize data writer QoS, use 
-    the configuration file USER_QOS_PROFILES.xml */
-    writer = publisher->create_datawriter(
-        topic, DDS_DATAWRITER_QOS_DEFAULT, NULL /* listener */,
-        DDS_STATUS_MASK_NONE);
-    if (writer == NULL) {
-        fprintf(stderr, "create_datawriter error\n");
-        publisher_shutdown(participant);
-        return -1;
-    }
-    tms_MicrogridMembershipApproval_writer = tms_MicrogridMembershipApprovalDataWriter::narrow(writer);
-    if (tms_MicrogridMembershipApproval_writer == NULL) {
-        fprintf(stderr, "DataWriter narrow error\n");
-        publisher_shutdown(participant);
-        return -1;
-    }
+    product_info_data = device_announcement_writer->create_data(DDS_DYNAMIC_DATA_PROPERTY_DEFAULT);
+    if (product_info_data == NULL) {
+        std::cerr << "product_info_data: create_data error"
+        << retcode << std::endl << std::flush;
+		goto tms_app_main_end;
+    } 
 
-    /* Create data sample for writing */
-    instance = tms_MicrogridMembershipApprovalTypeSupport::create_data();
-    if (instance == NULL) {
-        fprintf(stderr, "tms_MicrogridMembershipApprovalTypeSupport::create_data error\n");
-        publisher_shutdown(participant);
-        return -1;
-    }
+    std::cout << "Successfully created: product_info_data topic w/device announcemenet writer" 
+    << std::endl << std::flush;  
 
-    /* For a data type that has a key, if the same instance is going to be
-    written multiple times, initialize the key here
-    and register the keyed instance prior to writing */
 
-    // instance_handle = tms_MicrogridMembershipApproval_writer->register_instance(*instance);
+    
 
     /* Main loop */
-    for (count=0; (sample_count == 0) || (count < sample_count); ++count) {
+    while (run_flag) {
 
-        printf("Writing tms_MicrogridMembershipApproval, count %d\n", count);
+        std::cout << "Writing tms_MicrogridMembershipApproval " << count << std::endl << std::flush;
 
-        /* Modify the data to be sent here */
-
-        retcode = tms_MicrogridMembershipApproval_writer->write(*instance, instance_handle);
+        product_info_data->set_octet_array("deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
+        retcode = device_announcement_writer->write(* product_info_data, DDS_HANDLE_NIL);
         if (retcode != DDS_RETCODE_OK) {
-            fprintf(stderr, "write error %d\n", retcode);
+            std::cerr << "patient_pulse_writer: write error " << std::endl << std::flush;
+            break;
         }
+                    
+        count++;
+        std:sprintf(this_device_id, "%llu", count);
+        /* Modify the data to be sent here */
 
         NDDSUtility::sleep(send_period);
     }
 
-    /*
-    retcode = tms_MicrogridMembershipApproval_writer->unregister_instance(
-        *instance, instance_handle);
-    if (retcode != DDS_RETCODE_OK) {
-        fprintf(stderr, "unregister instance error %d\n", retcode);
-    }
-    */
-
-    /* Delete data sample */
-    retcode = tms_MicrogridMembershipApprovalTypeSupport::delete_data(instance);
-    if (retcode != DDS_RETCODE_OK) {
-        fprintf(stderr, "tms_MicrogridMembershipApprovalTypeSupport::delete_data error %d\n", retcode);
-    }
-
+    tms_app_main_end:
     /* Delete all entities */
-    return publisher_shutdown(participant);
+    std::cout << "Stopping - shutting down participant\n" << std::flush;
+
+    return participant_shutdown(participant);
 }
 
 int main(int argc, char *argv[])
@@ -211,6 +219,6 @@ int main(int argc, char *argv[])
     NDDS_CONFIG_LOG_VERBOSITY_STATUS_ALL);
     */
 
-    return publisher_main(dsample_count);
+    return tms_app_main(sample_count);
 }
 

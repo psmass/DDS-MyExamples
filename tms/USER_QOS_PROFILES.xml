@@ -1,166 +1,1009 @@
-<?xml version="1.0"?>
-<!-- 
-Description
-XML QoS Profile for tmsTestExample
+<?xml version="1.0" encoding="UTF-8"?>
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/6.0.1/rti_dds_profiles.xsd" version="6.0.1">
+    <types>
+      <module name="tms">
+        <const name="TOPIC_ACTIVE_DIAGNOSTICS" type="string" value="&quot;ActiveDiagnostics&quot;"/>
+        <const name="TOPIC_AUTHORIZATION_TO_ENERGIZE_OUTCOME" type="string" value="&quot;AuthorizationToEnergizeOutcome&quot;"/>
+        <const name="TOPIC_AUTHORIZATION_TO_ENERGIZE_REQUEST" type="string" value="&quot;AuthorizationToEnergizeRequest&quot;"/>
+        <const name="TOPIC_AUTHORIZATION_TO_ENERGIZE_RESPONSE" type="string" value="&quot;AuthorizationToEnergizeResponse&quot;"/>
+        <const name="TOPIC_CONFIG_RESERVATION_STATE" type="string" value="&quot;ConfigReservationState&quot;"/>
+        <const name="TOPIC_COPY_CONFIG_REQUEST" type="string" value="&quot;CopyConfigRequest&quot;"/>
+        <const name="TOPIC_DC_DEVICE_POWER_MEASUREMENT_LIST" type="string" value="&quot;DcDevicePowerMeasurementList&quot;"/>
+        <const name="TOPIC_DC_LOAD_SHARING_REQUEST" type="string" value="&quot;DcLoadSharingRequest&quot;"/>
+        <const name="TOPIC_DC_LOAD_SHARING_STATUS" type="string" value="&quot;DcLoadSharingStatus&quot;"/>
+        <const name="TOPIC_DEVICE_ANNOUNCEMENT" type="string" value="&quot;DeviceAnnouncement&quot;"/>
+        <const name="TOPIC_DEVICE_CLOCK_STATUS" type="string" value="&quot;DeviceClockStatus&quot;"/>
+        <const name="TOPIC_DEVICE_GROUNDING" type="string" value="&quot;DeviceGrounding&quot;"/>
+        <const name="TOPIC_DEVICE_GROUNDING_STATUS" type="string" value="&quot;DeviceGroundingStatus&quot;"/>
+        <const name="TOPIC_DEVICE_PARAMETER_REQUEST" type="string" value="&quot;DeviceParameterRequest&quot;"/>
+        <const name="TOPIC_DEVICE_PARAMETER_STATUS" type="string" value="&quot;DeviceParameterStatus&quot;"/>
+        <const name="TOPIC_DEVICE_POWER_MEASUREMENT_LIST" type="string" value="&quot;DevicePowerMeasurementList&quot;"/>
+        <const name="TOPIC_DEVICE_POWER_PORT_LIST" type="string" value="&quot;DevicePowerPortList&quot;"/>
+        <const name="TOPIC_DEVICE_POWER_STATUS_LIST" type="string" value="&quot;DevicePowerStatusList&quot;"/>
+        <const name="TOPIC_DISCOVERED_CONNECTION_LIST" type="string" value="&quot;DiscoveredConnectionList&quot;"/>
+        <const name="TOPIC_ENGINE_STATE" type="string" value="&quot;EngineState&quot;"/>
+        <const name="TOPIC_FINGERPRINT_NICKNAME" type="string" value="&quot;FingerprintNickname&quot;"/>
+        <const name="TOPIC_FINGERPRINT_NICKNAME_REQUEST" type="string" value="&quot;FingerprintNicknameRequest&quot;"/>
+        <const name="TOPIC_GET_CONFIG_CONTENTS_REQUEST" type="string" value="&quot;GetConfigContentsRequest&quot;"/>
+        <const name="TOPIC_GET_CONFIG_DC_LOAD_SHARING_RESPONSE" type="string" value="&quot;GetConfigDcLoadSharingResponse&quot;"/>
+        <const name="TOPIC_GET_CONFIG_DEVICE_PARAMETER_RESPONSE" type="string" value="&quot;GetConfigDeviceParameterResponse&quot;"/>
+        <const name="TOPIC_GET_CONFIG_GROUNDING_CIRCUIT_RESPONSE" type="string" value="&quot;GetConfigGroundingCircuitResponse&quot;"/>
+        <const name="TOPIC_GET_CONFIG_LOAD_SHARING_RESPONSE" type="string" value="&quot;GetConfigLoadSharingResponse&quot;"/>
+        <const name="TOPIC_GET_CONFIG_POWER_SWITCH_RESPONSE" type="string" value="&quot;GetConfigPowerSwitchResponse&quot;"/>
+        <const name="TOPIC_GET_CONFIG_SOURCE_TRANSITION_RESPONSE" type="string" value="&quot;GetConfigSourceTransitionResponse&quot;"/>
+        <const name="TOPIC_GET_CONFIG_STORAGE_CONTROL_RESPONSE" type="string" value="&quot;GetConfigStorageControlResponse&quot;"/>
+        <const name="TOPIC_GROUNDING_CIRCUIT_REQUEST" type="string" value="&quot;GroundingCircuitRequest&quot;"/>
+        <const name="TOPIC_HEARTBEAT" type="string" value="&quot;Heartbeat&quot;"/>
+        <const name="TOPIC_LOAD_SHARING_REQUEST" type="string" value="&quot;LoadSharingRequest&quot;"/>
+        <const name="TOPIC_LOAD_SHARING_STATUS" type="string" value="&quot;LoadSharingStatus&quot;"/>
+        <const name="TOPIC_MICROGRID_CONNECTION_LIST" type="string" value="&quot;MicrogridConnectionList&quot;"/>
+        <const name="TOPIC_MICROGRID_MEMBERSHIP_OUTCOME" type="string" value="&quot;MicrogridMembershipOutcome&quot;"/>
+        <const name="TOPIC_MICROGRID_MEMBERSHIP_REQUEST" type="string" value="&quot;MicrogridMembershipRequest&quot;"/>
+        <const name="TOPIC_OPERATOR_CONNECTION_LIST" type="string" value="&quot;OperatorConnectionList&quot;"/>
+        <const name="TOPIC_OPERATOR_INTENT_REQUEST" type="string" value="&quot;OperatorIntentRequest&quot;"/>
+        <const name="TOPIC_OPERATOR_INTENT_STATE" type="string" value="&quot;OperatorIntentState&quot;"/>
+        <const name="TOPIC_POWER_SWITCH_REQUEST" type="string" value="&quot;PowerSwitchRequest&quot;"/>
+        <const name="TOPIC_RELEASE_CONFIG_REQUEST" type="string" value="&quot;ReleaseConfigRequest&quot;"/>
+        <const name="TOPIC_REQUEST_RESPONSE" type="string" value="&quot;RequestResponse&quot;"/>
+        <const name="TOPIC_RESERVE_CONFIG_REPLY" type="string" value="&quot;ReserveConfigReply&quot;"/>
+        <const name="TOPIC_RESERVE_CONFIG_REQUEST" type="string" value="&quot;ReserveConfigRequest&quot;"/>
+        <const name="TOPIC_SOURCE_TRANSITION_REQUEST" type="string" value="&quot;SourceTransitionRequest&quot;"/>
+        <const name="TOPIC_SOURCE_TRANSITION_STATE" type="string" value="&quot;SourceTransitionState&quot;"/>
+        <const name="TOPIC_STANDARD_CONFIG_MASTER" type="string" value="&quot;StandardConfigMaster&quot;"/>
+        <const name="TOPIC_STORAGE_CONTROL_REQUEST" type="string" value="&quot;StorageControlRequest&quot;"/>
+        <const name="TOPIC_STORAGE_CONTROL_STATUS" type="string" value="&quot;StorageControlStatus&quot;"/>
+        <const name="TOPIC_STORAGE_INFO" type="string" value="&quot;StorageInfo&quot;"/>
+        <const name="TOPIC_STORAGE_STATE" type="string" value="&quot;StorageState&quot;"/>
+        <const name="MINLEN_TopicName" type="uint32" value="1"/>
+        <const name="MAXLEN_TopicName" type="uint32" value="64"/>
+        <typedef name="TopicName" type="string" stringMaxLength="tms::MAXLEN_TopicName"/>
+        <const name="MINLEN_TopicList" type="uint32" value="0"/>
+        <const name="MAXLEN_TopicList" type="uint32" value="8"/>
+        <typedef name="TopicList" type="nonBasic" nonBasicTypeName="tms::TopicName" sequenceMaxLength="tms::MAXLEN_TopicList"/>
+        <struct name="Point2D">
+          <member name="x" type="float32"/>
+          <member name="y" type="float32"/>
+        </struct>
+        <const name="MINLEN_points" type="uint32" value="0"/>
+        <const name="MAXLEN_points" type="uint32" value="21"/>
+        <struct name="Curve2D">
+          <member name="points" type="nonBasic" nonBasicTypeName="tms::Point2D" sequenceMaxLength="tms::MAXLEN_points"/>
+        </struct>
+        <const name="MINLEN_PublicKey" type="uint32" value="1"/>
+        <const name="MAXLEN_PublicKey" type="uint32" value="32*1024"/>
+        <typedef name="PublicKey" type="byte" sequenceMaxLength="tms::MAXLEN_PublicKey"/>
+        <const name="LEN_Fingerprint" type="uint32" value="32"/>
+        <typedef name="Fingerprint" type="byte" arrayDimensions="tms::LEN_Fingerprint"/>
+        <const name="FINGERPRINT_INVALID" type="string" value="&quot;00000000000000000000000000000000&quot;"/>
+        <const name="MINLEN_Signature" type="uint32" value="1"/>
+        <const name="MAXLEN_Signature" type="uint32" value="9999"/>
+        <typedef name="Signature" type="byte" sequenceMaxLength="tms::MAXLEN_Signature"/>
+        <struct name="ClockMonotonic">
+          <member name="seconds" type="uint32"/>
+          <member name="nanoseconds" type="uint32"/>
+        </struct>
+        <struct name="ClockRealtime">
+          <member name="epoch" type="uint16"/>
+          <member name="seconds" type="uint32"/>
+          <member name="nanoseconds" type="uint32"/>
+        </struct>
+        <enum name="ClockMonotonicPersistenceType">
+          <enumerator name="CMPT_UNKNOWN"/>
+          <enumerator name="CMPT_RESET"/>
+          <enumerator name="CMPT_ACCUMULATE"/>
+          <enumerator name="CMPT_OTHER"/>
+        </enum>
+        <struct name="ClockStatus">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="monotonic" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+          <member name="monotonicPersistence" type="nonBasic" nonBasicTypeName="tms::ClockMonotonicPersistenceType"/>
+          <member name="realtime" type="nonBasic" nonBasicTypeName="tms::ClockRealtime"/>
+          <member name="realtimeSource" type="byte"/>
+          <member name="realtimeSetTime" type="nonBasic" nonBasicTypeName="tms::ClockRealtime"/>
+        </struct>
+        <const name="CLOCK_ATOMIC" type="byte" value="0x10"/>
+        <const name="CLOCK_GPS" type="byte" value="0x20"/>
+        <const name="CLOCK_RADIO" type="byte" value="0x30"/>
+        <const name="CLOCK_PTP" type="byte" value="0x40"/>
+        <const name="CLOCK_NTP" type="byte" value="0X50"/>
+        <const name="CLOCK_HAND" type="byte" value="0X60"/>
+        <const name="CLOCK_OTHER" type="byte" value="0X90"/>
+        <const name="CLOCK_INTERNAL" type="byte" value="0XA0"/>
+        <struct name="SampleId">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="sequenceNumber" type="uint64"/>
+        </struct>
+        <const name="MINLEN_reason" type="uint32" value="0"/>
+        <const name="MAXLEN_reason" type="uint32" value="32"/>
+        <struct name="ReplyStatus">
+          <member name="code" type="uint32"/>
+          <member name="reason" type="string" stringMaxLength="tms::MAXLEN_reason"/>
+        </struct>
+        <const name="REPLY_OK" type="uint32" value="200"/>
+        <const name="REPLY_BAD_REQUEST" type="uint32" value="400"/>
+        <const name="REPLY_METHOD_NOT_ALLOWED" type="uint32" value="405"/>
+        <const name="REPLY_CONFLICT" type="uint32" value="409"/>
+        <const name="REPLY_GONE" type="uint32" value="410"/>
+        <const name="REPLY_PRECONDITION_FAILED" type="uint32" value="412"/>
+        <const name="REPLY_REQUEST_ENTITY_TOO_LARGE" type="uint32" value="413"/>
+        <const name="REPLY_INTERNAL_SERVER_ERROR" type="uint32" value="500"/>
+        <const name="REPLY_NOT_IMPLEMENTED" type="uint32" value="501"/>
+        <const name="REPLY_SERVICE_UNAVAILABLE" type="uint32" value="503"/>
+        <const name="REPLY_PENDING_AUTHORIZATION" type="uint32" value="600"/>
+        <struct name="RequestResponse">
+          <member name="relatedRequestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="status" type="nonBasic" nonBasicTypeName="tms::ReplyStatus"/>
+        </struct>
+        <const name="MAXLEN_PARAMETER_NAME" type="uint32" value="32"/>
+        <const name="MAXLEN_PARAMETER_UNITS" type="uint32" value="16"/>
+        <const name="MAX_PARAMETERS" type="uint32" value="128"/>
+        <const name="MINLEN_name" type="uint32" value="0"/>
+        <const name="MAXLEN_name" type="uint32" value="tms::MAXLEN_PARAMETER_NAME"/>
+        <const name="MINLEN_units" type="uint32" value="0"/>
+        <const name="MAXLEN_units" type="uint32" value="tms::MAXLEN_PARAMETER_UNITS"/>
+        <struct name="ParameterMetadata">
+          <member name="name" type="string" stringMaxLength="tms::MAXLEN_name"/>
+          <member name="units" type="string" stringMaxLength="tms::MAXLEN_units"/>
+          <member name="nominalMinValue" type="float32"/>
+          <member name="nominalMaxValue" type="float32"/>
+          <member name="hardMinValue" type="float32"/>
+          <member name="hardMaxValue" type="float32"/>
+          <member name="resolution" type="float32"/>
+        </struct>
+        <struct name="ParameterValue">
+          <member name="name" type="string" stringMaxLength="tms::MAXLEN_name"/>
+          <member name="value" type="float32"/>
+        </struct>
+        <typedef name="ConfigId" type="uint16"/>
+        <const name="MINLEN_parameters" type="uint32" value="0"/>
+        <const name="MAXLEN_parameters" type="uint32" value="tms::MAX_PARAMETERS"/>
+        <struct name="DeviceParameterRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="config" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="parameters" type="nonBasic" nonBasicTypeName="tms::ParameterValue" sequenceMaxLength="tms::MAXLEN_parameters"/>
+        </struct>
+        <struct name="DeviceParameterStatus">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="config" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="parameters" type="nonBasic" nonBasicTypeName="tms::ParameterValue" sequenceMaxLength="tms::MAXLEN_parameters"/>
+        </struct>
+        <enum name="DeviceRole">
+          <enumerator name="ROLE_MICROGRID_CONTROLLER"/>
+          <enumerator name="ROLE_TIME_CONTROLLER"/>
+          <enumerator name="ROLE_SOURCE"/>
+          <enumerator name="ROLE_LOAD"/>
+          <enumerator name="ROLE_STORAGE"/>
+          <enumerator name="ROLE_DISTRIBUTION"/>
+          <enumerator name="ROLE_MICROGRID_SYSTEM_MANAGER"/>
+          <enumerator name="ROLE_CONVERSION"/>
+        </enum>
+        <const name="LEN_NatoStockNumber" type="uint32" value="13"/>
+        <typedef name="NatoStockNumber" type="char8" arrayDimensions="tms::LEN_NatoStockNumber"/>
+        <const name="LEN_GlobalTradeItemNumber" type="uint32" value="14"/>
+        <typedef name="GlobalTradeItemNumber" type="char8" arrayDimensions="tms::LEN_GlobalTradeItemNumber"/>
+        <struct name="DistributionInfo">
+          <member name="supportsLoadPolicy" type="boolean"/>
+          <member name="supportsAuthorizationToEnergize" type="boolean"/>
+        </struct>
+        <struct name="LoadInfo">
+          <member name="parameters" type="nonBasic" nonBasicTypeName="tms::ParameterMetadata" sequenceMaxLength="tms::MAXLEN_parameters"/>
+          <member name="supportsLoadChange" type="boolean"/>
+          <member name="loadChangeThreshold" type="float32"/>
+          <member name="loadEstimateDeadband" type="float32"/>
+          <member name="supportsLoadPolicy" type="boolean"/>
+        </struct>
+        <struct name="EngineStateThresholds">
+          <member name="lowOilPressure" type="float32"/>
+          <member name="highOilPressure" type="float32"/>
+          <member name="lowCoolantTemperature" type="float32"/>
+          <member name="highCoolantTemperature" type="float32"/>
+        </struct>
+        <const name="MINLEN_engine" type="uint32" value="0"/>
+        <const name="MAXLEN_engine" type="uint32" value="1"/>
+        <struct name="SourceInfo">
+          <member name="parameters" type="nonBasic" nonBasicTypeName="tms::ParameterMetadata" sequenceMaxLength="tms::MAXLEN_parameters"/>
+          <member name="supportsDroopCurve" type="boolean"/>
+          <member name="supportsNonlinearCurve" type="boolean"/>
+          <member name="supportsDigitalLoadShare" type="boolean"/>
+          <member name="supportsAuthorizationToEnergize" type="boolean"/>
+          <member name="engine" type="nonBasic" nonBasicTypeName="tms::EngineStateThresholds" sequenceMaxLength="tms::MAXLEN_engine"/>
+        </struct>
+        <const name="MINLEN_manufacturerName" type="uint32" value="0"/>
+        <const name="MAXLEN_manufacturerName" type="uint32" value="64"/>
+        <const name="MINLEN_modelName" type="uint32" value="0"/>
+        <const name="MAXLEN_modelName" type="uint32" value="32"/>
+        <const name="MINLEN_modelNumber" type="uint32" value="0"/>
+        <const name="MAXLEN_modelNumber" type="uint32" value="32"/>
+        <const name="MINLEN_serialNumber" type="uint32" value="0"/>
+        <const name="MAXLEN_serialNumber" type="uint32" value="32"/>
+        <const name="MINLEN_softwareVersion" type="uint32" value="0"/>
+        <const name="MAXLEN_softwareVersion" type="uint32" value="20"/>
+        <const name="MINLEN_distribution" type="uint32" value="0"/>
+        <const name="MAXLEN_distribution" type="uint32" value="1"/>
+        <const name="MINLEN_load" type="uint32" value="0"/>
+        <const name="MAXLEN_load" type="uint32" value="1"/>
+        <const name="MINLEN_source" type="uint32" value="0"/>
+        <const name="MAXLEN_source" type="uint32" value="1"/>
+        <struct name="ProductInfo">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="role" type="nonBasic" nonBasicTypeName="tms::DeviceRole"/>
+          <member name="nsn" type="nonBasic" nonBasicTypeName="tms::NatoStockNumber"/>
+          <member name="gtin" type="nonBasic" nonBasicTypeName="tms::GlobalTradeItemNumber"/>
+          <member name="manufacturerName" type="string" stringMaxLength="tms::MAXLEN_manufacturerName"/>
+          <member name="modelName" type="string" stringMaxLength="tms::MAXLEN_modelName"/>
+          <member name="modelNumber" type="string" stringMaxLength="tms::MAXLEN_modelNumber"/>
+          <member name="serialNumber" type="string" stringMaxLength="tms::MAXLEN_serialNumber"/>
+          <member name="sourcePower" type="float32"/>
+          <member name="sourceVar" type="float32"/>
+          <member name="loadPower" type="float32"/>
+          <member name="storageEnergy" type="float32"/>
+          <member name="distributionCurrent" type="float32"/>
+          <member name="configTmpCount" type="uint16"/>
+          <member name="hasRealtimeClock" type="boolean"/>
+          <member name="softwareVersion" type="string" stringMaxLength="tms::MAXLEN_softwareVersion"/>
+          <member name="platformId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="distribution" type="nonBasic" nonBasicTypeName="tms::DistributionInfo" sequenceMaxLength="tms::MAXLEN_distribution"/>
+          <member name="load" type="nonBasic" nonBasicTypeName="tms::LoadInfo" sequenceMaxLength="tms::MAXLEN_load"/>
+          <member name="source" type="nonBasic" nonBasicTypeName="tms::SourceInfo" sequenceMaxLength="tms::MAXLEN_source"/>
+        </struct>
+        <struct name="Heartbeat">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="sequenceNumber" type="uint32"/>
+        </struct>
+        <typedef name="SuspectParameterNumber" type="uint32"/>
+        <typedef name="FailureModeIndicator" type="byte"/>
+        <const name="FMI_HIGH_MOST_SEVERE" type="byte" value="0"/>
+        <const name="FMI_LOW_MOST_SEVERE" type="byte" value="1"/>
+        <const name="FMI_HIGH_LEAST_SEVERE" type="byte" value="15"/>
+        <const name="FMI_HIGH_MODERATELY_SEVERE" type="byte" value="16"/>
+        <const name="FMI_LOW_LEAST_SEVERE" type="byte" value="17"/>
+        <const name="FMI_LOW_MODERATELY_SEVERE" type="byte" value="18"/>
+        <enum name="DtcSeverity">
+          <enumerator name="SEV_0_NOT_SPECIFIED"/>
+          <enumerator name="SEV_1_CLEAR"/>
+          <enumerator name="SEV_2_INFORMATIVE"/>
+          <enumerator name="SEV_3_PREVENTATIVE"/>
+          <enumerator name="SEV_4_DEGRADED"/>
+          <enumerator name="SEV_5_WARNING"/>
+          <enumerator name="SEV_6_MINOR"/>
+          <enumerator name="SEV_7_MAJOR"/>
+          <enumerator name="SEV_8_CRITICAL"/>
+          <enumerator name="SEV_9_FATAL"/>
+          <enumerator name="SEV_10_HUMAN_SAFETY"/>
+        </enum>
+        <const name="MINLEN_hint" type="uint32" value="0"/>
+        <const name="MAXLEN_hint" type="uint32" value="32"/>
+        <struct name="DiagnosticTroubleCode">
+          <member name="suspectParameter" type="nonBasic" nonBasicTypeName="tms::SuspectParameterNumber"/>
+          <member name="failureMode" type="nonBasic" nonBasicTypeName="tms::FailureModeIndicator"/>
+          <member name="occurrenceCount" type="uint32"/>
+          <member name="timeRaised" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+          <member name="severity" type="nonBasic" nonBasicTypeName="tms::DtcSeverity"/>
+          <member name="hint" type="string" stringMaxLength="tms::MAXLEN_hint"/>
+        </struct>
+        <const name="MINLEN_codes" type="uint32" value="0"/>
+        <const name="MAXLEN_codes" type="uint32" value="64"/>
+        <struct name="ActiveDiagnosticMessages">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="codes" type="nonBasic" nonBasicTypeName="tms::DiagnosticTroubleCode" sequenceMaxLength="tms::MAXLEN_codes"/>
+          <member name="overflow" type="uint32"/>
+        </struct>
+        <const name="CONFIG_INVALID" type="uint16" value="0"/>
+        <const name="CONFIG_DEFAULTS" type="uint16" value="1"/>
+        <const name="CONFIG_OLD_ACTIVE" type="uint16" value="99"/>
+        <const name="CONFIG_ACTIVE" type="uint16" value="100"/>
+        <const name="CONFIG_RESTART" type="uint16" value="101"/>
+        <const name="CONFIG_NO_COMM" type="uint16" value="102"/>
+        <const name="CONFIG_EMERGENCY" type="uint16" value="103"/>
+        <const name="CONFIG_CHECK_SETTING" type="uint16" value="200"/>
+        <const name="CONFIG_TMP_ALL" type="uint16" value="999"/>
+        <const name="CONFIG_TMP_MIN" type="uint16" value="1000"/>
+        <const name="CONFIG_TMP_MAX" type="uint16" value="1999"/>
+        <struct name="StandardConfigMaster">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="masterId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+        </struct>
+        <struct name="CopyConfigRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="source" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="target" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+        </struct>
+        <struct name="ReserveConfigRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="forceRelease" type="boolean"/>
+          <member name="source" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+        </struct>
+        <struct name="ReserveConfigReply">
+          <member name="relatedRequestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="status" type="nonBasic" nonBasicTypeName="tms::ReplyStatus"/>
+          <member name="tmp" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="releaseId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+        </struct>
+        <struct name="ReleaseConfigRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="tmp" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+        </struct>
+        <struct name="ConfigReservation">
+          <member name="config" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+        </struct>
+        <const name="MINLEN_configs" type="uint32" value="0"/>
+        <const name="MAXLEN_configs" type="uint32" value="1000"/>
+        <struct name="ConfigReservationList">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="configs" type="nonBasic" nonBasicTypeName="tms::ConfigReservation" sequenceMaxLength="tms::MAXLEN_configs"/>
+        </struct>
+        <struct name="GetConfigContentsRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="config" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+        </struct>
+        <typedef name="PowerPortNumber" type="uint32"/>
+        <const name="MAX_PORTS" type="uint32" value="20"/>
+        <const name="ONLY_PORT" type="uint32" value="0"/>
+        <const name="MINLEN_ports" type="uint32" value="0"/>
+        <const name="MAXLEN_ports" type="uint32" value="tms::MAX_PORTS"/>
+        <struct name="AuthorizationToEnergizeRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="commandId" type="nonBasic" nonBasicTypeName="tms::SampleId"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="ports" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber" sequenceMaxLength="tms::MAXLEN_ports"/>
+        </struct>
+        <struct name="AuthorizationToEnergizeResponse">
+          <member name="relatedRequestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="commandId" type="nonBasic" nonBasicTypeName="tms::SampleId"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="ports" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber" sequenceMaxLength="tms::MAXLEN_ports"/>
+          <member name="accept" type="boolean"/>
+          <member name="deny" type="boolean"/>
+          <member name="userId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="authorizationTime" type="nonBasic" nonBasicTypeName="tms::ClockRealtime"/>
+        </struct>
+        <struct name="AuthorizationToEnergizeOutcome">
+          <member name="relatedRequestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="commandId" type="nonBasic" nonBasicTypeName="tms::SampleId"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="accepted" type="boolean"/>
+          <member name="authReceived" type="boolean"/>
+          <member name="authCommand" type="boolean"/>
+          <member name="authLocation" type="boolean"/>
+          <member name="authUser" type="boolean"/>
+          <member name="authTime" type="boolean"/>
+          <member name="authMonotonic" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+          <member name="authRealtime" type="nonBasic" nonBasicTypeName="tms::ClockRealtime"/>
+        </struct>
+        <struct name="PowerPortId">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="portNumber" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber"/>
+        </struct>
+        <struct name="PowerConnectionId">
+          <member name="portA" type="nonBasic" nonBasicTypeName="tms::PowerPortId"/>
+          <member name="portB" type="nonBasic" nonBasicTypeName="tms::PowerPortId"/>
+        </struct>
+        <enum name="CableSenseType">
+          <enumerator name="CST_NONE"/>
+          <enumerator name="CST_CONNECTOR"/>
+          <enumerator name="CST_MEASUREMENT"/>
+          <enumerator name="CST_CONNECTOR_MEASUREMENT"/>
+        </enum>
+        <enum name="CableSenseStatus">
+          <enumerator name="CS_UNKNOWN"/>
+          <enumerator name="CS_DISCONNECTED"/>
+          <enumerator name="CS_CONNECTED"/>
+        </enum>
+        <enum name="PowerConnectorType">
+          <enumerator name="CONNECTOR_TERMINAL_BLOCK"/>
+          <enumerator name="CONNECTOR_MILSTD"/>
+          <enumerator name="CONNECTOR_NEMA5"/>
+          <enumerator name="CONNECTOR_CAMLOCK"/>
+          <enumerator name="CONNECTOR_POWERLOCK"/>
+          <enumerator name="CONNECTOR_IEC60309"/>
+          <enumerator name="CONNECTOR_J1772"/>
+          <enumerator name="CONNECTOR_POWERLOK"/>
+          <enumerator name="CONNECTOR_MILSTD1651"/>
+          <enumerator name="CONNECTOR_MILDTL22992"/>
+          <enumerator name="CONNECTOR_MILDTL53126"/>
+          <enumerator name="CONNECTOR_OTHER"/>
+        </enum>
+        <enum name="PowerConnectorPolarity">
+          <enumerator name="POLARITY_PIN"/>
+          <enumerator name="POLARITY_SOCKET"/>
+          <enumerator name="POLARITY_UNIVERSAL"/>
+        </enum>
+        <enum name="PowerConnectorPhases">
+          <enumerator name="PHASE_SINGLE"/>
+          <enumerator name="PHASE_SPLIT"/>
+          <enumerator name="PHASE_3WYE"/>
+          <enumerator name="PHASE_3DELTA"/>
+          <enumerator name="PHASE_DC"/>
+        </enum>
+        <enum name="PowerSwitchControl">
+          <enumerator name="PSC_NONE"/>
+          <enumerator name="PSC_MANUAL"/>
+          <enumerator name="PSC_AUTO"/>
+          <enumerator name="PSC_REMOTE"/>
+        </enum>
+        <enum name="PowerSwitchProtection">
+          <enumerator name="PSP_NONE"/>
+          <enumerator name="PSP_BREAKER"/>
+          <enumerator name="PSP_GFI"/>
+          <enumerator name="PSP_BREAKER_GFI"/>
+        </enum>
+        <struct name="PowerPortType">
+          <member name="portNumber" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber"/>
+          <member name="standard" type="nonBasic" nonBasicTypeName="tms::PowerConnectorType"/>
+          <member name="polarity" type="nonBasic" nonBasicTypeName="tms::PowerConnectorPolarity"/>
+          <member name="ratedAmperage" type="float32"/>
+          <member name="nominalVoltage" type="float32"/>
+          <member name="phases" type="nonBasic" nonBasicTypeName="tms::PowerConnectorPhases"/>
+          <member name="cableSense" type="nonBasic" nonBasicTypeName="tms::CableSenseType"/>
+          <member name="switchControl" type="nonBasic" nonBasicTypeName="tms::PowerSwitchControl"/>
+          <member name="protection" type="nonBasic" nonBasicTypeName="tms::PowerSwitchProtection"/>
+          <member name="synchronizer" type="boolean"/>
+        </struct>
+        <enum name="CircuitContinuity">
+          <enumerator name="CC_UNKNOWN"/>
+          <enumerator name="CC_OPEN"/>
+          <enumerator name="CC_CLOSED"/>
+          <enumerator name="CC_INCONSISTENT"/>
+        </enum>
+        <enum name="PowerSwitchReason">
+          <enumerator name="PSR_UNKNOWN"/>
+          <enumerator name="PSR_MANUAL"/>
+          <enumerator name="PSR_COMMAND"/>
+          <enumerator name="PSR_PROTECTION"/>
+          <enumerator name="PSR_FAILURE"/>
+          <enumerator name="PSR_LOAD_POLICY"/>
+        </enum>
+        <struct name="PowerSwitchStatus">
+          <member name="continuity" type="nonBasic" nonBasicTypeName="tms::CircuitContinuity"/>
+          <member name="transitionFault" type="boolean"/>
+          <member name="transitionLock" type="boolean"/>
+          <member name="lastTransition" type="nonBasic" nonBasicTypeName="tms::PowerSwitchReason"/>
+          <member name="lastTransitionActor" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+        </struct>
+        <enum name="DesiredCircuitContinuity">
+          <enumerator name="DCC_OPEN"/>
+          <enumerator name="DCC_CLOSED"/>
+          <enumerator name="DCC_SYNC_CLOSED"/>
+          <enumerator name="DCC_CLOSED_INTERNAL"/>
+          <enumerator name="DCC_NO_CHANGE"/>
+        </enum>
+        <struct name="PowerSwitchCommand">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="config" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="portNumber" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber"/>
+          <member name="continuity" type="nonBasic" nonBasicTypeName="tms::DesiredCircuitContinuity"/>
+          <member name="minV" type="float32"/>
+          <member name="maxV" type="float32"/>
+          <member name="minF" type="float32"/>
+          <member name="maxF" type="float32"/>
+          <member name="maxPhase" type="float32"/>
+        </struct>
+        <const name="MINLEN_cableId" type="uint32" value="0"/>
+        <const name="MAXLEN_cableId" type="uint32" value="1"/>
+        <const name="MINLEN_connection" type="uint32" value="0"/>
+        <const name="MAXLEN_connection" type="uint32" value="1"/>
+        <const name="MINLEN_switchStatus" type="uint32" value="0"/>
+        <const name="MAXLEN_switchStatus" type="uint32" value="1"/>
+        <struct name="PowerPortStatus">
+          <member name="portNumber" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber"/>
+          <member name="cableStatus" type="nonBasic" nonBasicTypeName="tms::CableSenseStatus"/>
+          <member name="cableId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" sequenceMaxLength="tms::MAXLEN_cableId"/>
+          <member name="connection" type="nonBasic" nonBasicTypeName="tms::PowerPortId" sequenceMaxLength="tms::MAXLEN_connection"/>
+          <member name="switchStatus" type="nonBasic" nonBasicTypeName="tms::PowerSwitchStatus" sequenceMaxLength="tms::MAXLEN_switchStatus"/>
+        </struct>
+        <enum name="PowerConnectionDetectionType">
+          <enumerator name="PCDT_OPERATOR"/>
+          <enumerator name="PCDT_CABLE_ID"/>
+          <enumerator name="PCDT_PROBE"/>
+          <enumerator name="PCDT_CORRELATION"/>
+          <enumerator name="PCDT_HISTORY"/>
+        </enum>
+        <struct name="PowerConnection">
+          <member name="connectionId" type="nonBasic" nonBasicTypeName="tms::PowerConnectionId"/>
+          <member name="detectionType" type="nonBasic" nonBasicTypeName="tms::PowerConnectionDetectionType"/>
+          <member name="detectionSource" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="detectionConfidence" type="float32"/>
+        </struct>
+        <const name="MINLEN_ports_one" type="uint32" value="1"/>
+        <struct name="DevicePowerPortTypes">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="ports" type="nonBasic" nonBasicTypeName="tms::PowerPortType" sequenceMaxLength="tms::MAXLEN_ports"/>
+        </struct>
+        <struct name="DevicePowerPortStatuses">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="ports" type="nonBasic" nonBasicTypeName="tms::PowerPortStatus" sequenceMaxLength="tms::MAXLEN_ports"/>
+        </struct>
+        <const name="MINLEN_connections" type="uint32" value="0"/>
+        <const name="MAXLEN_connections" type="uint32" value="200"/>
+        <struct name="PowerConnectionList">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="connections" type="nonBasic" nonBasicTypeName="tms::PowerConnection" sequenceMaxLength="tms::MAXLEN_connections"/>
+        </struct>
+        <typedef name="GroundingCircuitNumber" type="uint32"/>
+        <const name="MAX_GROUNDS" type="uint32" value="20"/>
+        <enum name="GroundingDesignType">
+          <enumerator name="GROUNDING_INVALID"/>
+          <enumerator name="GROUNDING_UNGROUNDED"/>
+          <enumerator name="GROUNDING_SOLID"/>
+          <enumerator name="GROUNDING_HIGH_RESISTANCE"/>
+          <enumerator name="GROUNDING_LOW_RESISTANCE"/>
+          <enumerator name="GROUNDING_REACTANCE"/>
+        </enum>
+        <const name="MINLEN_protectedPorts" type="uint32" value="1"/>
+        <const name="MAXLEN_protectedPorts" type="uint32" value="tms::MAX_PORTS"/>
+        <struct name="GroundingType">
+          <member name="groundNumber" type="nonBasic" nonBasicTypeName="tms::GroundingCircuitNumber"/>
+          <member name="type" type="nonBasic" nonBasicTypeName="tms::GroundingDesignType"/>
+          <member name="protectedPorts" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber" sequenceMaxLength="tms::MAXLEN_protectedPorts"/>
+          <member name="controlType" type="nonBasic" nonBasicTypeName="tms::PowerSwitchControl"/>
+          <member name="pulseType" type="nonBasic" nonBasicTypeName="tms::PowerSwitchControl"/>
+        </struct>
+        <const name="MINLEN_grounds" type="uint32" value="0"/>
+        <const name="MAXLEN_grounds" type="uint32" value="tms::MAX_GROUNDS"/>
+        <struct name="DeviceGroundingType">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="grounds" type="nonBasic" nonBasicTypeName="tms::GroundingType" sequenceMaxLength="tms::MAXLEN_grounds"/>
+        </struct>
+        <enum name="GroundFaultDetection">
+          <enumerator name="GFD_INVALID"/>
+          <enumerator name="GFD_NONE"/>
+          <enumerator name="GFD_ANY"/>
+          <enumerator name="GFD_A"/>
+          <enumerator name="GFD_B"/>
+          <enumerator name="GFD_C"/>
+          <enumerator name="GFD_DCPOS"/>
+          <enumerator name="GFD_DCNEG"/>
+        </enum>
+        <const name="MINLEN_control" type="uint32" value="0"/>
+        <const name="MAXLEN_control" type="uint32" value="1"/>
+        <const name="MINLEN_pulse" type="uint32" value="0"/>
+        <const name="MAXLEN_pulse" type="uint32" value="1"/>
+        <struct name="GroundingStatus">
+          <member name="groundNumber" type="nonBasic" nonBasicTypeName="tms::GroundingCircuitNumber"/>
+          <member name="control" type="nonBasic" nonBasicTypeName="tms::PowerSwitchStatus" sequenceMaxLength="tms::MAXLEN_control"/>
+          <member name="pulse" type="nonBasic" nonBasicTypeName="tms::PowerSwitchStatus" sequenceMaxLength="tms::MAXLEN_pulse"/>
+          <member name="faultDetection" type="nonBasic" nonBasicTypeName="tms::GroundFaultDetection"/>
+        </struct>
+        <struct name="DeviceGroundingStatus">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="grounds" type="nonBasic" nonBasicTypeName="tms::GroundingStatus" sequenceMaxLength="tms::MAXLEN_grounds"/>
+        </struct>
+        <struct name="GroundingCommand">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="config" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="groundNumber" type="nonBasic" nonBasicTypeName="tms::GroundingCircuitNumber"/>
+          <member name="control" type="nonBasic" nonBasicTypeName="tms::DesiredCircuitContinuity"/>
+          <member name="pulse" type="nonBasic" nonBasicTypeName="tms::DesiredCircuitContinuity"/>
+        </struct>
+        <struct name="PowerMeasurementLine">
+          <member name="v" type="float32"/>
+          <member name="i" type="float32"/>
+          <member name="phi" type="float32"/>
+          <member name="p" type="float32"/>
+          <member name="q" type="float32"/>
+          <member name="f" type="float32"/>
+          <member name="vThd" type="float32"/>
+          <member name="iThd" type="float32"/>
+        </struct>
+        <struct name="PowerMeasurementWye">
+          <member name="A" type="nonBasic" nonBasicTypeName="tms::PowerMeasurementLine"/>
+          <member name="B" type="nonBasic" nonBasicTypeName="tms::PowerMeasurementLine"/>
+          <member name="C" type="nonBasic" nonBasicTypeName="tms::PowerMeasurementLine"/>
+          <member name="N" type="nonBasic" nonBasicTypeName="tms::PowerMeasurementLine"/>
+          <member name="phaseAtoB" type="float32"/>
+          <member name="phaseAtoC" type="float32"/>
+        </struct>
+        <struct name="PowerPortMeasurement">
+          <member name="portNumber" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber"/>
+          <member name="measurement" type="nonBasic" nonBasicTypeName="tms::PowerMeasurementWye"/>
+        </struct>
+        <struct name="DevicePowerMeasurements">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="timeMeasured" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+          <member name="ports" type="nonBasic" nonBasicTypeName="tms::PowerPortMeasurement" sequenceMaxLength="tms::MAXLEN_ports"/>
+        </struct>
+        <const name="MINLEN_NicknameString" type="uint32" value="0"/>
+        <const name="MAXLEN_NicknameString" type="uint32" value="32"/>
+        <typedef name="NicknameString" type="string" stringMaxLength="tms::MAXLEN_NicknameString"/>
+        <struct name="FingerprintNickname">
+          <member name="id" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="nickname" type="nonBasic" nonBasicTypeName="tms::NicknameString"/>
+        </struct>
+        <struct name="ChangeNicknameRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="id" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="nickname" type="nonBasic" nonBasicTypeName="tms::NicknameString"/>
+        </struct>
+        <const name="MINLEN_mimeType" type="uint32" value="1"/>
+        <const name="MAXLEN_mimeType" type="uint32" value="32"/>
+        <const name="MINLEN_data" type="uint32" value="1"/>
+        <const name="MAXLEN_data" type="uint32" value="32*1024"/>
+        <struct name="DeviceIcon">
+          <member name="nsn" type="nonBasic" nonBasicTypeName="tms::NatoStockNumber"/>
+          <member name="gtin" type="nonBasic" nonBasicTypeName="tms::GlobalTradeItemNumber"/>
+          <member name="mimeType" type="string" stringMaxLength="tms::MAXLEN_mimeType"/>
+          <member name="data" type="byte" sequenceMaxLength="tms::MAXLEN_data"/>
+        </struct>
+        <enum name="OperatingMode">
+          <enumerator name="OPM_NORMAL"/>
+          <enumerator name="OPM_EMERGENCY"/>
+        </enum>
+        <typedef name="PriorityValue" type="int32"/>
+        <const name="INTENT_PRIORITY_NEVER_OPERATE" type="int32" value="-1"/>
+        <const name="INTENT_PRIORITY_ALWAYS_OPERATE" type="int32" value="0"/>
+        <const name="INTENT_PRIORITY_HIGHEST" type="int32" value="1"/>
+        <const name="INTENT_PRIORITY_LOWEST" type="int32" value="1000"/>
+        <const name="MINLEN_Guid" type="uint32" value="0"/>
+        <const name="MAXLEN_Guid" type="uint32" value="32"/>
+        <typedef name="Guid" type="string" stringMaxLength="tms::MAXLEN_Guid"/>
+        <struct name="Duration">
+          <member name="second" type="uint64"/>
+          <member name="nanosecond" type="uint64"/>
+        </struct>
+        <struct name="MicrogridIntent">
+          <member name="operatingMode" type="nonBasic" nonBasicTypeName="tms::OperatingMode"/>
+          <member name="increaseCapacityThreshold" type="uint32"/>
+          <member name="decreaseCapacityThreshold" type="uint32"/>
+          <member name="decreaseCapacityDuration" type="nonBasic" nonBasicTypeName="tms::Duration"/>
+          <member name="priorityLoadCurtailmentAllowed" type="nonBasic" nonBasicTypeName="tms::PriorityValue"/>
+          <member name="priorityCircuitSheddingAllowed" type="nonBasic" nonBasicTypeName="tms::PriorityValue"/>
+        </struct>
+        <struct name="OverCurrentDisconnect">
+          <member name="currentA" type="float32"/>
+          <member name="currentB" type="float32"/>
+          <member name="currentC" type="float32"/>
+          <member name="currentN" type="float32"/>
+          <member name="delay" type="nonBasic" nonBasicTypeName="tms::Duration"/>
+        </struct>
+        <struct name="OverEnergyDisconnect">
+          <member name="balance" type="float32"/>
+          <member name="maxBalance" type="float32"/>
+          <member name="refillRate" type="float32"/>
+        </struct>
+        <struct name="UnderFrequencyDisconnect">
+          <member name="frequency" type="float32"/>
+          <member name="delay" type="nonBasic" nonBasicTypeName="tms::Duration"/>
+          <member name="objective" type="float32"/>
+        </struct>
+        <enum name="LocalPowerPortPriority">
+          <enumerator name="LPPP_UNINITIALIZED"/>
+          <enumerator name="LPPP_NONE"/>
+          <enumerator name="LPPP_OFF"/>
+          <enumerator name="LPPP_LOW"/>
+          <enumerator name="LPPP_MEDIUM"/>
+          <enumerator name="LPPP_HIGH"/>
+          <enumerator name="LPPP_ON"/>
+        </enum>
+        <struct name="LocalPowerPortPriorityAssignment">
+          <member name="portNumber" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber"/>
+          <member name="priority" type="nonBasic" nonBasicTypeName="tms::LocalPowerPortPriority"/>
+        </struct>
+        <struct name="PowerPortLoadPolicy">
+          <member name="portNumber" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber"/>
+          <member name="inrushCurrent" type="nonBasic" nonBasicTypeName="tms::OverCurrentDisconnect"/>
+          <member name="steadyCurrent" type="nonBasic" nonBasicTypeName="tms::OverCurrentDisconnect"/>
+          <member name="inrushFrequency" type="nonBasic" nonBasicTypeName="tms::UnderFrequencyDisconnect"/>
+          <member name="steadyFrequency" type="nonBasic" nonBasicTypeName="tms::UnderFrequencyDisconnect"/>
+          <member name="energy" type="nonBasic" nonBasicTypeName="tms::OverEnergyDisconnect"/>
+        </struct>
+        <struct name="BusbarLoadPolicy">
+          <member name="inrushCurrent" type="nonBasic" nonBasicTypeName="tms::OverCurrentDisconnect"/>
+          <member name="inrushCurrentPriority" type="nonBasic" nonBasicTypeName="tms::LocalPowerPortPriority"/>
+          <member name="steadyCurrent" type="nonBasic" nonBasicTypeName="tms::OverCurrentDisconnect"/>
+          <member name="steadyCurrentPriority" type="nonBasic" nonBasicTypeName="tms::LocalPowerPortPriority"/>
+          <member name="inrushFrequency" type="nonBasic" nonBasicTypeName="tms::UnderFrequencyDisconnect"/>
+          <member name="inrushFrequencyPriority" type="nonBasic" nonBasicTypeName="tms::LocalPowerPortPriority"/>
+          <member name="steadyFrequency" type="nonBasic" nonBasicTypeName="tms::UnderFrequencyDisconnect"/>
+          <member name="steadyFrequencyPriority" type="nonBasic" nonBasicTypeName="tms::LocalPowerPortPriority"/>
+          <member name="energy" type="nonBasic" nonBasicTypeName="tms::OverEnergyDisconnect"/>
+          <member name="energyPriority" type="nonBasic" nonBasicTypeName="tms::LocalPowerPortPriority"/>
+        </struct>
+        <const name="MINLEN_busbarPolicy" type="uint32" value="0"/>
+        <const name="MAXLEN_busbarPolicy" type="uint32" value="1"/>
+        <struct name="DeviceIntent">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="battleShort" type="boolean"/>
+          <member name="priority" type="nonBasic" nonBasicTypeName="tms::PriorityValue"/>
+          <member name="busbarPolicy" type="nonBasic" nonBasicTypeName="tms::BusbarLoadPolicy" sequenceMaxLength="tms::MAXLEN_busbarPolicy"/>
+          <member name="rateLimit" type="float32"/>
+        </struct>
+        <const name="MINLEN_portPolicy" type="uint32" value="0"/>
+        <const name="MAXLEN_portPolicy" type="uint32" value="1"/>
+        <struct name="PowerPortIntent">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="portNumber" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber"/>
+          <member name="priority" type="nonBasic" nonBasicTypeName="tms::PriorityValue"/>
+          <member name="portPolicy" type="nonBasic" nonBasicTypeName="tms::PowerPortLoadPolicy" sequenceMaxLength="tms::MAXLEN_portPolicy"/>
+          <member name="localPriority" type="nonBasic" nonBasicTypeName="tms::LocalPowerPortPriority"/>
+        </struct>
+        <enum name="OperatorIntentType">
+          <enumerator name="OIT_DEFAULT_INTENT"/>
+          <enumerator name="OIT_OPERATOR_DEFINED"/>
+        </enum>
+        <const name="MINLEN_devices" type="uint32" value="0"/>
+        <const name="MAXLEN_devices" type="uint32" value="100"/>
+        <const name="MINLEN_powerPorts" type="uint32" value="0"/>
+        <const name="MAXLEN_powerPorts" type="uint32" value="4000"/>
+        <struct name="OperatorIntent">
+          <member name="originator" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="intentType" type="nonBasic" nonBasicTypeName="tms::OperatorIntentType"/>
+          <member name="microgrid" type="nonBasic" nonBasicTypeName="tms::MicrogridIntent"/>
+          <member name="devices" type="nonBasic" nonBasicTypeName="tms::DeviceIntent" sequenceMaxLength="tms::MAXLEN_devices"/>
+          <member name="powerPorts" type="nonBasic" nonBasicTypeName="tms::PowerPortIntent" sequenceMaxLength="tms::MAXLEN_powerPorts"/>
+        </struct>
+        <struct name="OperatorIntentRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="desiredOperatorIntent" type="nonBasic" nonBasicTypeName="tms::OperatorIntent"/>
+        </struct>
+        <struct name="OperatorIntentState">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="activeOperatorIntent" type="nonBasic" nonBasicTypeName="tms::OperatorIntent"/>
+        </struct>
+        <const name="MINLEN_portPriorities" type="uint32" value="0"/>
+        <const name="MAXLEN_portPriorities" type="uint32" value="tms::MAX_PORTS"/>
+        <const name="MINLEN_portPolicies" type="uint32" value="0"/>
+        <const name="MAXLEN_portPolicies" type="uint32" value="tms::MAX_PORTS"/>
+        <struct name="LoadPolicyRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="config" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="portPriorities" type="nonBasic" nonBasicTypeName="tms::LocalPowerPortPriorityAssignment" sequenceMaxLength="tms::MAXLEN_portPriorities"/>
+          <member name="portPolicies" type="nonBasic" nonBasicTypeName="tms::PowerPortLoadPolicy" sequenceMaxLength="tms::MAXLEN_portPolicies"/>
+          <member name="busbarPolicy" type="nonBasic" nonBasicTypeName="tms::BusbarLoadPolicy" sequenceMaxLength="tms::MAXLEN_busbarPolicy"/>
+          <member name="rateLimit" type="float32"/>
+        </struct>
+        <enum name="LoadPolicy">
+          <enumerator name="LP_UNINITIALIZED"/>
+          <enumerator name="LP_NONE"/>
+          <enumerator name="LP_OVER_CURRENT"/>
+          <enumerator name="LP_OVER_ENERGY"/>
+          <enumerator name="LP_UNDER_FREQUENCY"/>
+        </enum>
+        <enum name="PowerLine">
+          <enumerator name="LINE_UNINITIALIZED"/>
+          <enumerator name="LINE_NONE"/>
+          <enumerator name="LINE_A"/>
+          <enumerator name="LINE_B"/>
+          <enumerator name="LINE_C"/>
+          <enumerator name="LINE_N"/>
+          <enumerator name="LINE_G"/>
+          <enumerator name="LINE_MULTIPLE"/>
+        </enum>
+        <enum name="LoadPolicyContinuity">
+          <enumerator name="LPC_UNINITIALIZED"/>
+          <enumerator name="LPC_NONE"/>
+          <enumerator name="LPC_CONTINUOUS"/>
+          <enumerator name="LPC_INTERRUPTED"/>
+        </enum>
+        <struct name="PowerPortLoadPolicyReport">
+          <member name="portNumber" type="nonBasic" nonBasicTypeName="tms::PowerPortNumber"/>
+          <member name="type" type="nonBasic" nonBasicTypeName="tms::LoadPolicy"/>
+          <member name="line" type="nonBasic" nonBasicTypeName="tms::PowerLine"/>
+          <member name="continuity" type="nonBasic" nonBasicTypeName="tms::LoadPolicyContinuity"/>
+          <member name="time" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+        </struct>
+        <struct name="DeviceLoadPolicyStatus">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="ports" type="nonBasic" nonBasicTypeName="tms::PowerPortLoadPolicyReport" sequenceMaxLength="tms::MAXLEN_ports"/>
+        </struct>
+        <struct name="DevicePriority">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="priority" type="nonBasic" nonBasicTypeName="tms::PriorityValue"/>
+        </struct>
+        <struct name="NsnPriority">
+          <member name="nsn" type="nonBasic" nonBasicTypeName="tms::NatoStockNumber"/>
+          <member name="priority" type="nonBasic" nonBasicTypeName="tms::PriorityValue"/>
+        </struct>
+        <struct name="GtinPriority">
+          <member name="gtin" type="nonBasic" nonBasicTypeName="tms::GlobalTradeItemNumber"/>
+          <member name="priority" type="nonBasic" nonBasicTypeName="tms::PriorityValue"/>
+        </struct>
+        <const name="MINLEN_byIdentity" type="uint32" value="0"/>
+        <const name="MAXLEN_byIdentity" type="uint32" value="100"/>
+        <const name="MINLEN_byNsn" type="uint32" value="0"/>
+        <const name="MAXLEN_byNsn" type="uint32" value="100"/>
+        <const name="MINLEN_byGtin" type="uint32" value="0"/>
+        <const name="MAXLEN_byGtin" type="uint32" value="100"/>
+        <struct name="McPriorityList">
+          <member name="byIdentity" type="nonBasic" nonBasicTypeName="tms::DevicePriority" sequenceMaxLength="tms::MAXLEN_byIdentity"/>
+          <member name="byNsn" type="nonBasic" nonBasicTypeName="tms::NsnPriority" sequenceMaxLength="tms::MAXLEN_byNsn"/>
+          <member name="byGtin" type="nonBasic" nonBasicTypeName="tms::GtinPriority" sequenceMaxLength="tms::MAXLEN_byGtin"/>
+        </struct>
+        <struct name="McRedirect">
+          <member name="sourceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="targetId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+        </struct>
+        <struct name="EngineState">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="oilPressure" type="float32"/>
+          <member name="coolantTemperature" type="float32"/>
+          <member name="speed" type="float32"/>
+          <member name="fuelLevel" type="float32"/>
+        </struct>
+        <enum name="SourceState">
+          <enumerator name="SS_UNINITIALIZED"/>
+          <enumerator name="SS_OFF"/>
+          <enumerator name="SS_ON"/>
+          <enumerator name="SS_RUNNING"/>
+          <enumerator name="SS_SOURCING"/>
+        </enum>
+        <enum name="SourceTransition">
+          <enumerator name="ST_UNINITIALIZED"/>
+          <enumerator name="ST_NONE"/>
+          <enumerator name="ST_POWER_UP"/>
+          <enumerator name="ST_POWER_DOWN"/>
+          <enumerator name="ST_START"/>
+          <enumerator name="ST_STOP"/>
+          <enumerator name="ST_CONNECT"/>
+          <enumerator name="ST_DISCONNECT"/>
+          <enumerator name="ST_JUMP_START"/>
+          <enumerator name="ST_RAPID_STOP"/>
+        </enum>
+        <struct name="SourceTransitionState">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="presentState" type="nonBasic" nonBasicTypeName="tms::SourceState"/>
+          <member name="futureState" type="nonBasic" nonBasicTypeName="tms::SourceState"/>
+          <member name="elapsedTime" type="float32"/>
+          <member name="remainingTime" type="float32"/>
+          <member name="relatedRequestId" type="nonBasic" nonBasicTypeName="tms::SampleId"/>
+        </struct>
+        <struct name="SourceTransitionRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="config" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="desiredTransition" type="nonBasic" nonBasicTypeName="tms::SourceTransition"/>
+        </struct>
+        <struct name="ControlCurve">
+          <member name="minimum" type="nonBasic" nonBasicTypeName="tms::Curve2D"/>
+          <member name="nominal" type="nonBasic" nonBasicTypeName="tms::Curve2D"/>
+          <member name="maximum" type="nonBasic" nonBasicTypeName="tms::Curve2D"/>
+        </struct>
+        <struct name="DLSConfig">
+          <member name="sendTopics" type="nonBasic" nonBasicTypeName="tms::TopicList"/>
+          <member name="receiveTopics" type="nonBasic" nonBasicTypeName="tms::TopicList"/>
+          <member name="gainReal" type="float32"/>
+          <member name="gainReactive" type="float32"/>
+          <member name="biasRealPu" type="nonBasic" nonBasicTypeName="tms::Curve2D"/>
+          <member name="biasReactivePu" type="nonBasic" nonBasicTypeName="tms::Curve2D"/>
+        </struct>
+        <struct name="DLSMeasurement">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="time" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+          <member name="realPu" type="float32"/>
+          <member name="reactivePu" type="float32"/>
+        </struct>
+        <struct name="LoadSharing">
+          <member name="frequencyPowerCurve" type="nonBasic" nonBasicTypeName="tms::ControlCurve"/>
+          <member name="voltageReactiveCurve" type="nonBasic" nonBasicTypeName="tms::ControlCurve"/>
+          <member name="dls" type="nonBasic" nonBasicTypeName="tms::DLSConfig"/>
+        </struct>
+        <struct name="LoadSharingRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="config" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="parameters" type="nonBasic" nonBasicTypeName="tms::LoadSharing"/>
+        </struct>
+        <struct name="LoadSharingStatus">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="config" type="nonBasic" nonBasicTypeName="tms::ConfigId"/>
+          <member name="parameters" type="nonBasic" nonBasicTypeName="tms::LoadSharing"/>
+        </struct>
+        <struct name="LoadEstimate">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="centerFrequency" type="float32"/>
+          <member name="realPower" type="float32"/>
+          <member name="realCurrent" type="float32"/>
+          <member name="realImpedance" type="float32"/>
+          <member name="realFrequency" type="float32"/>
+          <member name="reactivePower" type="float32"/>
+          <member name="reactiveCurrent" type="float32"/>
+          <member name="reactiveImpedance" type="float32"/>
+          <member name="reactiveFrequency" type="float32"/>
+        </struct>
+        <struct name="LoadChange">
+          <member name="initPowerMin" type="float32"/>
+          <member name="initPowerMax" type="float32"/>
+          <member name="transPowerMin" type="float32"/>
+          <member name="transPowerMax" type="float32"/>
+          <member name="transSlope" type="float32"/>
+          <member name="transDuration" type="float32"/>
+          <member name="finalPowerMin" type="float32"/>
+          <member name="finalPowerMax" type="float32"/>
+          <member name="finalLoadEstimate" type="nonBasic" nonBasicTypeName="tms::LoadEstimate"/>
+        </struct>
+        <struct name="LoadChangeRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="desiredTransition" type="nonBasic" nonBasicTypeName="tms::LoadChange"/>
+        </struct>
+        <struct name="SimulationCapabilities">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="scaledTime" type="boolean"/>
+          <member name="scaledTimeMax" type="float32"/>
+          <member name="steppedTime" type="boolean"/>
+          <member name="realStepDurationMin" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+        </struct>
+        <enum name="TimeMode">
+          <enumerator name="TM_REAL_TIME"/>
+          <enumerator name="TM_SCALED_TIME"/>
+          <enumerator name="TM_STEPPED_TIME"/>
+        </enum>
+        <struct name="TimeScheme">
+          <member name="mode" type="nonBasic" nonBasicTypeName="tms::TimeMode"/>
+          <member name="scale" type="float32"/>
+          <member name="realBase" type="nonBasic" nonBasicTypeName="tms::ClockRealtime"/>
+          <member name="virtualBase" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+          <member name="realStepDuration" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+          <member name="virtualStepDuration" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+          <member name="stepCount" type="int32"/>
+        </struct>
+        <struct name="TimeAdvance">
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint" key="true"/>
+          <member name="virtualTime" type="nonBasic" nonBasicTypeName="tms::ClockMonotonic"/>
+          <member name="stepCount" type="int32"/>
+        </struct>
+        <enum name="MicrogridMembership">
+          <enumerator name="MM_UNINITIALIZED"/>
+          <enumerator name="MM_JOIN"/>
+          <enumerator name="MM_LEAVE"/>
+        </enum>
+        <struct name="MicrogridMembershipRequest">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="membership" type="nonBasic" nonBasicTypeName="tms::MicrogridMembership"/>
+        </struct>
+        <enum name="MicrogridMembershipResult">
+          <enumerator name="MMR_UNINITIALIZED"/>
+          <enumerator name="MMR_REPLACED"/>
+          <enumerator name="MMR_COMPLETE"/>
+          <enumerator name="MMR_BLOCKED"/>
+        </enum>
+        <struct name="MicrogridMembershipApproval">
+          <member name="requestId" type="nonBasic" nonBasicTypeName="tms::SampleId" key="true"/>
+          <member name="relatedRequestId" type="nonBasic" nonBasicTypeName="tms::SampleId"/>
+          <member name="deviceId" type="nonBasic" nonBasicTypeName="tms::Fingerprint"/>
+          <member name="membership" type="nonBasic" nonBasicTypeName="tms::MicrogridMembership"/>
+          <member name="result" type="nonBasic" nonBasicTypeName="tms::MicrogridMembershipResult"/>
+          <member name="hint" type="string" stringMaxLength="tms::MAXLEN_hint"/>
+        </struct>
+      </module>
+    </types>
 
-(c) Copyright, Real-Time Innovations, 2012.  All rights reserved.
-RTI grants Licensee a license to use, modify, compile, and create derivative
-works of the software solely for use with RTI Connext DDS. Licensee may
-redistribute copies of the software provided that all such copies are
-subject to this license. The software is provided "as is", with no warranty
-of any type, including any warranty for fitness for any purpose. RTI is
-under no obligation to maintain or support the software. RTI shall not be
-liable for any incidental or consequential damages arising out of the use
-or inability to use the software.
-
-The QoS configuration of the DDS entities in the generated example is loaded 
-from this file.
-
-This file is used only when it is in the current working directory or when the
-environment variable NDDS_QOS_PROFILES is defined and points to this file.
-
-The profile in this file inherits from the builtin QoS profile 
-BuiltinQosLib::Generic.StrictReliable. That profile, along with all of the 
-other built-in QoS profiles can be found in the 
-BuiltinProfiles.documentationONLY.xml file located in the 
-$NDDSHOME/resource/xml/ directory.
-
-You may use any of these QoS configurations in your application simply by 
-referring to them by the name shown in the 
-BuiltinProfiles.documentationONLY.xml file and listed below: 
-
-* Library "BuiltinQosLib":
-** Baseline
-** Baseline.5.0.0
-** Baseline.5.1.0
-** Baseline.5.2.0
-** Generic.Common
-** Generic.510TransportCompatibility
-** Generic.Monitoring.Common
-** Generic.ConnextMicroCompatibility
-** Generic.OtherDDSVendorCompatibility
-** Generic.StrictReliable
-** Generic.KeepLastReliable
-** Generic.BestEffort
-** Generic.StrictReliable.HighThroughput
-** Generic.StrictReliable.LowLatency
-** Generic.Participant.LargeData
-** Generic.Participant.LargeData.Monitoring
-** Generic.StrictReliable.LargeData
-** Generic.KeepLastReliable.LargeData
-** Generic.StrictReliable.LargeData.FastFlow
-** Generic.StrictReliable.LargeData.MediumFlow
-** Generic.StrictReliable.LargeData.SlowFlow
-** Generic.KeepLastReliable.LargeData.FastFlow
-** Generic.KeepLastReliable.LargeData.MediumFlow
-** Generic.KeepLastReliable.LargeData.SlowFlow
-** Generic.KeepLastReliable.TransientLocal
-** Generic.KeepLastReliable.Transient
-** Generic.KeepLastReliable.Persistent
-** Generic.AutoTuning
-** Pattern.PeriodicData
-** Pattern.Streaming
-** Pattern.ReliableStreaming
-** Pattern.Event
-** Pattern.AlarmEvent
-** Pattern.Status
-** Pattern.AlarmStatus
-** Pattern.LastValueCache
-
-Also, following the QoS Profile composition pattern you can use QoS Snippets
-to easily create your final QoS Profile. For further information visit:
-https://community.rti.com/best-practices/qos-profile-inheritance-and-composition-guidance
-
-There is a QoS Snippet library that contains a collection of
-QoS Snippets that set some specific features or configurations.
-
-* Library "BuiltinQosSnippetLib":
-** Optimization.ReliabilityProtocol.Common
-** Optimization.ReliabilityProtocol.KeepAll
-** Optimization.ReliabilityProtocol.KeepLast
-** Optimization.ReliabilityProtocol.HighRate
-** Optimization.ReliabilityProtocol.LowLatency
-** Optimization.ReliabilityProtocol.LargeData
-** Optimization.DataCache.LargeData.DynamicMemAlloc
-** Optimization.Discovery.Common
-** Optimization.Discovery.Participant.Properties.Compact
-** Optimization.Discovery.Endpoint.Fast
-** Optimization.Transport.LargeBuffers
-** QosPolicy.Reliability.Reliable
-** QosPolicy.Reliability.BestEffort
-** QosPolicy.History.KeepLast_1
-** QosPolicy.History.KeepAll
-** QosPolicy.PublishMode.Asynchronous
-** QosPolicy.Durability.TransientLocal
-** QosPolicy.Durability.Transient
-** QosPolicy.Durability.Persistent
-** QosPolicy.Batching.Enable
-** Feature.FlowController.838Mbps
-** Feature.FlowController.209Mbps
-** Feature.FlowController.52Mbps
-** Feature.AutoTuning.Enable
-** Feature.Monitoring.Enable
-** Feature.Security.Enable
-** Feature.TopicQuery.Enable
-** Transport.TCP.LAN.Client
-** Transport.TCP.WAN.Symetric.Client
-** Transport.TCP.WAN.Asymetric.Server
-** Transport.TCP.WAN.Asymetric.Client
-** Compatibility.ConnextMicro.Version243
-** Compatibility.OtherDDSVendor.Enable
-** Compatibility.510Transport.Enable
-
-You should not edit the file BuiltinProfiles.documentationONLY.xml directly.
-However, if you wish to modify any of the values in a built-in profile, the
-recommendation is to create a profile of your own and inherit from the built-in
-profile you wish to modify. The NDDS_QOS_PROFILES.example.xml file (contained in 
-the same directory as the BuiltinProfiles.documentationONLY.xml file) shows how
-to inherit from the built-in profiles. 
-
-For more information about XML QoS Profiles see the "Configuring QoS with
-XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
--->
-
-<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:noNamespaceSchemaLocation="/Applications/rti_connext_dds-6.0.1/resource/schema/rti_dds_qos_profiles.xsd">
-    <!-- QoS Library containing the QoS profile used in the generated example.
-
-        A QoS library is a named set of QoS profiles.
-    -->
-    <qos_library name="tmsTestExample_Library">
-
-        <!-- QoS profile used to configure reliable communication between the DataWriter 
-             and DataReader created in the example code.
-
-             A QoS profile groups a set of related QoS.
-        -->
-        <qos_profile name="tmsTestExample_Profile" base_name="BuiltinQosLib::Generic.StrictReliable" is_default_qos="true">
-            <!-- QoS used to configure the data writer created in the example code -->                
-            <datawriter_qos>
-                <publication_name>
-                    <name>tmsTestExampleDataWriter</name>
-                </publication_name>
-            </datawriter_qos>
-
-            <!-- QoS used to configure the data reader created in the example code -->                
-            <datareader_qos>
-                <subscription_name>
-                    <name>tmsTestExampleDataReader</name>
-                </subscription_name>
-            </datareader_qos>
-            <participant_qos>
-                <!--
-                The participant name, if it is set, will be displayed in the
-                RTI tools, making it easier for you to tell one
-                application from another when you're debugging.
-                -->
-                <participant_name>
-                    <name>tmsTestExampleParticipant</name>
-                    <role_name>tmsTestExampleParticipantRole</role_name>
-                </participant_name>
-
-            </participant_qos>
-        </qos_profile>
-
+    <qos_library name="TMS_QoS_LIbrary1">
+      <qos_profile name="Factory" is_default_qos="true">
+      </qos_profile>
+      <qos_profile name="Base_Participant_QoS">
+      </qos_profile>
     </qos_library>
+
+    <domain_library name="TMS_DomainLibrary1">
+      <domain name="TMS_Domain0" domain_id="0">
+        <register_type name="DeviceAnnouncementType" type_ref="tms::ProductInfo"/>
+        <register_type name="MicrogridMembershipRequestType" type_ref="tms::MicrogridMembershipRequest"/>
+        <register_type name="MicrogridMembershipOutcomeType" type_ref="tms::MicrogridMembershipApproval"/>
+        <topic name="DeviceAnnouncement" register_type_ref="DeviceAnnouncementType"/>
+        <topic name="MicrogridMembershipRequest" register_type_ref="MicrogridMembershipRequestType"/>
+        <topic name="MicrogridMembershipOutcome" register_type_ref="MicrogridMembershipOutcomeType"/>
+      </domain>
+    </domain_library>
+
+    <domain_participant_library name="TMS_ParticipantLibrary1">
+      <domain_participant name="TMS_Participant1" domain_ref="TMS_DomainLibrary1::TMS_Domain0">
+        <publisher name="TMS_Publisher1">
+          <data_writer name="DeviceAnnouncementTopicWriter" topic_ref="DeviceAnnouncement"/>
+          <data_writer name="MicrogridMembershipRequestTopicWriter" topic_ref="MicrogridMembershipRequest"/>
+        </publisher>
+        <subscriber name="TMS_Subscriber1">
+          <data_reader name="MicrogridMembershipOutcomeTopicReader" topic_ref="MicrogridMembershipOutcome"/>
+        </subscriber>
+      </domain_participant>
+    </domain_participant_library>
+
 </dds>

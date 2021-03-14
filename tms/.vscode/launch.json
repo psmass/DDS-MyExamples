@@ -8,56 +8,28 @@
             "name": "g++ - Build and Debug Pub",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/objs/x64Darwin17clang9.0/ShapeType_publisher",
+            "program": "${workspaceFolder}/objs/x64Darwin17clang9.0/tmsTestExampleApp",
             "args": [],
             //"stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "relativePathBase":"${workspaceFolder}/c",
+            "relativePathBase":"${workspaceFolder}/cpp",
             //"environment": [],
             //"externalConsole": false,
             //"MIMode": "lldb",
-            "preLaunchTask": "Build/Debug Publisher"
-        },
-        {
-            "name": "g++ - Build and Debug Sub",
-            //"type": "cppdbg",
-            "type": "lldb",
-            "request": "launch",
-            "program": "${workspaceFolder}/objs/x64Darwin17clang9.0/ShapeType_subscriber",
-            "args": [],
-            //"stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "relativePathBase":"${workspaceFolder}/c",
-            //"environment": [],
-            //"externalConsole": false,
-            //"MIMode": "lldb",
-            "preLaunchTask": "Build/Debug Subscriber"
+            "preLaunchTask": "Build/Debug tmsTestExampleApp"
         },
         {
             "name": "g++ - Build and Run Pub",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/objs/x64Darwin17clang9.0/ShapeType_publisher",
+            "program": "${workspaceFolder}/objs/x64Darwin17clang9.0/tmsTestExampleApp",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            "preLaunchTask": "Build/Run Publisher"
-        },
-        {
-            "name": "g++ - Build and Run Sub",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/objs/x64Darwin17clang9.0/ShapeType_subscriber",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "lldb",
-            "preLaunchTask": "Build/Run Subscriber"
+            "preLaunchTask": "Build/Run tmsTestExampleApp"
         }
     ]
 }
