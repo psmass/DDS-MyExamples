@@ -414,12 +414,12 @@ extern "C" int tms_app_main(int sample_count)
     /* Main loop */
     while (run_flag) {
 
-        std::cout << "Writing tms_MicrogridMembershipApproval " << count << std::endl << std::flush;
+        std::cout <<  tms_TOPIC_DEVICE_ANNOUNCEMENT << ": "<< count << std::endl << std::flush;
 
         product_info_data->set_octet_array("deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
         retcode = device_announcement_writer->write(* product_info_data, DDS_HANDLE_NIL);
         if (retcode != DDS_RETCODE_OK) {
-            std::cerr << "patient_pulse_writer: write error " << std::endl << std::flush;
+            std::cerr << "writer: write error " << std::endl << std::flush;
             break;
         }
                     
