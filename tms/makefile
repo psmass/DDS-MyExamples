@@ -73,6 +73,7 @@ LIBS = -L$(NDDSHOME)/lib/$(TARGET_ARCH) \
         -lnddscpp$(SHAREDLIB_SFX)$(DEBUG_SFX) -lnddsc$(SHAREDLIB_SFX)$(DEBUG_SFX) -lnddscore$(SHAREDLIB_SFX)$(DEBUG_SFX) \
         $(SYSLIBS)
 
+SOURCES = $(SOURCE_DIR)tmsCommPatterns.cxx
 COMMONSOURCES = $(notdir $(SOURCES))
 
 EXEC          = tmsTestExampleApp
