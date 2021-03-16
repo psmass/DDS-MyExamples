@@ -90,8 +90,8 @@ extern "C" int tms_app_main(int sample_count) {
     DDS_Duration_t send_period = {1,0};
 
     // Declare Reader and Writer thread Information structs
-    WaitsetWriterInfo * myWaitsetDeviceAnnouncementWriterInfo = new WaitsetWriterInfo(tms_TOPIC_DEVICE_ANNOUNCEMENT); 
-	WaitsetWriterInfo * myWaitsetMicrogridMembershipRequestWriterInfo = new WaitsetWriterInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST); 
+    WriterEventsThreadInfo * myWaitsetDeviceAnnouncementWriterInfo = new WriterEventsThreadInfo(tms_TOPIC_DEVICE_ANNOUNCEMENT); 
+	WriterEventsThreadInfo * myWaitsetMicrogridMembershipRequestWriterInfo = new WriterEventsThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST); 
     WaitsetReaderInfo * myWaitsetMicrogridMembershipOutcomeReaderInfo = new WaitsetReaderInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_OUTCOME); 
 
     /* To customize participant QoS, use 

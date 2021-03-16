@@ -10,26 +10,26 @@
 #include "tmsCommPatterns.h"
 
 
-
-WaitsetWriterInfo::WaitsetWriterInfo(std::string writerName) 
+// WriterEventsThreadInfo member functions
+WriterEventsThreadInfo::WriterEventsThreadInfo(std::string writerName) 
         {
             myName = writerName;
         }
 
-std::string WaitsetWriterInfo::me(){ return myName; }
+std::string WriterEventsThreadInfo::me(){ return myName; }
 
 
-void*  pthreadToProcWriterEvents(void  * waitsetWriterInfo) {
-	WaitsetWriterInfo * myWaitsetInfo;
-    myWaitsetInfo = (WaitsetWriterInfo *)waitsetWriterInfo;
+void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo) {
+	WriterEventsThreadInfo * myWriterEventsThreadInfo;
+    myWriterEventsThreadInfo = (WriterEventsThreadInfo *)writerEventsThreadInfo;
 	DDSWaitSet * waitset = waitset = new DDSWaitSet();;
     DDS_ReturnCode_t retcode;
     DDSConditionSeq active_conditions_seq;
 
-    std::cout << "\nCreated Writer Pthread: " << myWaitsetInfo->me() << " Topic" << std::endl;
+    std::cout << "\nCreated Writer Pthread: " << myWriterEventsThreadInfo->me() << " Topic" << std::endl;
 
     // Configure Waitset for Writer Status ****
-    DDSStatusCondition *status_condition = myWaitsetInfo->writer->get_statuscondition();
+    DDSStatusCondition *status_condition = myWriterEventsThreadInfo->writer->get_statuscondition();
     if (status_condition == NULL) {
         printf("Writer thread: get_statuscondition error\n");
         goto end_writer_thread;
@@ -52,7 +52,7 @@ void*  pthreadToProcWriterEvents(void  * waitsetWriterInfo) {
 
     // wait() blocks execution of the thread until one or more attached condition triggers  
 	// thread exits upon ^c or error
-    while ((* myWaitsetInfo->run_flag) == true) { 
+    while ((* myWriterEventsThreadInfo->run_flag) == true) { 
         retcode = waitset->wait(active_conditions_seq, DDS_DURATION_INFINITE);
         /* We get to timeout if no conditions were triggered */
         if (retcode == DDS_RETCODE_TIMEOUT) {
@@ -70,22 +70,22 @@ void*  pthreadToProcWriterEvents(void  * waitsetWriterInfo) {
             /* Compare with Status Conditions */
             if (active_conditions_seq[i] == status_condition) {
                 DDS_StatusMask triggeredmask =
-                        myWaitsetInfo->writer->get_status_changes();
+                        myWriterEventsThreadInfo->writer->get_status_changes();
 
                 if (triggeredmask & DDS_PUBLICATION_MATCHED_STATUS) {
 					DDS_PublicationMatchedStatus st;
-                	myWaitsetInfo->writer->get_publication_matched_status(st);
-					std::cout << myWaitsetInfo->me() << " Writer Subs: " 
+                	myWriterEventsThreadInfo->writer->get_publication_matched_status(st);
+					std::cout << myWriterEventsThreadInfo->me() << " Writer Subs: " 
                     << st.current_count << "  " << st.current_count_change << std::endl;
                 }
             } else {
                 // writers can only have status condition
-                std::cout << myWaitsetInfo->me() << " Writer: False Writer Event Trigger" << std::endl;
+                std::cout << myWriterEventsThreadInfo->me() << " Writer: False Writer Event Trigger" << std::endl;
             }
         }
 	} // While (run_flag)
 	end_writer_thread: // reached by ^C or an error
-	std::cout << myWaitsetInfo->me() << " Writer: Pthread Exiting"<< std::endl;
+	std::cout << myWriterEventsThreadInfo->me() << " Writer: Pthread Exiting"<< std::endl;
 	exit(0);
 }
 
