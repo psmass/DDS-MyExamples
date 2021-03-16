@@ -988,9 +988,11 @@
         <register_type name="DeviceAnnouncementType" type_ref="tms::ProductInfo"/>
         <register_type name="MicrogridMembershipRequestType" type_ref="tms::MicrogridMembershipRequest"/>
         <register_type name="MicrogridMembershipOutcomeType" type_ref="tms::MicrogridMembershipApproval"/>
+        <register_type name="HeartbeatType" type_ref="tms::Heartbeat"/>
         <topic name="DeviceAnnouncement" register_type_ref="DeviceAnnouncementType"/>
         <topic name="MicrogridMembershipRequest" register_type_ref="MicrogridMembershipRequestType"/>
         <topic name="MicrogridMembershipOutcome" register_type_ref="MicrogridMembershipOutcomeType"/>
+        <topic name="Heartbeat" register_type_ref="HeartbeatType"/>
       </domain>
     </domain_library>
 
@@ -999,6 +1001,7 @@
         <publisher name="TMS_Publisher1">
           <data_writer name="DeviceAnnouncementTopicWriter" topic_ref="DeviceAnnouncement"/>
           <data_writer name="MicrogridMembershipRequestTopicWriter" topic_ref="MicrogridMembershipRequest"/>
+          <data_writer name="HeartbeatTopicWriter" topic_ref="Heartbeat"/>
         </publisher>
         <subscriber name="TMS_Subscriber1">
           <data_reader name="MicrogridMembershipOutcomeTopicReader" topic_ref="MicrogridMembershipOutcome"/>

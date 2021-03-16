@@ -2,38 +2,31 @@
 #define tmsCommPatterns_h
 
 /* This Interface provides threads for tms Communications Patterns
+   (tms Microgrid Standard section 4.9.2)
 */
-class WriterEventsThreadInfo {
-    // Optional for topics you wish to monitor events for
-    // This struct holds info needed for the pthread for
-    // writer waitset events (no data) processing 
+
+class PeriodicPublishThreadInfo {
+    // Info struct for PeriodicPublishThread (Heartbeat or other status data flow pattern)
+    // (tms Microgrid Standard section 4.9.2.1)
+    // After enabled will send topic at a fixed rate
     public:
-        WriterEventsThreadInfo(std::string writerName);
+        PeriodicPublishThreadInfo(std::string readerName, DDS_Duration_t ratePeriod);
         std::string me();
+        DDS_Duration_t pubRatePeriod();
 
         DDSDynamicDataWriter * writer;
 		bool * run_flag;
+        bool enabled;
     private:
         std::string myName;
+        DDS_Duration_t myRatePeriod;
 };
-void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo);
+void*  pthreadToPeriodicPublish(void  * periodic_publish_info);
 
-
-class WaitsetReaderInfo {
-    // holds waitset info needed for the Reader waitset processing thread
-    public:
-        WaitsetReaderInfo(std::string readerName);
-        std::string me();
-
-        DDSDynamicDataReader * reader;
-		bool * run_flag;
-    private:
-        std::string myName;
-};
-void*  pthreadToProcReaderEvents(void  * waitsetReaderInfo);
 
 class RcvCmdRqstIssueRqstRspnsThreadInfo {
     // Info struct for RcvCmdRqstIssueRqstRspnsThread
+    // (tms Microgrid Standard section 4.9.2.2)
     // Receives command and issues tms.RequestResponse Topic
     public:
         RcvCmdRqstIssueRqstRspnsThreadInfo(std::string readerName);
@@ -46,20 +39,36 @@ class RcvCmdRqstIssueRqstRspnsThreadInfo {
 };
 void*  pthreadToRcvCmdRqstIssueRqstRspns(void  * waitsetReaderInfo);
 
-class PeriodicPublishThreadInfo {
-    // Info struct for PeriodicPublishThread
-    // After enabled will send topic
+
+class ReaderThreadInfo {
+    // holds waitset info needed for the Reader waitset processing thread
     public:
-        PeriodicPublishThreadInfo(std::string readerName);
+        ReaderThreadInfo(std::string readerName);
+        std::string me();
+
+        DDSDynamicDataReader * reader;
+		bool * run_flag;
+    private:
+        std::string myName;
+};
+void*  pthreadToProcReaderEvents(void  * readerThreadInfo);
+
+
+class WriterEventsThreadInfo {
+    // Optional - for topics you wish to monitor writer status events 
+    // Only triggers on writer event - refer to enum DDS_StatusKind
+    // related to Writer/Reader entities
+    // This struct holds info needed for the pthread for
+    // writer waitset events (no data) processing 
+    public:
+        WriterEventsThreadInfo(std::string writerName);
         std::string me();
 
         DDSDynamicDataWriter * writer;
 		bool * run_flag;
     private:
         std::string myName;
-        int rate;
-        bool enabled;
 };
-void*  pthreadToPeriodicPublish(void  * periodic_publish_info);
+void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo);
 
 #endif
