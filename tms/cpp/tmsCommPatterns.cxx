@@ -18,7 +18,6 @@ ReaderThreadInfo::ReaderThreadInfo(enum TOPICS_E topicEnum)
 std::string ReaderThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
 enum TOPICS_E ReaderThreadInfo::topic_enum() { return myTopicEnum; };
 
-
 void*  pthreadToProcReaderEvents(void *reader_thread_info) {
     ReaderThreadInfo * myReaderThreadInfo;
     myReaderThreadInfo = (ReaderThreadInfo *)reader_thread_info;
@@ -70,7 +69,7 @@ void*  pthreadToProcReaderEvents(void *reader_thread_info) {
 		goto end_reader_thread;
     }
 
-	while ((* myReaderThreadInfo->run_flag) == true) {
+	while (run_flag) {
        	retcode = waitset->wait(active_conditions_seq, DDS_DURATION_INFINITE);
         if (retcode == DDS_RETCODE_TIMEOUT) {
             printf("Reader thread: Wait timed out!! No conditions were triggered.\n");
@@ -135,7 +134,8 @@ void*  pthreadToProcReaderEvents(void *reader_thread_info) {
 	exit(0);
 }
 
-// eriodicPublishThreadInfo member functions
+
+// PeriodicPublishThreadInfo member functions
 PeriodicPublishThreadInfo::PeriodicPublishThreadInfo (enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod) 
         {
             enabled = false; //initialize disabled
@@ -181,7 +181,7 @@ void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
 
     // wait() blocks execution of the thread until one or more attached condition triggers  
 	// thread exits upon ^c or error
-    while ((* myPeriodicPublishThreadInfo->run_flag) == true) { 
+    while (run_flag) { 
         retcode = waitset->wait(active_conditions_seq, myPeriodicPublishThreadInfo->pubRatePeriod());
         /* We get to timeout if no conditions were triggered */
         if (retcode == DDS_RETCODE_TIMEOUT) {
@@ -228,6 +228,96 @@ void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
 	exit(0);
 }
 
+// Change State PublishThreadInfo member functions
+ChangeStatePublishThreadInfo::ChangeStatePublishThreadInfo (enum TOPICS_E topicEnum) 
+        {
+
+            myTopicEnum = topicEnum;
+        }
+
+enum TOPICS_E ChangeStatePublishThreadInfo::topic_enum() {return myTopicEnum; };
+
+std::string ChangeStatePublishThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
+
+void*  pthreadToChangeStatePublish(void  * change_state_publish_thread_info) {
+	ChangeStatePublishThreadInfo * myChangeStatePublishThreadInfo;
+    myChangeStatePublishThreadInfo = (ChangeStatePublishThreadInfo *) change_state_publish_thread_info;
+	DDSWaitSet * waitset = waitset = new DDSWaitSet();;
+    DDS_ReturnCode_t retcode;
+    DDSConditionSeq active_conditions_seq;
+
+    std::cout << "\nCreated Change State Publisher Pthread: " << myChangeStatePublishThreadInfo->me() << " Topic" << std::endl;
+
+    // Configure Waitset for Writer Status ****
+    DDSStatusCondition *status_condition = myChangeStatePublishThreadInfo->writer->get_statuscondition();
+    if (status_condition == NULL) {
+        printf("Change State thread: get_statuscondition error\n");
+        goto end_writer_thread;
+    }
+
+    // Set enabled statuses
+    retcode = status_condition->set_enabled_statuses(
+            DDS_PUBLICATION_MATCHED_STATUS);
+    if (retcode != DDS_RETCODE_OK) {
+        printf("Writer thread: set_enabled_statuses error\n");
+        goto end_writer_thread;
+    }
+
+    // Attach Status Conditions to the above waitset
+    retcode = waitset->attach_condition(status_condition);
+    if (retcode != DDS_RETCODE_OK) {
+        printf("Writer thread: attach_condition error\n");
+        goto end_writer_thread;
+    }
+
+    // wait() blocks execution of the thread until one or more attached condition triggers  
+	// thread exits upon ^c or error
+    while (run_flag) { 
+        retcode = waitset->wait(active_conditions_seq, DDS_DURATION_INFINITE);
+        /* We get to timeout if no conditions were triggered */
+        if (retcode == DDS_RETCODE_TIMEOUT) {
+            /*
+            switch (myChangeStateThreadInfo->topic_enum()) {
+                case  tms_TOPIC_HEARTBEAT_ENUM: 
+                    std::cout << "Periodic Writer - Heartbeat" << std::endl;
+                    myPeriodicPublishThreadInfo->writer->write(* myPeriodicPublishThreadInfo->periodicData, DDS_HANDLE_NIL);
+                    break;
+                default: 
+                    std::cout << "Periodic Writer - default topic fall through" << std::endl;
+                    break;
+            }
+            */
+            continue; // no need to process active conditions if timeout
+        } else if (retcode != DDS_RETCODE_OK) {
+            printf("Writer thread: wait returned error: %d\n", retcode);
+            goto end_writer_thread;
+        }
+
+        /* Get the number of active conditions */
+        int active_conditions = active_conditions_seq.length();
+
+        for (int i = 0; i < active_conditions; ++i) {
+            /* Compare with Status Conditions */
+            if (active_conditions_seq[i] == status_condition) {
+                DDS_StatusMask triggeredmask =
+                        myChangeStatePublishThreadInfo->writer->get_status_changes();
+
+                if (triggeredmask & DDS_PUBLICATION_MATCHED_STATUS) {
+					DDS_PublicationMatchedStatus st;
+                	myChangeStatePublishThreadInfo->writer->get_publication_matched_status(st);
+					std::cout << myChangeStatePublishThreadInfo->me() << " Writer Subs: " 
+                    << st.current_count << "  " << st.current_count_change << std::endl;
+                }
+            } else {
+                // writers can only have status condition
+                std::cout << myChangeStatePublishThreadInfo->me() << " Writer: False Writer Event Trigger" << std::endl;
+            }
+        }
+	} // While (run_flag)
+	end_writer_thread: // reached by ^C or an error
+	std::cout << myChangeStatePublishThreadInfo->me() << " Writer: Pthread Exiting"<< std::endl;
+	exit(0);
+}
 
 // WriterEventsThreadInfo member functions
 WriterEventsThreadInfo::WriterEventsThreadInfo(enum TOPICS_E topicEnum) 
@@ -272,7 +362,7 @@ void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo) {
 
     // wait() blocks execution of the thread until one or more attached condition triggers  
 	// thread exits upon ^c or error
-    while ((* myWriterEventsThreadInfo->run_flag) == true) { 
+    while (run_flag) { 
         retcode = waitset->wait(active_conditions_seq, DDS_DURATION_INFINITE);
         /* We get to timeout if no conditions were triggered */
         if (retcode == DDS_RETCODE_TIMEOUT) {

@@ -21,8 +21,6 @@
 #include "tmsTestExample.h" // This file was created by rticodegen from the official TMS datamodel
 #include "tmsCommPatterns.h"
 
-static bool run_flag = true;
-
 // Local prototypes
 void handle_SIGINT(int unused);
 int tms_app_main (unsigned int);
@@ -183,24 +181,20 @@ extern "C" int tms_app_main(int sample_count) {
     // Like to put the following in an itterator creating all the pthreads but the 
     // topicThreadInfo's are somewhat different depending upon the communications pattern
     myHeartbeatThreadInfo->writer = heartbeat_writer;
-	myHeartbeatThreadInfo->run_flag = &run_flag;
     myHeartbeatThreadInfo->enabled=true; // enable topic to be published
     myHeartbeatThreadInfo->periodicData=heartbeat_data; 
     pthread_t whb_tid; // writer device_announcement tid
     pthread_create(&whb_tid, NULL, pthreadToPeriodicPublish, (void*) myHeartbeatThreadInfo);
 
     myDeviceAnnouncementEventThreadInfo->writer = device_announcement_writer;
-	myDeviceAnnouncementEventThreadInfo->run_flag = &run_flag;
     pthread_t wda_tid; // writer device_announcement tid
     pthread_create(&wda_tid, NULL, pthreadToProcWriterEvents, (void*) myDeviceAnnouncementEventThreadInfo);
 
     myMicrogridMembershipRequestEventThreadInfo->writer = microgrid_membership_request_writer;
-	myMicrogridMembershipRequestEventThreadInfo->run_flag = &run_flag;
     pthread_t wmmr_tid; // writer microgrid_membership_request tid
     pthread_create(&wmmr_tid, NULL, pthreadToProcWriterEvents, (void*) myMicrogridMembershipRequestEventThreadInfo);
 
     myMicrogridMembershipOutcomeReaderThreadInfo->reader = microgrid_membership_outcome_reader;
-	myMicrogridMembershipOutcomeReaderThreadInfo->run_flag = &run_flag;
     pthread_t rmmo_tid; // writer microgrid_membership_outcome tid
     pthread_create(&rmmo_tid, NULL, pthreadToProcReaderEvents, (void*) myMicrogridMembershipOutcomeReaderThreadInfo);
     
@@ -219,7 +213,6 @@ extern "C" int tms_app_main(int sample_count) {
         goto tms_app_main_end;
     }
  
-    
     retcode = heartbeat_data->set_octet_array("deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
     retcode1 = heartbeat_data->set_ulong("sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, count);
     if (retcode != DDS_RETCODE_OK || retcode1 != DDS_RETCODE_OK ) {

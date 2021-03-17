@@ -10,7 +10,7 @@
 
 class PeriodicPublishThreadInfo {
     // Info struct for PeriodicPublishThread (Heartbeat or other status data flow pattern)
-    // (tms Microgrid Standard section 4.9.2.1)
+    // (tms Microgrid Standard section 4.9.2.1 - Status Flow Pattern)
     // After enabled will send topic at a fixed rate
     public:
         PeriodicPublishThreadInfo(enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod);
@@ -20,7 +20,6 @@ class PeriodicPublishThreadInfo {
 
         DDSDynamicDataWriter * writer;
         DDS_DynamicData * periodicData;
-		bool * run_flag;
         bool enabled;
     private:
         DDS_Duration_t myRatePeriod;
@@ -28,10 +27,28 @@ class PeriodicPublishThreadInfo {
 };
 void*  pthreadToPeriodicPublish(void  * periodic_publish_info);
 
+class ChangeStatePublishThreadInfo {
+    // Info struct for Change of State PublishThread 
+    // (tms Microgrid Standard section 4.9.2.1 Status Flow)
+    // This pattern is a broader version of the periodic publish pattern
+    // Here a trigger or DDS guard condition is triggered externally which 
+    // unblocks the thread
+    // After enabled will send topic at a fixed rate
+    public:
+        ChangeStatePublishThreadInfo(enum TOPICS_E topicEnum);  // pass in trigger event
+        std::string me();  // returns my name from global name array indexed by topic_enum
+        enum TOPICS_E topic_enum();
+
+        DDSDynamicDataWriter * writer;
+        bool enabled;
+    private:
+        enum TOPICS_E myTopicEnum;
+};
+void*  pthreadToChangeStatePublish(void  * periodic_publish_info);
 
 class RcvCmdRqstIssueRqstRspnsThreadInfo {
     // Info struct for RcvCmdRqstIssueRqstRspnsThread
-    // (tms Microgrid Standard section 4.9.2.2)
+    // (tms Microgrid Standard section 4.9.2.2 - Request/Response Pattern)
     // Receives command and issues tms.RequestResponse Topic
     public:
         RcvCmdRqstIssueRqstRspnsThreadInfo(enum TOPICS_E topicEnum);
@@ -39,7 +56,6 @@ class RcvCmdRqstIssueRqstRspnsThreadInfo {
         enum TOPICS_E topic_enum();
 
         DDSDynamicDataReader * reader;
-		bool * run_flag;
     private:
         enum TOPICS_E myTopicEnum;
 };
@@ -54,7 +70,6 @@ class ReaderThreadInfo {
         enum TOPICS_E topic_enum();
 
         DDSDynamicDataReader * reader;
-		bool * run_flag;
     private:
         enum TOPICS_E myTopicEnum;
 };
@@ -73,7 +88,6 @@ class WriterEventsThreadInfo {
         enum TOPICS_E topic_enum();
 
         DDSDynamicDataWriter * writer;
-		bool * run_flag;
     private:
         enum TOPICS_E myTopicEnum;
 };
