@@ -134,14 +134,16 @@ void*  pthreadToProcReaderEvents(void *reader_thread_info) {
 }
 
 // eriodicPublishThreadInfo member functions
-PeriodicPublishThreadInfo::PeriodicPublishThreadInfo (std::string writerName, DDS_Duration_t ratePeriod) 
+PeriodicPublishThreadInfo::PeriodicPublishThreadInfo (enum TOPICS_E topicEnum, std::string writerName, DDS_Duration_t ratePeriod) 
         {
             myName = writerName;
             enabled = false; //initialize disabled
             myRatePeriod = ratePeriod;
+            myTopicEnum = topicEnum;
         }
 
 DDS_Duration_t PeriodicPublishThreadInfo::pubRatePeriod() { return myRatePeriod; };
+enum TOPICS_E PeriodicPublishThreadInfo::topic_enum() {return myTopicEnum; };
 
 std::string PeriodicPublishThreadInfo::me(){ return myName; }
 
@@ -182,9 +184,16 @@ void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
         retcode = waitset->wait(active_conditions_seq, myPeriodicPublishThreadInfo->pubRatePeriod());
         /* We get to timeout if no conditions were triggered */
         if (retcode == DDS_RETCODE_TIMEOUT) {
-            // *** ToDo check enabled and publish periodic topic here
-            printf("Writer thread: Wait timed out!! No conditions were triggered.\n");
-            continue;
+            if (myPeriodicPublishThreadInfo->enabled) {
+                switch (myPeriodicPublishThreadInfo->topic_enum()) {
+                    case  tms_TOPIC_HEARTBEAT_E: 
+                        std::cout << "Periodic Writer - Heartbeat" << std::endl;
+                    default: 
+                        std::cout << "Periodic Writer - default topic fall through" << std::endl;
+                        break;
+                }
+            }
+            continue; // no need to process active conditions if timeout
         } else if (retcode != DDS_RETCODE_OK) {
             printf("Writer thread: wait returned error: %d\n", retcode);
             goto end_writer_thread;

@@ -1,6 +1,8 @@
 #ifndef tmsCommPatterns_h
 #define tmsCommPatterns_h
 
+#include "tmsTopicEnum.h"
+
 /* This Interface provides threads for tms Communications Patterns
    (tms Microgrid Standard section 4.9.2)
 */
@@ -10,9 +12,10 @@ class PeriodicPublishThreadInfo {
     // (tms Microgrid Standard section 4.9.2.1)
     // After enabled will send topic at a fixed rate
     public:
-        PeriodicPublishThreadInfo(std::string readerName, DDS_Duration_t ratePeriod);
+        PeriodicPublishThreadInfo(enum TOPICS_E topicEnum, std::string readerName, DDS_Duration_t ratePeriod);
         std::string me();
         DDS_Duration_t pubRatePeriod();
+        enum TOPICS_E topic_enum();
 
         DDSDynamicDataWriter * writer;
 		bool * run_flag;
@@ -20,6 +23,7 @@ class PeriodicPublishThreadInfo {
     private:
         std::string myName;
         DDS_Duration_t myRatePeriod;
+        enum TOPICS_E myTopicEnum;
 };
 void*  pthreadToPeriodicPublish(void  * periodic_publish_info);
 

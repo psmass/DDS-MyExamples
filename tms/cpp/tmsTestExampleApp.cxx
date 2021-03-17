@@ -19,6 +19,7 @@
 #include "ndds/ndds_cpp.h"
 #include <pthread.h>
 #include "tmsTestExample.h" // This file was created by rticodegen from the official TMS datamodel
+#include "tmsTopicEnum.h"
 #include "tmsCommPatterns.h"
 
 static bool run_flag = true;
@@ -83,6 +84,7 @@ extern "C" int tms_app_main(int sample_count) {
 	DDSDynamicDataReader * microgrid_membership_outcome_reader = NULL;
     DDS_DynamicData * product_info_data = NULL;
     DDS_DynamicData * microgrid_membership_request_data = NULL;
+    DDS_DynamicData * heartbeat_data = NULL;
     DDS_ReturnCode_t retcode;
 
     char this_device_id [tms_LEN_Fingerprint] = \
@@ -92,7 +94,7 @@ extern "C" int tms_app_main(int sample_count) {
     DDS_Duration_t send_period = {1,0};
 
     // Declare Reader and Writer thread Information structs
-    PeriodicPublishThreadInfo * myHeartbeatThreadInfo = new PeriodicPublishThreadInfo(tms_TOPIC_HEARTBEAT, send_period);
+    PeriodicPublishThreadInfo * myHeartbeatThreadInfo = new PeriodicPublishThreadInfo(tms_TOPIC_HEARTBEAT_E, tms_TOPIC_HEARTBEAT, send_period);
     WriterEventsThreadInfo * myDeviceAnnouncementEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_DEVICE_ANNOUNCEMENT); 
 	WriterEventsThreadInfo * myMicrogridMembershipRequestEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST); 
     ReaderThreadInfo * myMicrogridMembershipOutcomeReaderThreadInfo = new ReaderThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_OUTCOME);
@@ -113,6 +115,9 @@ extern "C" int tms_app_main(int sample_count) {
     std::cout << "Successfully Created Tactical Microgrid Participant from the System Designer config file"
      << std::endl << std::flush;
 
+
+    // To Do: create an array of writers w/data handles indexed by enum topic
+    // and itterate getting writer handles - same with reader handles 
     heartbeat_writer = DDSDynamicDataWriter::narrow(
         participant->lookup_datawriter_by_name("TMS_Publisher1::HeartbeatTopicWriter"));
     if (heartbeat_writer  == NULL) {
@@ -123,7 +128,6 @@ extern "C" int tms_app_main(int sample_count) {
     std::cout << "Successfully Found: TMS_Publisher1::HeartbeatTopicWriter" 
     << std::endl << std::flush;
 
-    
 	device_announcement_writer = DDSDynamicDataWriter::narrow(
         participant->lookup_datawriter_by_name("TMS_Publisher1::DeviceAnnouncementTopicWriter"));
     if (device_announcement_writer  == NULL) {
@@ -166,9 +170,22 @@ extern "C" int tms_app_main(int sample_count) {
     std::cout << "Successfully created: product_info_data topic w/device announcemenet writer" 
     << std::endl << std::flush;  
 
+    heartbeat_data = heartbeat_writer->create_data(DDS_DYNAMIC_DATA_PROPERTY_DEFAULT);
+    if (heartbeat_data == NULL) {
+        std::cerr << "heartbeat: create_data error"
+        << retcode << std::endl << std::flush;
+		goto tms_app_main_end;
+    } 
+
+    std::cout << "Successfully created: heartbeat_data topic w/device announcemenet writer" 
+    << std::endl << std::flush;  
+
 	// Turn up a Writher threads - these do nothing but hang on events (no data)
+    // Like to put the following in an itterator creating all the pthreads but the 
+    // topicThreadInfo's are somewhat different depending upon the communications pattern
     myHeartbeatThreadInfo->writer = heartbeat_writer;
 	myHeartbeatThreadInfo->run_flag = &run_flag;
+    myHeartbeatThreadInfo->enabled=true; // enable topic to be published
     pthread_t whb_tid; // writer device_announcement tid
     pthread_create(&whb_tid, NULL, pthreadToPeriodicPublish, (void*) myHeartbeatThreadInfo);
 
@@ -187,10 +204,12 @@ extern "C" int tms_app_main(int sample_count) {
     pthread_t rmmo_tid; // writer microgrid_membership_outcome tid
     pthread_create(&rmmo_tid, NULL, pthreadToProcReaderEvents, (void*) myMicrogridMembershipOutcomeReaderThreadInfo);
     
+    NDDSUtility::sleep(send_period); // wait a second for threads to print
+
 
     /* Pushblish one-time topics here - QoS is likely keep last, with durability set to transient local to allow late joiners
-       to get these announcments
-       */
+       to get these announcements
+    */
     std::cout <<  tms_TOPIC_DEVICE_ANNOUNCEMENT << ": " << this_device_id << std::endl;
 
     product_info_data->set_octet_array("deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
@@ -203,7 +222,7 @@ extern "C" int tms_app_main(int sample_count) {
     /* Main loop */
     while (run_flag) {
 
-        std::cout <<  tms_TOPIC_DEVICE_ANNOUNCEMENT << ": "<< count << std::endl << std::flush;
+        std::cout <<  tms_TOPIC_DEVICE_ANNOUNCEMENT << ": "<< this_device_id << std::endl << std::flush;
 
         product_info_data->set_octet_array("deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
         retcode = device_announcement_writer->write(* product_info_data, DDS_HANDLE_NIL);
