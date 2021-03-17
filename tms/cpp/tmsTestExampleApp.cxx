@@ -89,6 +89,7 @@ extern "C" int tms_app_main(int sample_count) {
 
     unsigned long long count = 0;  
     DDS_Duration_t send_period = {1,0};
+    DDS_Duration_t wait_period = {10,0};
 
     // Declare Reader and Writer thread Information structs
     PeriodicPublishThreadInfo * myHeartbeatThreadInfo = new PeriodicPublishThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, send_period);
@@ -242,6 +243,11 @@ extern "C" int tms_app_main(int sample_count) {
     tms_app_main_end:
     /* Delete all entities */
     std::cout << "Stopping - shutting down participant\n" << std::flush;
+
+    pthread_cancel(whb_tid); 
+    pthread_cancel(wda_tid); 
+    pthread_cancel(wmmr_tid); 
+    pthread_cancel(rmmo_tid); 
 
     return participant_shutdown(participant);
 }
