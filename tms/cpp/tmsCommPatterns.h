@@ -2,6 +2,7 @@
 #define tmsCommPatterns_h
 
 #include "tmsTopicEnum.h"
+#include "tmsTestExample.h"
 
 /* This Interface provides threads for tms Communications Patterns
    (tms Microgrid Standard section 4.9.2)
@@ -12,8 +13,8 @@ class PeriodicPublishThreadInfo {
     // (tms Microgrid Standard section 4.9.2.1)
     // After enabled will send topic at a fixed rate
     public:
-        PeriodicPublishThreadInfo(enum TOPICS_E topicEnum, std::string readerName, DDS_Duration_t ratePeriod);
-        std::string me();
+        PeriodicPublishThreadInfo(enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod);
+        std::string me();  // returns my name from global name array indexed by topic_enum
         DDS_Duration_t pubRatePeriod();
         enum TOPICS_E topic_enum();
 
@@ -21,7 +22,6 @@ class PeriodicPublishThreadInfo {
 		bool * run_flag;
         bool enabled;
     private:
-        std::string myName;
         DDS_Duration_t myRatePeriod;
         enum TOPICS_E myTopicEnum;
 };
@@ -33,13 +33,14 @@ class RcvCmdRqstIssueRqstRspnsThreadInfo {
     // (tms Microgrid Standard section 4.9.2.2)
     // Receives command and issues tms.RequestResponse Topic
     public:
-        RcvCmdRqstIssueRqstRspnsThreadInfo(std::string readerName);
+        RcvCmdRqstIssueRqstRspnsThreadInfo(enum TOPICS_E topicEnum);
         std::string me();
+        enum TOPICS_E topic_enum();
 
         DDSDynamicDataReader * reader;
 		bool * run_flag;
     private:
-        std::string myName;
+        enum TOPICS_E myTopicEnum;
 };
 void*  pthreadToRcvCmdRqstIssueRqstRspns(void  * waitsetReaderInfo);
 
@@ -47,13 +48,14 @@ void*  pthreadToRcvCmdRqstIssueRqstRspns(void  * waitsetReaderInfo);
 class ReaderThreadInfo {
     // holds waitset info needed for the Reader waitset processing thread
     public:
-        ReaderThreadInfo(std::string readerName);
+        ReaderThreadInfo(enum TOPICS_E topicEnum);
         std::string me();
+        enum TOPICS_E topic_enum();
 
         DDSDynamicDataReader * reader;
 		bool * run_flag;
     private:
-        std::string myName;
+        enum TOPICS_E myTopicEnum;
 };
 void*  pthreadToProcReaderEvents(void  * readerThreadInfo);
 
@@ -65,13 +67,14 @@ class WriterEventsThreadInfo {
     // This struct holds info needed for the pthread for
     // writer waitset events (no data) processing 
     public:
-        WriterEventsThreadInfo(std::string writerName);
+        WriterEventsThreadInfo(enum TOPICS_E topicEnum);
         std::string me();
+        enum TOPICS_E topic_enum();
 
         DDSDynamicDataWriter * writer;
 		bool * run_flag;
     private:
-        std::string myName;
+        enum TOPICS_E myTopicEnum;
 };
 void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo);
 

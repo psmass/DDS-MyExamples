@@ -3,7 +3,6 @@
 #ifndef tmsTopicEnum_h
 #define tmsTopicEnum_h
 
-// This is manually created from tmsTestExample.h with an added _E
 enum TOPICS_E { 
     tms_TOPIC_ACTIVE_DIAGNOSTICS_E,
     tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_OUTCOME_E,
@@ -56,8 +55,8 @@ enum TOPICS_E {
     tms_TOPIC_STORAGE_CONTROL_REQUEST_E,
     tms_TOPIC_STORAGE_CONTROL_STATUS_E,
     tms_TOPIC_STORAGE_INFO_E,
-    tms_TOPIC_STORAGE_STATE_E
-
+    tms_TOPIC_STORAGE_STATE_E,
+    tms_TOPIC_LAST_SENTINEL_E
 };
 
 

@@ -10,12 +10,14 @@
 #include "tmsCommPatterns.h"
 
 
-ReaderThreadInfo::ReaderThreadInfo(std::string readerName) 
+ReaderThreadInfo::ReaderThreadInfo(enum TOPICS_E topicEnum) 
         {
-            myName = readerName;
+            myTopicEnum = topicEnum;
         }
 
-std::string ReaderThreadInfo::me(){ return myName; }
+std::string ReaderThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
+enum TOPICS_E ReaderThreadInfo::topic_enum() { return myTopicEnum; };
+
 
 void*  pthreadToProcReaderEvents(void *reader_thread_info) {
     ReaderThreadInfo * myReaderThreadInfo;
@@ -134,9 +136,8 @@ void*  pthreadToProcReaderEvents(void *reader_thread_info) {
 }
 
 // eriodicPublishThreadInfo member functions
-PeriodicPublishThreadInfo::PeriodicPublishThreadInfo (enum TOPICS_E topicEnum, std::string writerName, DDS_Duration_t ratePeriod) 
+PeriodicPublishThreadInfo::PeriodicPublishThreadInfo (enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod) 
         {
-            myName = writerName;
             enabled = false; //initialize disabled
             myRatePeriod = ratePeriod;
             myTopicEnum = topicEnum;
@@ -145,7 +146,7 @@ PeriodicPublishThreadInfo::PeriodicPublishThreadInfo (enum TOPICS_E topicEnum, s
 DDS_Duration_t PeriodicPublishThreadInfo::pubRatePeriod() { return myRatePeriod; };
 enum TOPICS_E PeriodicPublishThreadInfo::topic_enum() {return myTopicEnum; };
 
-std::string PeriodicPublishThreadInfo::me(){ return myName; }
+std::string PeriodicPublishThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
 
 void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
 	PeriodicPublishThreadInfo * myPeriodicPublishThreadInfo;
@@ -188,6 +189,7 @@ void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
                 switch (myPeriodicPublishThreadInfo->topic_enum()) {
                     case  tms_TOPIC_HEARTBEAT_E: 
                         std::cout << "Periodic Writer - Heartbeat" << std::endl;
+                        break;
                     default: 
                         std::cout << "Periodic Writer - default topic fall through" << std::endl;
                         break;
@@ -227,12 +229,13 @@ void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
 
 
 // WriterEventsThreadInfo member functions
-WriterEventsThreadInfo::WriterEventsThreadInfo(std::string writerName) 
+WriterEventsThreadInfo::WriterEventsThreadInfo(enum TOPICS_E topicEnum) 
         {
-            myName = writerName;
+            myTopicEnum = topicEnum;
         }
 
-std::string WriterEventsThreadInfo::me(){ return myName; }
+std::string WriterEventsThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
+enum TOPICS_E WriterEventsThreadInfo::topic_enum() {return myTopicEnum; };
 
 
 void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo) {
