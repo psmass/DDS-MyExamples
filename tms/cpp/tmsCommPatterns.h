@@ -19,6 +19,7 @@ class PeriodicPublishThreadInfo {
         enum TOPICS_E topic_enum();
 
         DDSDynamicDataWriter * writer;
+        DDS_DynamicData * periodicData;
 		bool * run_flag;
         bool enabled;
     private:

@@ -187,8 +187,9 @@ void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
         if (retcode == DDS_RETCODE_TIMEOUT) {
             if (myPeriodicPublishThreadInfo->enabled) {
                 switch (myPeriodicPublishThreadInfo->topic_enum()) {
-                    case  tms_TOPIC_HEARTBEAT_E: 
+                    case  tms_TOPIC_HEARTBEAT_ENUM: 
                         std::cout << "Periodic Writer - Heartbeat" << std::endl;
+                        myPeriodicPublishThreadInfo->writer->write(* myPeriodicPublishThreadInfo->periodicData, DDS_HANDLE_NIL);
                         break;
                     default: 
                         std::cout << "Periodic Writer - default topic fall through" << std::endl;

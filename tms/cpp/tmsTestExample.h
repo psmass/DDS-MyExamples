@@ -138,7 +138,7 @@ typedef    DDS_Char *   tms_TopicName ;
 #define tms_TOPIC_STORAGE_INFO_NAME "StorageInfo"
 #define tms_TOPIC_STORAGE_STATE_NAME "StorageState"
 
-static const char topic_name_array [tms_TOPIC_LAST_SENTINEL_E][tms_MAXLEN_TopicName] = {
+static const char topic_name_array [tms_TOPIC_LAST_SENTINEL_ENUM][tms_MAXLEN_TopicName] = {
     tms_TOPIC_ACTIVE_DIAGNOSTICS_NAME,
     tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_OUTCOME_NAME,
     tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_REQUEST_NAME,

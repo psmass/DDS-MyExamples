@@ -19,7 +19,6 @@
 #include "ndds/ndds_cpp.h"
 #include <pthread.h>
 #include "tmsTestExample.h" // This file was created by rticodegen from the official TMS datamodel
-//#include "tmsTopicEnum.h"
 #include "tmsCommPatterns.h"
 
 static bool run_flag = true;
@@ -85,9 +84,7 @@ extern "C" int tms_app_main(int sample_count) {
     DDS_DynamicData * product_info_data = NULL;
     DDS_DynamicData * microgrid_membership_request_data = NULL;
     DDS_DynamicData * heartbeat_data = NULL;
-    DDS_ReturnCode_t retcode;
-
-    std::cout << topic_name_array[tms_TOPIC_HEARTBEAT_E] << std::endl;
+    DDS_ReturnCode_t retcode, retcode1;
 
     char this_device_id [tms_LEN_Fingerprint] = \
         {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1','2','3','4'};
@@ -96,10 +93,10 @@ extern "C" int tms_app_main(int sample_count) {
     DDS_Duration_t send_period = {1,0};
 
     // Declare Reader and Writer thread Information structs
-    PeriodicPublishThreadInfo * myHeartbeatThreadInfo = new PeriodicPublishThreadInfo(tms_TOPIC_HEARTBEAT_E, send_period);
-    WriterEventsThreadInfo * myDeviceAnnouncementEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_DEVICE_ANNOUNCEMENT_E); 
-	WriterEventsThreadInfo * myMicrogridMembershipRequestEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_E); 
-    ReaderThreadInfo * myMicrogridMembershipOutcomeReaderThreadInfo = new ReaderThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_OUTCOME_E);
+    PeriodicPublishThreadInfo * myHeartbeatThreadInfo = new PeriodicPublishThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, send_period);
+    WriterEventsThreadInfo * myDeviceAnnouncementEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_DEVICE_ANNOUNCEMENT_ENUM); 
+	WriterEventsThreadInfo * myMicrogridMembershipRequestEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_ENUM); 
+    ReaderThreadInfo * myMicrogridMembershipOutcomeReaderThreadInfo = new ReaderThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_OUTCOME_ENUM);
 
     /* To customize participant QoS, use 
     the configuration file USER_QOS_PROFILES.xml */
@@ -188,6 +185,7 @@ extern "C" int tms_app_main(int sample_count) {
     myHeartbeatThreadInfo->writer = heartbeat_writer;
 	myHeartbeatThreadInfo->run_flag = &run_flag;
     myHeartbeatThreadInfo->enabled=true; // enable topic to be published
+    myHeartbeatThreadInfo->periodicData=heartbeat_data; 
     pthread_t whb_tid; // writer device_announcement tid
     pthread_create(&whb_tid, NULL, pthreadToPeriodicPublish, (void*) myHeartbeatThreadInfo);
 
@@ -217,9 +215,18 @@ extern "C" int tms_app_main(int sample_count) {
     product_info_data->set_octet_array("deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
     retcode = device_announcement_writer->write(* product_info_data, DDS_HANDLE_NIL);
     if (retcode != DDS_RETCODE_OK) {
-        std::cerr << "writer: write error " << std::endl << std::flush;
+        std::cerr << "product_info: Dynamic Data Set Error " << std::endl << std::flush;
         goto tms_app_main_end;
     }
+ 
+    
+    retcode = heartbeat_data->set_octet_array("deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
+    retcode1 = heartbeat_data->set_ulong("sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, count);
+    if (retcode != DDS_RETCODE_OK || retcode1 != DDS_RETCODE_OK ) {
+        std::cerr << "heartbeat: Dynamic Data Set Error" << std::endl << std::flush;
+        goto tms_app_main_end;
+    }
+ 
 
     /* Main loop */
     while (run_flag) {
@@ -227,6 +234,14 @@ extern "C" int tms_app_main(int sample_count) {
         std::cout << ". "; // background idle
         // Do your stuff here to interact CAN to DDS (i.e. get devices state and
         // load DDS topics, set change triggers etc.)
+        
+        count++;
+       
+        retcode = heartbeat_data->set_ulong("sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, count);
+        if (retcode != DDS_RETCODE_OK) {
+            std::cerr << "heartbeat: Dynamic Data Set Error" << std::endl << std::flush;
+            break;
+        }
 
         NDDSUtility::sleep(send_period);
     }
