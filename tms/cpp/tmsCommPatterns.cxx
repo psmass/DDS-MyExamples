@@ -314,29 +314,31 @@ void*  pthreadToChangeStatePublish(void  * change_state_publish_thread_info) {
                     << st.current_count << "  " << st.current_count_change << std::endl;
                 }
             } else if (active_conditions_seq[i] == myChangeStatePublishThreadInfo->my_guard_condition()) {
-                switch (myChangeStatePublishThreadInfo->topic_enum()) {
-                    case  tms_TOPIC_HEARTBEAT_ENUM: 
-                        // get sequence number for display
-                        DDS_UnsignedLong mySeqNum; // sequence is set/incremented in main loop where the condit trigger is set
-                        retcode = myChangeStatePublishThreadInfo->changeStateData-> \
-                            get_ulong(mySeqNum, "sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED);
-                        if (retcode != DDS_RETCODE_OK) {
-                            printf("Change State thread: get_data error\n");
-                            goto end_change_state_thread;
-                        }
-                        std::cout << "Change State Writer - Heartbeat " <<  mySeqNum << std::endl;
+                if (myChangeStatePublishThreadInfo->enabled) {
+                    switch (myChangeStatePublishThreadInfo->topic_enum()) {
+                        case  tms_TOPIC_HEARTBEAT_ENUM: 
+                            // get sequence number for display
+                            DDS_UnsignedLong mySeqNum; // sequence is set/incremented in main loop where the condit trigger is set
+                            retcode = myChangeStatePublishThreadInfo->changeStateData-> \
+                                get_ulong(mySeqNum, "sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED);
+                            if (retcode != DDS_RETCODE_OK) {
+                                printf("Change State thread: get_data error\n");
+                                goto end_change_state_thread;
+                            }
+                            std::cout << "Change State Writer - Heartbeat " <<  mySeqNum << std::endl;
 
-                        myChangeStatePublishThreadInfo->writer->write(* myChangeStatePublishThreadInfo->changeStateData, DDS_HANDLE_NIL);
-                        // Need to set this false after processing - else it just retriggers immediately
-                        retcode = myChangeStatePublishThreadInfo->my_guard_condition()->set_trigger_value(DDS_BOOLEAN_FALSE);
-                        if (retcode != DDS_RETCODE_OK) {
-                            printf("Change State thread: set_enabled_guard error\n");
-                            goto end_change_state_thread;
-                        }
-                        break;
-                    default: 
-                        std::cout << "Change State Writer - default topic fall through" << std::endl;
-                        break;
+                            myChangeStatePublishThreadInfo->writer->write(* myChangeStatePublishThreadInfo->changeStateData, DDS_HANDLE_NIL);
+                            // Need to set this false after processing - else it just retriggers immediately
+                            retcode = myChangeStatePublishThreadInfo->my_guard_condition()->set_trigger_value(DDS_BOOLEAN_FALSE);
+                            if (retcode != DDS_RETCODE_OK) {
+                                printf("Change State thread: set_enabled_guard error\n");
+                                goto end_change_state_thread;
+                            }
+                            break;
+                        default: 
+                            std::cout << "Change State Writer - default topic fall through" << std::endl;
+                            break;
+                    }
                 }
             } else {
                 // writers can only have status condition

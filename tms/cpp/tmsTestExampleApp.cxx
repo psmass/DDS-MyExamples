@@ -84,7 +84,7 @@ extern "C" int tms_app_main(int sample_count) {
     DDS_DynamicData * heartbeat_data = NULL;
     DDS_ReturnCode_t retcode, retcode1;
      
-    DDSGuardCondition guardHeartbeat;
+    DDSGuardCondition changeStateHeartbeat;
 
     char this_device_id [tms_LEN_Fingerprint] = \
         {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1','2','3','4'};
@@ -94,7 +94,7 @@ extern "C" int tms_app_main(int sample_count) {
 
     // Declare Reader and Writer thread Information structs
     PeriodicPublishThreadInfo * myHeartbeatThreadInfo = new PeriodicPublishThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, send_period);
-    ChangeStatePublishThreadInfo * myGuardHeartbeatThreadInfo = new ChangeStatePublishThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, &guardHeartbeat);
+    ChangeStatePublishThreadInfo * myChangeStateHeartbeatThreadInfo = new ChangeStatePublishThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, &changeStateHeartbeat);
     WriterEventsThreadInfo * myDeviceAnnouncementEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_DEVICE_ANNOUNCEMENT_ENUM); 
 	WriterEventsThreadInfo * myMicrogridMembershipRequestEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_ENUM); 
     ReaderThreadInfo * myMicrogridMembershipOutcomeReaderThreadInfo = new ReaderThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_OUTCOME_ENUM);
@@ -189,11 +189,11 @@ extern "C" int tms_app_main(int sample_count) {
     pthread_t whb_tid; // writer device_announcement tid
     pthread_create(&whb_tid, NULL, pthreadToPeriodicPublish, (void*) myHeartbeatThreadInfo);
 
-    myGuardHeartbeatThreadInfo->writer = heartbeat_writer;
-    myGuardHeartbeatThreadInfo->enabled=true; // enable topic to be published
-    myGuardHeartbeatThreadInfo->changeStateData=heartbeat_data; 
+    myChangeStateHeartbeatThreadInfo->writer = heartbeat_writer;
+    myChangeStateHeartbeatThreadInfo->enabled=true; // enable topic to be published
+    myChangeStateHeartbeatThreadInfo->changeStateData=heartbeat_data; 
     pthread_t whbc_tid; // writer device_announcement tid
-    pthread_create(&whbc_tid, NULL, pthreadToChangeStatePublish, (void*) myGuardHeartbeatThreadInfo);
+    pthread_create(&whbc_tid, NULL, pthreadToChangeStatePublish, (void*) myChangeStateHeartbeatThreadInfo);
 
     myDeviceAnnouncementEventThreadInfo->writer = device_announcement_writer;
     pthread_t wda_tid; // writer device_announcement tid
@@ -229,22 +229,24 @@ extern "C" int tms_app_main(int sample_count) {
         goto tms_app_main_end;
     }
 
+    NDDSUtility::sleep(send_period); // Optional - to let periodic writer go first
+
     /* Main loop */
     while (run_flag) {
 
         std::cout << ". "; // background idle
         // Do your stuff here to interact CAN to DDS (i.e. get devices state and
         // load DDS topics, set change triggers etc.)
-        
-        count++;
-       
-        retcode = guardHeartbeat.set_trigger_value(DDS_BOOLEAN_TRUE);
+    
+        // Demo only - normally change value in statement prior to trigger - but heartbeat is also running periodically
+        retcode = changeStateHeartbeat.set_trigger_value(DDS_BOOLEAN_TRUE);
         if (retcode != DDS_RETCODE_OK) {
-            std::cerr << "Main Heartbeat: set_enabled_guard error\n" << std::endl << std::flush;
+            std::cerr << "Main Heartbeat: set_trigger condition error\n" << std::endl << std::flush;
             break;
         }
 
         NDDSUtility::sleep(send_period);  // remove eventually 
+
     }
 
     tms_app_main_end:
