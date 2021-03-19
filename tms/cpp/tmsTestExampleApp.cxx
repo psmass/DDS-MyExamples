@@ -260,7 +260,7 @@ extern "C" int tms_app_main(int sample_count) {
     std::cout << "Stopping - shutting down participant\n" << std::flush;
 
     pthread_cancel(whb_tid); 
-    //pthread_cancel(whbc_tid); 
+    pthread_cancel(whbc_tid); 
     pthread_cancel(wda_tid); 
     pthread_cancel(wmmr_tid); 
     pthread_cancel(rmmo_tid); 

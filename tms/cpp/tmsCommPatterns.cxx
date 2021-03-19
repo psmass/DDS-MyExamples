@@ -311,7 +311,7 @@ void*  pthreadToChangeStatePublish(void  * change_state_publish_thread_info) {
                     case  tms_TOPIC_HEARTBEAT_ENUM: 
                         std::cout << "Change State Writer - Heartbeat" << std::endl;
                         myChangeStatePublishThreadInfo->writer->write(* myChangeStatePublishThreadInfo->changeStateData, DDS_HANDLE_NIL);
-                        // Set enabled statuses
+                        // Need to set this false after processing - else it just retriggers immediately
                         retcode = myChangeStatePublishThreadInfo->my_guard_condition()->set_trigger_value(DDS_BOOLEAN_FALSE);
                         if (retcode != DDS_RETCODE_OK) {
                             printf("Change State thread: set_enabled_guard error\n");

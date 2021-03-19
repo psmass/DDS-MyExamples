@@ -17,7 +17,6 @@ class PeriodicPublishThreadInfo {
     // (tms Microgrid Standard section 4.9.2.1 - Status Flow Pattern)
     // After enabled will send topic at a fixed rate
     // ** NOTE ** This pattern to be deprecated in favor of ChangeStatePublish pattern
-    // as soon as I figure out how to implement a DDS Guard Conditon:-)
     public:
         PeriodicPublishThreadInfo(enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod);
         std::string me();  // returns my name from global name array indexed by topic_enum
