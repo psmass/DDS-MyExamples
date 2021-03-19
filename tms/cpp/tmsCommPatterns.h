@@ -41,14 +41,17 @@ class ChangeStatePublishThreadInfo {
     // unblocks the thread
     // After enabled will send topic at a fixed rate
     public:
-        ChangeStatePublishThreadInfo(enum TOPICS_E topicEnum);  // pass in trigger event
+        ChangeStatePublishThreadInfo(enum TOPICS_E topicEnum, DDSGuardCondition *guard_condition);  // pass in trigger event
         std::string me();  // returns my name from global name array indexed by topic_enum
         enum TOPICS_E topic_enum();
+        DDSGuardCondition* my_guard_condition();
 
         DDSDynamicDataWriter * writer;
+        DDS_DynamicData * changeStateData;
         bool enabled;
     private:
         enum TOPICS_E myTopicEnum;
+        DDSGuardCondition *myGuardCondition;
 };
 void*  pthreadToChangeStatePublish(void  * periodic_publish_info);
 

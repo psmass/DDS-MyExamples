@@ -83,6 +83,8 @@ extern "C" int tms_app_main(int sample_count) {
     DDS_DynamicData * microgrid_membership_request_data = NULL;
     DDS_DynamicData * heartbeat_data = NULL;
     DDS_ReturnCode_t retcode, retcode1;
+     
+    DDSGuardCondition guardHeartbeat;
 
     char this_device_id [tms_LEN_Fingerprint] = \
         {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1','2','3','4'};
@@ -92,6 +94,7 @@ extern "C" int tms_app_main(int sample_count) {
 
     // Declare Reader and Writer thread Information structs
     PeriodicPublishThreadInfo * myHeartbeatThreadInfo = new PeriodicPublishThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, send_period);
+    ChangeStatePublishThreadInfo * myGuardHeartbeatThreadInfo = new ChangeStatePublishThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, &guardHeartbeat);
     WriterEventsThreadInfo * myDeviceAnnouncementEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_DEVICE_ANNOUNCEMENT_ENUM); 
 	WriterEventsThreadInfo * myMicrogridMembershipRequestEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_ENUM); 
     ReaderThreadInfo * myMicrogridMembershipOutcomeReaderThreadInfo = new ReaderThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_OUTCOME_ENUM);
@@ -186,6 +189,12 @@ extern "C" int tms_app_main(int sample_count) {
     pthread_t whb_tid; // writer device_announcement tid
     pthread_create(&whb_tid, NULL, pthreadToPeriodicPublish, (void*) myHeartbeatThreadInfo);
 
+    myGuardHeartbeatThreadInfo->writer = heartbeat_writer;
+    myGuardHeartbeatThreadInfo->enabled=true; // enable topic to be published
+    myGuardHeartbeatThreadInfo->changeStateData=heartbeat_data; 
+    pthread_t whbc_tid; // writer device_announcement tid
+    pthread_create(&whbc_tid, NULL, pthreadToChangeStatePublish, (void*) myGuardHeartbeatThreadInfo);
+
     myDeviceAnnouncementEventThreadInfo->writer = device_announcement_writer;
     pthread_t wda_tid; // writer device_announcement tid
     pthread_create(&wda_tid, NULL, pthreadToProcWriterEvents, (void*) myDeviceAnnouncementEventThreadInfo);
@@ -219,7 +228,6 @@ extern "C" int tms_app_main(int sample_count) {
         std::cerr << "heartbeat: Dynamic Data Set Error" << std::endl << std::flush;
         goto tms_app_main_end;
     }
- 
 
     /* Main loop */
     while (run_flag) {
@@ -238,6 +246,12 @@ extern "C" int tms_app_main(int sample_count) {
             break;
         }
 
+        retcode = guardHeartbeat.set_trigger_value(DDS_BOOLEAN_TRUE);
+        if (retcode != DDS_RETCODE_OK) {
+            printf("Main Heartbeat: set_enabled_guard error\n");
+            break;
+        }
+
         NDDSUtility::sleep(send_period);
     }
 
@@ -246,6 +260,7 @@ extern "C" int tms_app_main(int sample_count) {
     std::cout << "Stopping - shutting down participant\n" << std::flush;
 
     pthread_cancel(whb_tid); 
+    //pthread_cancel(whbc_tid); 
     pthread_cancel(wda_tid); 
     pthread_cancel(wmmr_tid); 
     pthread_cancel(rmmo_tid); 
