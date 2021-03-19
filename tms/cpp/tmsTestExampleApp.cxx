@@ -89,7 +89,6 @@ extern "C" int tms_app_main(int sample_count) {
 
     unsigned long long count = 0;  
     DDS_Duration_t send_period = {1,0};
-    DDS_Duration_t wait_period = {10,0};
 
     // Declare Reader and Writer thread Information structs
     PeriodicPublishThreadInfo * myHeartbeatThreadInfo = new PeriodicPublishThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, send_period);
@@ -231,6 +230,8 @@ extern "C" int tms_app_main(int sample_count) {
         
         count++;
        
+         // To Do - replace (deprecate) periodic pattern with triggered pattern 
+         // background sleep period can 'beat with' set  periodic rate
         retcode = heartbeat_data->set_ulong("sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, count);
         if (retcode != DDS_RETCODE_OK) {
             std::cerr << "heartbeat: Dynamic Data Set Error" << std::endl << std::flush;

@@ -140,6 +140,9 @@ typedef    DDS_Char *   tms_TopicName ;
 #define tms_TOPIC_STORAGE_INFO_NAME "StorageInfo"
 #define tms_TOPIC_STORAGE_STATE_NAME "StorageState"
 
+// To Do - make this an array of pointers to static const DDS_Char * const and deprecate
+// the #define move the topic_name_array declaration to a separate file so that this file
+// is used untainted from rticode gen.
 static const char topic_name_array [tms_TOPIC_LAST_SENTINEL_ENUM][tms_MAXLEN_TopicName] = {
     tms_TOPIC_ACTIVE_DIAGNOSTICS_NAME,
     tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_OUTCOME_NAME,

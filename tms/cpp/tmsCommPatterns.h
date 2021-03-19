@@ -6,12 +6,18 @@
 
 /* This Interface provides threads for tms Communications Patterns
    (tms Microgrid Standard section 4.9.2)
+
+   All Patterns monitor for Status conditions (refer to enum DDS_StatusKind). 
+   The ChangeState pattern also monitors Guard conditions to trigger a write.
+   The Request/reply and read will monitor On Data Available (read) and then write. 
 */
 
 class PeriodicPublishThreadInfo {
     // Info struct for PeriodicPublishThread (Heartbeat or other status data flow pattern)
     // (tms Microgrid Standard section 4.9.2.1 - Status Flow Pattern)
     // After enabled will send topic at a fixed rate
+    // ** NOTE ** This pattern to be deprecated in favor of ChangeStatePublish pattern
+    // as soon as I figure out how to implement a DDS Guard Conditon:-)
     public:
         PeriodicPublishThreadInfo(enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod);
         std::string me();  // returns my name from global name array indexed by topic_enum
@@ -49,7 +55,9 @@ void*  pthreadToChangeStatePublish(void  * periodic_publish_info);
 class RcvCmdRqstIssueRqstRspnsThreadInfo {
     // Info struct for RcvCmdRqstIssueRqstRspnsThread
     // (tms Microgrid Standard section 4.9.2.2 - Request/Response Pattern)
-    // Receives command and issues tms.RequestResponse Topic
+    // State machine to Receive a command request, issue a tms.RequestResponse
+    // and respond to the request (likely change the state of data associated
+    // with a topic and trigger a change - Opposite data patter to IssueCmdRqst)
     public:
         RcvCmdRqstIssueRqstRspnsThreadInfo(enum TOPICS_E topicEnum);
         std::string me();
@@ -61,6 +69,21 @@ class RcvCmdRqstIssueRqstRspnsThreadInfo {
 };
 void*  pthreadToRcvCmdRqstIssueRqstRspns(void  * waitsetReaderInfo);
 
+class IssueCmdRqstThreadInfo {
+    // Info struct for IssueCmdRqstThread
+    // (tms Microgrid Standard section 4.9.2.2 - Request/Response Pattern)
+    // State machine to issue a request recceive response & Requested info
+    // (opposite pattern to RcvCmdRqstIssueRqstRspns)
+    public:
+        IssueCmdRqstThreadInfo(enum TOPICS_E topicEnum);
+        std::string me();
+        enum TOPICS_E topic_enum();
+
+        DDSDynamicDataReader * reader;
+    private:
+        enum TOPICS_E myTopicEnum;
+};
+void*  pthreadToIssueCmdRqst(void  * waitsetReaderInfo);
 
 class ReaderThreadInfo {
     // holds waitset info needed for the Reader waitset processing thread
