@@ -154,6 +154,7 @@ void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
 	DDSWaitSet * waitset = waitset = new DDSWaitSet();;
     DDS_ReturnCode_t retcode;
     DDSConditionSeq active_conditions_seq;
+    long int seq_count = 0;
 
     std::cout << "\nCreated Periodic Publisher Pthread: " << myPeriodicPublishThreadInfo->me() << " Topic" << std::endl;
 
@@ -188,8 +189,14 @@ void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
             if (myPeriodicPublishThreadInfo->enabled) {
                 switch (myPeriodicPublishThreadInfo->topic_enum()) {
                     case  tms_TOPIC_HEARTBEAT_ENUM: 
-                        std::cout << "Periodic Writer - Heartbeat" << std::endl;
+                        std::cout << "Periodic Writer - Heartbeat " << seq_count << std::endl;
+                        retcode = myPeriodicPublishThreadInfo->periodicData->set_ulong("sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, seq_count);
+                        if (retcode != DDS_RETCODE_OK) {
+                            std::cerr << "heartbeat: Dynamic Data Set Error" << std::endl << std::flush;
+                            break;
+                        }
                         myPeriodicPublishThreadInfo->writer->write(* myPeriodicPublishThreadInfo->periodicData, DDS_HANDLE_NIL);
+                        seq_count++; // increment seq_count here so 1) it starts at 0 as prescribed by TMS, 2) changes once per write of heartbeat
                         break;
                     default: 
                         std::cout << "Periodic Writer - default topic fall through" << std::endl;
@@ -309,7 +316,16 @@ void*  pthreadToChangeStatePublish(void  * change_state_publish_thread_info) {
             } else if (active_conditions_seq[i] == myChangeStatePublishThreadInfo->my_guard_condition()) {
                 switch (myChangeStatePublishThreadInfo->topic_enum()) {
                     case  tms_TOPIC_HEARTBEAT_ENUM: 
-                        std::cout << "Change State Writer - Heartbeat" << std::endl;
+                        // get sequence number for display
+                        DDS_UnsignedLong mySeqNum; // sequence is set/incremented in main loop where the condit trigger is set
+                        retcode = myChangeStatePublishThreadInfo->changeStateData-> \
+                            get_ulong(mySeqNum, "sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED);
+                        if (retcode != DDS_RETCODE_OK) {
+                            printf("Change State thread: get_data error\n");
+                            goto end_change_state_thread;
+                        }
+                        std::cout << "Change State Writer - Heartbeat " <<  mySeqNum << std::endl;
+
                         myChangeStatePublishThreadInfo->writer->write(* myChangeStatePublishThreadInfo->changeStateData, DDS_HANDLE_NIL);
                         // Need to set this false after processing - else it just retriggers immediately
                         retcode = myChangeStatePublishThreadInfo->my_guard_condition()->set_trigger_value(DDS_BOOLEAN_FALSE);

@@ -238,21 +238,13 @@ extern "C" int tms_app_main(int sample_count) {
         
         count++;
        
-         // To Do - replace (deprecate) periodic pattern with triggered pattern 
-         // background sleep period can 'beat with' set  periodic rate
-        retcode = heartbeat_data->set_ulong("sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, count);
-        if (retcode != DDS_RETCODE_OK) {
-            std::cerr << "heartbeat: Dynamic Data Set Error" << std::endl << std::flush;
-            break;
-        }
-
         retcode = guardHeartbeat.set_trigger_value(DDS_BOOLEAN_TRUE);
         if (retcode != DDS_RETCODE_OK) {
-            printf("Main Heartbeat: set_enabled_guard error\n");
+            std::cerr << "Main Heartbeat: set_enabled_guard error\n" << std::endl << std::flush;
             break;
         }
 
-        NDDSUtility::sleep(send_period);
+        NDDSUtility::sleep(send_period);  // remove eventually 
     }
 
     tms_app_main_end:
