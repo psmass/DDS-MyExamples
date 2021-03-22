@@ -12,90 +12,19 @@
    The Request/reply and read will monitor On Data Available (read) and then write. 
 */
 
-class PeriodicPublishThreadInfo {
-    // Info struct for PeriodicPublishThread (Heartbeat or other status data flow pattern)
-    // (tms Microgrid Standard section 4.9.2.1 - Status Flow Pattern)
-    // After enabled will send topic at a fixed rate
-    public:
-        PeriodicPublishThreadInfo(enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod);
-        std::string me();  // returns my name from global name array indexed by topic_enum
-        DDS_Duration_t pubRatePeriod();
-        enum TOPICS_E topic_enum();
-
-        DDSDynamicDataWriter * writer;
-        DDS_DynamicData * periodicData;
-        bool enabled;
-    private:
-        DDS_Duration_t myRatePeriod;
-        enum TOPICS_E myTopicEnum;
-};
-void*  pthreadToPeriodicPublish(void  * periodic_publish_info);
-
-class ChangeStatePublishThreadInfo {
-    // Info struct for Change of State PublishThread 
-    // (tms Microgrid Standard section 4.9.2.1 Status Flow)
-    // This pattern is a broader version of the periodic publish pattern
-    // Here a trigger or DDS guard condition is triggered externally which 
-    // unblocks the thread
-    // After enabled will send topic at a fixed rate
-    public:
-        ChangeStatePublishThreadInfo(enum TOPICS_E topicEnum, DDSGuardCondition *guard_condition);  // pass in trigger event
-        std::string me();  // returns my name from global name array indexed by topic_enum
-        enum TOPICS_E topic_enum();
-        DDSGuardCondition* my_guard_condition();
-
-        DDSDynamicDataWriter * writer;
-        DDS_DynamicData * changeStateData;
-        bool enabled;
-    private:
-        enum TOPICS_E myTopicEnum;
-        DDSGuardCondition *myGuardCondition;
-};
-void*  pthreadToChangeStatePublish(void  * periodic_publish_info);
-
-class RcvCmdRqstIssueRqstRspnsThreadInfo {
-    // Info struct for RcvCmdRqstIssueRqstRspnsThread
-    // (tms Microgrid Standard section 4.9.2.2 - Request/Response Pattern)
-    // State machine to Receive a command request, issue a tms.RequestResponse
-    // and respond to the request (likely change the state of data associated
-    // with a topic and trigger a change - Opposite data patter to IssueCmdRqst)
-    public:
-        RcvCmdRqstIssueRqstRspnsThreadInfo(enum TOPICS_E topicEnum);
-        std::string me();
-        enum TOPICS_E topic_enum();
-
-        DDSDynamicDataReader * reader;
-    private:
-        enum TOPICS_E myTopicEnum;
-};
-void*  pthreadToRcvCmdRqstIssueRqstRspns(void  * waitsetReaderInfo);
-
-class IssueCmdRqstThreadInfo {
-    // Info struct for IssueCmdRqstThread
-    // (tms Microgrid Standard section 4.9.2.2 - Request/Response Pattern)
-    // State machine to issue a request recceive response & Requested info
-    // (opposite pattern to RcvCmdRqstIssueRqstRspns)
-    public:
-        IssueCmdRqstThreadInfo(enum TOPICS_E topicEnum);
-        std::string me();
-        enum TOPICS_E topic_enum();
-
-        DDSDynamicDataReader * reader;
-    private:
-        enum TOPICS_E myTopicEnum;
-};
-void*  pthreadToIssueCmdRqst(void  * waitsetReaderInfo);
-
 class ReaderThreadInfo {
     // holds waitset info needed for the Reader waitset processing thread
+    // C'tor has Echo Response flag to handle Rcv'd Command Requests and all
+    // Response 
     public:
-        ReaderThreadInfo(enum TOPICS_E topicEnum);
+        ReaderThreadInfo(enum TOPICS_E topicEnum, bool echoResponse = false);
         std::string me();
         enum TOPICS_E topic_enum();
 
         DDSDynamicDataReader * reader;
     private:
         enum TOPICS_E myTopicEnum;
+        bool echo_response; // used for received request topics
 };
 void*  pthreadToProcReaderEvents(void  * readerThreadInfo);
 
@@ -116,5 +45,48 @@ class WriterEventsThreadInfo {
         enum TOPICS_E myTopicEnum;
 };
 void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo);
+
+class PeriodicPublishThreadInfo {
+    // Info struct for PeriodicPublishThread (Heartbeat or other status data flow pattern)
+    // (tms Microgrid Standard section 4.9.2.1 - Status Flow Pattern)
+    // After enabled will send topic at a fixed rate
+    public:
+        PeriodicPublishThreadInfo(enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod);
+        std::string me();  // returns my name from global name array indexed by topic_enum
+        DDS_Duration_t pubRatePeriod();
+        enum TOPICS_E topic_enum();
+
+        DDSDynamicDataWriter * writer;
+        DDS_DynamicData * periodicData;
+        bool enabled;
+    private:
+        DDS_Duration_t myRatePeriod;
+        enum TOPICS_E myTopicEnum;
+};
+void*  pthreadPeriodicWriter(void  * periodic_writer_thread_info);
+
+class OnChangeWriterThreadInfo {
+    // Info struct for Change of State PublishThread 
+    // (tms Microgrid Standard section 4.9.2.1 Status Flow)
+    // This pattern is a broader version of the periodic publish pattern
+    // Here a trigger or DDS guard condition is triggered externally which 
+    // unblocks the thread
+    // After enabled will send topic at a fixed rate
+    public:
+        OnChangeWriterThreadInfo(enum TOPICS_E topicEnum, DDSGuardCondition *guard_condition);  // pass in trigger event
+        std::string me();  // returns my name from global name array indexed by topic_enum
+        enum TOPICS_E topic_enum();
+        DDSGuardCondition* my_guard_condition();
+
+        DDSDynamicDataWriter * writer;
+        DDS_DynamicData * changeStateData;
+        bool enabled;
+    private:
+        enum TOPICS_E myTopicEnum;
+        DDSGuardCondition *myGuardCondition;
+};
+void*  pthreadOnChangeWriter(void  * on_change_writer_thread_info);
+
+
 
 #endif

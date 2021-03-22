@@ -989,10 +989,16 @@
         <register_type name="MicrogridMembershipRequestType" type_ref="tms::MicrogridMembershipRequest"/>
         <register_type name="MicrogridMembershipOutcomeType" type_ref="tms::MicrogridMembershipApproval"/>
         <register_type name="HeartbeatType" type_ref="tms::Heartbeat"/>
+        <register_type name="RequestResponseType" type_ref="tms::RequestResponse"/>
+        <register_type name="SourceTransitionRequestType" type_ref="tms::SourceTransitionRequest"/>
+        <register_type name="SourceTransitionStateType" type_ref="tms::SourceTransitionState"/>
         <topic name="DeviceAnnouncement" register_type_ref="DeviceAnnouncementType"/>
         <topic name="MicrogridMembershipRequest" register_type_ref="MicrogridMembershipRequestType"/>
         <topic name="MicrogridMembershipOutcome" register_type_ref="MicrogridMembershipOutcomeType"/>
         <topic name="Heartbeat" register_type_ref="HeartbeatType"/>
+        <topic name="RequestResponse" register_type_ref="RequestResponseType"/>
+        <topic name="SourceTransitionRequest" register_type_ref="SourceTransitionRequestType"/>
+        <topic name="SourceTransitionState" register_type_ref="SourceTransitionStateType"/>
       </domain>
     </domain_library>
 
@@ -1002,9 +1008,13 @@
           <data_writer name="DeviceAnnouncementTopicWriter" topic_ref="DeviceAnnouncement"/>
           <data_writer name="MicrogridMembershipRequestTopicWriter" topic_ref="MicrogridMembershipRequest"/>
           <data_writer name="HeartbeatTopicWriter" topic_ref="Heartbeat"/>
+          <data_writer name="RequestResponseWriter" topic_ref="RequestResponse"/>
+          <data_writer name="SourceTransitionStateWriter" topic_ref="SourceTransitionState"/>
         </publisher>
         <subscriber name="TMS_Subscriber1">
           <data_reader name="MicrogridMembershipOutcomeTopicReader" topic_ref="MicrogridMembershipOutcome"/>
+          <data_reader name="RequestResponseReader" topic_ref="RequestResponse"/>
+          <data_reader name="SourceTransitionRequestReader" topic_ref="SourceTransitionRequest"/>
         </subscriber>
       </domain_participant>
     </domain_participant_library>

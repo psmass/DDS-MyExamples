@@ -76,6 +76,7 @@ static int participant_shutdown(
 extern "C" int tms_app_main(int sample_count) {
     DDSDomainParticipant * participant = NULL;
     DDSDynamicDataWriter * heartbeat_writer = NULL;
+    DDSDynamicDataWriter * source_transition_state_writer = NULL;
 	DDSDynamicDataWriter * device_announcement_writer = NULL;
 	DDSDynamicDataWriter * microgrid_membership_request_writer = NULL;
 	DDSDynamicDataReader * microgrid_membership_outcome_reader = NULL;
@@ -84,7 +85,8 @@ extern "C" int tms_app_main(int sample_count) {
     DDS_DynamicData * heartbeat_data = NULL;
     DDS_ReturnCode_t retcode, retcode1;
      
-    DDSGuardCondition changeStateHeartbeat;
+    // DDSGuardCondition heartbeatStateChangeCondit;  // example of publishing a periodic as a change state.
+    DDSGuardCondition sourceTransitionStateChangeCondit;
 
     char this_device_id [tms_LEN_Fingerprint] = \
         {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1','2','3','4'};
@@ -94,10 +96,14 @@ extern "C" int tms_app_main(int sample_count) {
 
     // Declare Reader and Writer thread Information structs
     PeriodicPublishThreadInfo * myHeartbeatThreadInfo = new PeriodicPublishThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, send_period);
-    ChangeStatePublishThreadInfo * myChangeStateHeartbeatThreadInfo = new ChangeStatePublishThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, &changeStateHeartbeat);
+    // OnChangeWriterThreadInfo * myOnChangeWriterHeartbeatThreadInfo = new OnChangeWriterThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, &heartbeatStateChangeCondit);
     WriterEventsThreadInfo * myDeviceAnnouncementEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_DEVICE_ANNOUNCEMENT_ENUM); 
-	WriterEventsThreadInfo * myMicrogridMembershipRequestEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_ENUM); 
+	WriterEventsThreadInfo * myMicrogridMembershipRequestEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_ENUM);
+    WriterEventsThreadInfo * myRequestResponseEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_REQUEST_RESPONSE_ENUM);
+    OnChangeWriterThreadInfo * myOnChangeWriterSourceTransitionStateThreadInfo = new OnChangeWriterThreadInfo(tms_TOPIC_SOURCE_TRANSITION_STATE_ENUM, &sourceTransitionStateChangeCondit);
     ReaderThreadInfo * myMicrogridMembershipOutcomeReaderThreadInfo = new ReaderThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_OUTCOME_ENUM);
+    ReaderThreadInfo * myRequestResponseReaderThreadInfo = new ReaderThreadInfo(tms_TOPIC_REQUEST_RESPONSE_ENUM);
+    ReaderThreadInfo * mySourceTransitionRequestReaderThreadInfo = new ReaderThreadInfo(tms_TOPIC_SOURCE_TRANSITION_REQUEST_ENUM);
 
     /* To customize participant QoS, use 
     the configuration file USER_QOS_PROFILES.xml */
@@ -149,6 +155,16 @@ extern "C" int tms_app_main(int sample_count) {
     std::cout << "Successfully Found: TMS_Publisher1::MicrogridMembershipRequestTopicWriter" 
     << std::endl << std::flush;
 
+    source_transition_state_writer = DDSDynamicDataWriter::narrow(
+        participant->lookup_datawriter_by_name("TMS_Publisher1::SourceTransitionStateWriter"));
+    if (heartbeat_writer  == NULL) {
+        std::cerr << "TMS_Publisher1::SourceTransitionStateWriter: lookup_datawriter_by_name error "
+        << retcode << std::endl << std::flush; 
+		goto tms_app_main_end;
+    }
+    std::cout << "Successfully Found: TMS_Publisher1::SourceTransitionStateWriter" 
+    << std::endl << std::flush;
+
  	microgrid_membership_outcome_reader = DDSDynamicDataReader::narrow(
 		// Defined only in domain_participant_library. PUblisher name not defined QoS file
 		participant->lookup_datareader_by_name("TMS_Subscriber1::MicrogridMembershipOutcomeTopicReader")); 
@@ -184,16 +200,25 @@ extern "C" int tms_app_main(int sample_count) {
     // Like to put the following in an itterator creating all the pthreads but the 
     // topicThreadInfo's are somewhat different depending upon the communications pattern
     myHeartbeatThreadInfo->writer = heartbeat_writer;
-    myHeartbeatThreadInfo->enabled=true; // enable topic to be published
+    myHeartbeatThreadInfo->enabled=false; // enable topic when Membership approved
     myHeartbeatThreadInfo->periodicData=heartbeat_data; 
     pthread_t whb_tid; // writer device_announcement tid
-    pthread_create(&whb_tid, NULL, pthreadToPeriodicPublish, (void*) myHeartbeatThreadInfo);
+    pthread_create(&whb_tid, NULL, pthreadPeriodicWriter, (void*) myHeartbeatThreadInfo);
 
-    myChangeStateHeartbeatThreadInfo->writer = heartbeat_writer;
-    myChangeStateHeartbeatThreadInfo->enabled=true; // enable topic to be published
-    myChangeStateHeartbeatThreadInfo->changeStateData=heartbeat_data; 
+    /*  Example Periodic Heartbeat done with On Change writer
+    // Set up change state threads - trigger when CAN status update see a change
+    myOnChangeWriterHeartbeatThreadInfo->writer = heartbeat_writer;
+    myOnChangeWriterHeartbeatThreadInfo->enabled=true; // enable topic to be published
+    myOnChangeWriterHeartbeatThreadInfo->changeStateData=heartbeat_data; 
     pthread_t whbc_tid; // writer device_announcement tid
-    pthread_create(&whbc_tid, NULL, pthreadToChangeStatePublish, (void*) myChangeStateHeartbeatThreadInfo);
+    pthread_create(&whbc_tid, NULL, pthreadOnChangeWriter, (void*) myOnChangeWriterHeartbeatThreadInfo);
+    */
+    
+    myOnChangeWriterSourceTransitionStateThreadInfo->writer = source_transition_state_writer;
+    myOnChangeWriterSourceTransitionStateThreadInfo->enabled=true; // enable topic to be published
+    myOnChangeWriterSourceTransitionStateThreadInfo->changeStateData=heartbeat_data; 
+    pthread_t wstc_tid; // writer device_announcement tid
+    pthread_create(&wstc_tid, NULL, pthreadOnChangeWriter, (void*) myOnChangeWriterSourceTransitionStateThreadInfo);
 
     myDeviceAnnouncementEventThreadInfo->writer = device_announcement_writer;
     pthread_t wda_tid; // writer device_announcement tid
@@ -231,6 +256,11 @@ extern "C" int tms_app_main(int sample_count) {
 
     NDDSUtility::sleep(send_period); // Optional - to let periodic writer go first
 
+    // get approval to enter the grid
+
+    // Upon approval enable all Periodic and Change State Topics
+    myHeartbeatThreadInfo->enabled=true;  
+
     /* Main loop */
     while (run_flag) {
 
@@ -238,12 +268,14 @@ extern "C" int tms_app_main(int sample_count) {
         // Do your stuff here to interact CAN to DDS (i.e. get devices state and
         // load DDS topics, set change triggers etc.)
     
+        /*
         // Demo only - normally change value in statement prior to trigger - but heartbeat is also running periodically
-        retcode = changeStateHeartbeat.set_trigger_value(DDS_BOOLEAN_TRUE);
+        retcode = heartbeatStateChangeCondit.set_trigger_value(DDS_BOOLEAN_TRUE);
         if (retcode != DDS_RETCODE_OK) {
             std::cerr << "Main Heartbeat: set_trigger condition error\n" << std::endl << std::flush;
             break;
         }
+        */
 
         NDDSUtility::sleep(send_period);  // remove eventually 
 
@@ -254,7 +286,8 @@ extern "C" int tms_app_main(int sample_count) {
     std::cout << "Stopping - shutting down participant\n" << std::flush;
 
     pthread_cancel(whb_tid); 
-    pthread_cancel(whbc_tid); 
+    //pthread_cancel(whbc_tid); 
+    pthread_cancel(wstc_tid);
     pthread_cancel(wda_tid); 
     pthread_cancel(wmmr_tid); 
     pthread_cancel(rmmo_tid); 

@@ -150,7 +150,6 @@ const octet CLOCK_ATOMIC = 0x10;
 
 /** Satellite-based system */
 const octet CLOCK_GPS = 0x20;
-
 /** Terrestrial radio system */
 const octet CLOCK_RADIO = 0x30;
 

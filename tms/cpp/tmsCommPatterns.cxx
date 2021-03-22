@@ -10,9 +10,10 @@
 #include "tmsCommPatterns.h"
 
 
-ReaderThreadInfo::ReaderThreadInfo(enum TOPICS_E topicEnum) 
+ReaderThreadInfo::ReaderThreadInfo(enum TOPICS_E topicEnum, bool echoResponse) 
         {
             myTopicEnum = topicEnum;
+            echo_response = echoResponse; // default not to echo a response (rcv'd type not a request) 
         }
 
 std::string ReaderThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
@@ -134,6 +135,85 @@ void*  pthreadToProcReaderEvents(void *reader_thread_info) {
 	exit(0);
 }
 
+// WriterEventsThreadInfo member functions
+WriterEventsThreadInfo::WriterEventsThreadInfo(enum TOPICS_E topicEnum) 
+        {
+            myTopicEnum = topicEnum;
+        }
+
+std::string WriterEventsThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
+enum TOPICS_E WriterEventsThreadInfo::topic_enum() {return myTopicEnum; };
+
+
+void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo) {
+	WriterEventsThreadInfo * myWriterEventsThreadInfo;
+    myWriterEventsThreadInfo = (WriterEventsThreadInfo *)writerEventsThreadInfo;
+	DDSWaitSet * waitset = waitset = new DDSWaitSet();;
+    DDS_ReturnCode_t retcode;
+    DDSConditionSeq active_conditions_seq;
+
+    std::cout << "\nCreated Writer Pthread: " << myWriterEventsThreadInfo->me() << " Topic" << std::endl;
+
+    // Configure Waitset for Writer Status ****
+    DDSStatusCondition *status_condition = myWriterEventsThreadInfo->writer->get_statuscondition();
+    if (status_condition == NULL) {
+        printf("Writer thread: get_statuscondition error\n");
+        goto end_writer_thread;
+    }
+
+    // Set enabled statuses
+    retcode = status_condition->set_enabled_statuses(
+            DDS_PUBLICATION_MATCHED_STATUS);
+    if (retcode != DDS_RETCODE_OK) {
+        printf("Writer thread: set_enabled_statuses error\n");
+        goto end_writer_thread;
+    }
+
+    // Attach Status Conditions to the above waitset
+    retcode = waitset->attach_condition(status_condition);
+    if (retcode != DDS_RETCODE_OK) {
+        printf("Writer thread: attach_condition error\n");
+        goto end_writer_thread;
+    }
+
+    // wait() blocks execution of the thread until one or more attached condition triggers  
+	// thread exits upon ^c or error
+    while (run_flag) { 
+        retcode = waitset->wait(active_conditions_seq, DDS_DURATION_INFINITE);
+        /* We get to timeout if no conditions were triggered */
+        if (retcode == DDS_RETCODE_TIMEOUT) {
+            printf("Writer thread: Wait timed out!! No conditions were triggered.\n");
+            continue;
+        } else if (retcode != DDS_RETCODE_OK) {
+            printf("Writer thread: wait returned error: %d\n", retcode);
+            goto end_writer_thread;
+        }
+
+        /* Get the number of active conditions */
+        int active_conditions = active_conditions_seq.length();
+
+        for (int i = 0; i < active_conditions; ++i) {
+            /* Compare with Status Conditions */
+            if (active_conditions_seq[i] == status_condition) {
+                DDS_StatusMask triggeredmask =
+                        myWriterEventsThreadInfo->writer->get_status_changes();
+
+                if (triggeredmask & DDS_PUBLICATION_MATCHED_STATUS) {
+					DDS_PublicationMatchedStatus st;
+                	myWriterEventsThreadInfo->writer->get_publication_matched_status(st);
+					std::cout << myWriterEventsThreadInfo->me() << " Writer Subs: " 
+                    << st.current_count << "  " << st.current_count_change << std::endl;
+                }
+            } else {
+                // writers can only have status condition
+                std::cout << myWriterEventsThreadInfo->me() << " Writer: False Writer Event Trigger" << std::endl;
+            }
+        }
+	} // While (run_flag)
+	end_writer_thread: // reached by ^C or an error
+	std::cout << myWriterEventsThreadInfo->me() << " Writer: Pthread Exiting"<< std::endl;
+	exit(0);
+}
 
 // PeriodicPublishThreadInfo member functions
 PeriodicPublishThreadInfo::PeriodicPublishThreadInfo (enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod) 
@@ -148,9 +228,9 @@ enum TOPICS_E PeriodicPublishThreadInfo::topic_enum() {return myTopicEnum; };
 
 std::string PeriodicPublishThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
 
-void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
+void*  pthreadPeriodicWriter(void  * periodic_writer_thread_info) {
 	PeriodicPublishThreadInfo * myPeriodicPublishThreadInfo;
-    myPeriodicPublishThreadInfo = (PeriodicPublishThreadInfo *) periodic_publish_thread_info;
+    myPeriodicPublishThreadInfo = (PeriodicPublishThreadInfo *) periodic_writer_thread_info;
 	DDSWaitSet * waitset = waitset = new DDSWaitSet();;
     DDS_ReturnCode_t retcode;
     DDSConditionSeq active_conditions_seq;
@@ -235,54 +315,54 @@ void*  pthreadToPeriodicPublish(void  * periodic_publish_thread_info) {
 	exit(0);
 }
 
-// Change State PublishThreadInfo member functions
-ChangeStatePublishThreadInfo::ChangeStatePublishThreadInfo (enum TOPICS_E topicEnum, DDSGuardCondition * guard_condition) 
+// On Change State PublishThreadInfo member functions
+OnChangeWriterThreadInfo::OnChangeWriterThreadInfo (enum TOPICS_E topicEnum, DDSGuardCondition * guard_condition) 
         {
 
             myTopicEnum = topicEnum;
             myGuardCondition=guard_condition;
         }
 
-enum TOPICS_E ChangeStatePublishThreadInfo::topic_enum() {return myTopicEnum; };
-DDSGuardCondition* ChangeStatePublishThreadInfo::my_guard_condition() { return myGuardCondition; };
+enum TOPICS_E OnChangeWriterThreadInfo::topic_enum() {return myTopicEnum; };
+DDSGuardCondition* OnChangeWriterThreadInfo::my_guard_condition() { return myGuardCondition; };
 
-std::string ChangeStatePublishThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
+std::string OnChangeWriterThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
 
-void*  pthreadToChangeStatePublish(void  * change_state_publish_thread_info) {
-	ChangeStatePublishThreadInfo * myChangeStatePublishThreadInfo;
-    myChangeStatePublishThreadInfo = (ChangeStatePublishThreadInfo *) change_state_publish_thread_info;
+void*  pthreadOnChangeWriter(void  * on_change_writer_thread_info) {
+	OnChangeWriterThreadInfo * myOnChangeWriterThreadInfo;
+    myOnChangeWriterThreadInfo = (OnChangeWriterThreadInfo *) on_change_writer_thread_info;
 	DDSWaitSet * waitset = waitset = new DDSWaitSet();;
     DDS_ReturnCode_t retcode;
     DDSConditionSeq active_conditions_seq;
 
-    std::cout << "\nCreated Change State Publisher Pthread: " << myChangeStatePublishThreadInfo->me() << " Topic" << std::endl;
+    std::cout << "\nCreated On Change State Writer Pthread: " << myOnChangeWriterThreadInfo->me() << " Topic" << std::endl;
 
     // Configure Waitset for Writer Status ****
-    DDSStatusCondition *status_condition = myChangeStatePublishThreadInfo->writer->get_statuscondition();
+    DDSStatusCondition *status_condition = myOnChangeWriterThreadInfo->writer->get_statuscondition();
     if (status_condition == NULL) {
-        printf("Change State thread: get_statuscondition error\n");
-        goto end_change_state_thread;
+        printf("On Change writer thread: get_statuscondition error\n");
+        goto end_on_change_thread;
     }
 
     // Set enabled statuses
     retcode = status_condition->set_enabled_statuses(
             DDS_PUBLICATION_MATCHED_STATUS);
     if (retcode != DDS_RETCODE_OK) {
-        printf("Change State thread: set_enabled_statuses error\n");
-        goto end_change_state_thread;
+        printf("On Change writer thread: set_enabled_statuses error\n");
+        goto end_on_change_thread;
     }
       // Attach Status Conditions to the above waitset
     retcode = waitset->attach_condition(status_condition);
     if (retcode != DDS_RETCODE_OK) {
-        printf("Change State thread: attach_condition error\n");
-        goto end_change_state_thread;
+        printf("On Change writer thread: attach_condition error\n");
+        goto end_on_change_thread;
     }
 
     // Attach Status Conditions to the above waitset
-    retcode = waitset->attach_condition(myChangeStatePublishThreadInfo->my_guard_condition());
+    retcode = waitset->attach_condition(myOnChangeWriterThreadInfo->my_guard_condition());
     if (retcode != DDS_RETCODE_OK) {
-        printf("Change State thread: attach_guard_condition error\n");
-        goto end_change_state_thread;
+        printf("On Change writer thread: attach_guard_condition error\n");
+        goto end_on_change_thread;
     }
 
     // wait() blocks execution of the thread until one or more attached condition triggers  
@@ -294,8 +374,8 @@ void*  pthreadToChangeStatePublish(void  * change_state_publish_thread_info) {
             
             continue; // no need to process active conditions if timeout
         } else if (retcode != DDS_RETCODE_OK) {
-            printf("Writer thread: wait returned error: %d\n", retcode);
-            goto end_change_state_thread;
+            printf("On Change writer thread: wait returned error: %d\n", retcode);
+            goto end_on_change_thread;
         }
 
         /* Get the number of active conditions */
@@ -305,128 +385,51 @@ void*  pthreadToChangeStatePublish(void  * change_state_publish_thread_info) {
             /* Compare with Status Conditions */
             if (active_conditions_seq[i] == status_condition) {
                 DDS_StatusMask triggeredmask =
-                        myChangeStatePublishThreadInfo->writer->get_status_changes();
+                        myOnChangeWriterThreadInfo->writer->get_status_changes();
 
                 if (triggeredmask & DDS_PUBLICATION_MATCHED_STATUS) {
 					DDS_PublicationMatchedStatus st;
-                	myChangeStatePublishThreadInfo->writer->get_publication_matched_status(st);
-					std::cout << myChangeStatePublishThreadInfo->me() << " Writer Subs: " 
+                	myOnChangeWriterThreadInfo->writer->get_publication_matched_status(st);
+					std::cout << myOnChangeWriterThreadInfo->me() << " Writer Subs: " 
                     << st.current_count << "  " << st.current_count_change << std::endl;
                 }
-            } else if (active_conditions_seq[i] == myChangeStatePublishThreadInfo->my_guard_condition()) {
-                if (myChangeStatePublishThreadInfo->enabled) {
-                    switch (myChangeStatePublishThreadInfo->topic_enum()) {
+            } else if (active_conditions_seq[i] == myOnChangeWriterThreadInfo->my_guard_condition()) {
+                if (myOnChangeWriterThreadInfo->enabled) {
+                    switch (myOnChangeWriterThreadInfo->topic_enum()) {
+                    
                         case  tms_TOPIC_HEARTBEAT_ENUM: 
                             // get sequence number for display
                             DDS_UnsignedLong mySeqNum; // sequence is set/incremented in main loop where the condit trigger is set
-                            retcode = myChangeStatePublishThreadInfo->changeStateData-> \
+                            retcode = myOnChangeWriterThreadInfo->changeStateData-> \
                                 get_ulong(mySeqNum, "sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED);
                             if (retcode != DDS_RETCODE_OK) {
-                                printf("Change State thread: get_data error\n");
-                                goto end_change_state_thread;
+                                printf("On Change writer thread: get_data error\n");
+                                goto end_on_change_thread;
                             }
-                            std::cout << "Change State Writer - Heartbeat " <<  mySeqNum << std::endl;
+                            std::cout << "On Change writer thread - Heartbeat " <<  mySeqNum << std::endl;
 
-                            myChangeStatePublishThreadInfo->writer->write(* myChangeStatePublishThreadInfo->changeStateData, DDS_HANDLE_NIL);
+                            myOnChangeWriterThreadInfo->writer->write(* myOnChangeWriterThreadInfo->changeStateData, DDS_HANDLE_NIL);
                             // Need to set this false after processing - else it just retriggers immediately
-                            retcode = myChangeStatePublishThreadInfo->my_guard_condition()->set_trigger_value(DDS_BOOLEAN_FALSE);
+                            retcode = myOnChangeWriterThreadInfo->my_guard_condition()->set_trigger_value(DDS_BOOLEAN_FALSE);
                             if (retcode != DDS_RETCODE_OK) {
-                                printf("Change State thread: set_enabled_guard error\n");
-                                goto end_change_state_thread;
+                                printf("On Change writer thread: set_enabled_guard error\n");
+                                goto end_on_change_thread;
                             }
                             break;
+                                
                         default: 
-                            std::cout << "Change State Writer - default topic fall through" << std::endl;
+                            std::cout << "On Change writer thread - default topic fall through" << std::endl;
                             break;
                     }
                 }
             } else {
                 // writers can only have status condition
-                std::cout << myChangeStatePublishThreadInfo->me() << " Writer: False Writer Event Trigger" << std::endl;
+                std::cout << myOnChangeWriterThreadInfo->me() << " Writer: False Writer Event Trigger" << std::endl;
             }
         }
 	} // While (run_flag)
-	end_change_state_thread: // reached by ^C or an error
-	std::cout << myChangeStatePublishThreadInfo->me() << " Writer: Pthread Exiting"<< std::endl;
+	end_on_change_thread: // reached by ^C or an error
+	std::cout << myOnChangeWriterThreadInfo->me() << "On Change writer thread: Pthread Exiting"<< std::endl;
 	exit(0);
 }
 
-// WriterEventsThreadInfo member functions
-WriterEventsThreadInfo::WriterEventsThreadInfo(enum TOPICS_E topicEnum) 
-        {
-            myTopicEnum = topicEnum;
-        }
-
-std::string WriterEventsThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
-enum TOPICS_E WriterEventsThreadInfo::topic_enum() {return myTopicEnum; };
-
-
-void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo) {
-	WriterEventsThreadInfo * myWriterEventsThreadInfo;
-    myWriterEventsThreadInfo = (WriterEventsThreadInfo *)writerEventsThreadInfo;
-	DDSWaitSet * waitset = waitset = new DDSWaitSet();;
-    DDS_ReturnCode_t retcode;
-    DDSConditionSeq active_conditions_seq;
-
-    std::cout << "\nCreated Writer Pthread: " << myWriterEventsThreadInfo->me() << " Topic" << std::endl;
-
-    // Configure Waitset for Writer Status ****
-    DDSStatusCondition *status_condition = myWriterEventsThreadInfo->writer->get_statuscondition();
-    if (status_condition == NULL) {
-        printf("Writer thread: get_statuscondition error\n");
-        goto end_writer_thread;
-    }
-
-    // Set enabled statuses
-    retcode = status_condition->set_enabled_statuses(
-            DDS_PUBLICATION_MATCHED_STATUS);
-    if (retcode != DDS_RETCODE_OK) {
-        printf("Writer thread: set_enabled_statuses error\n");
-        goto end_writer_thread;
-    }
-
-    // Attach Status Conditions to the above waitset
-    retcode = waitset->attach_condition(status_condition);
-    if (retcode != DDS_RETCODE_OK) {
-        printf("Writer thread: attach_condition error\n");
-        goto end_writer_thread;
-    }
-
-    // wait() blocks execution of the thread until one or more attached condition triggers  
-	// thread exits upon ^c or error
-    while (run_flag) { 
-        retcode = waitset->wait(active_conditions_seq, DDS_DURATION_INFINITE);
-        /* We get to timeout if no conditions were triggered */
-        if (retcode == DDS_RETCODE_TIMEOUT) {
-            printf("Writer thread: Wait timed out!! No conditions were triggered.\n");
-            continue;
-        } else if (retcode != DDS_RETCODE_OK) {
-            printf("Writer thread: wait returned error: %d\n", retcode);
-            goto end_writer_thread;
-        }
-
-        /* Get the number of active conditions */
-        int active_conditions = active_conditions_seq.length();
-
-        for (int i = 0; i < active_conditions; ++i) {
-            /* Compare with Status Conditions */
-            if (active_conditions_seq[i] == status_condition) {
-                DDS_StatusMask triggeredmask =
-                        myWriterEventsThreadInfo->writer->get_status_changes();
-
-                if (triggeredmask & DDS_PUBLICATION_MATCHED_STATUS) {
-					DDS_PublicationMatchedStatus st;
-                	myWriterEventsThreadInfo->writer->get_publication_matched_status(st);
-					std::cout << myWriterEventsThreadInfo->me() << " Writer Subs: " 
-                    << st.current_count << "  " << st.current_count_change << std::endl;
-                }
-            } else {
-                // writers can only have status condition
-                std::cout << myWriterEventsThreadInfo->me() << " Writer: False Writer Event Trigger" << std::endl;
-            }
-        }
-	} // While (run_flag)
-	end_writer_thread: // reached by ^C or an error
-	std::cout << myWriterEventsThreadInfo->me() << " Writer: Pthread Exiting"<< std::endl;
-	exit(0);
-}
