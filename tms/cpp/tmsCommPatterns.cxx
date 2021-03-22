@@ -30,7 +30,7 @@ void*  pthreadToProcReaderEvents(void *reader_thread_info) {
 	DDS_DynamicDataSeq data_seq;
 	DDS_SampleInfoSeq info_seq;
 
-    std::cout << "\nCreated Reader Pthread: " << myReaderThreadInfo->me() << " Topic" << std::endl;
+    std::cout << "Created Reader Pthread: " << myReaderThreadInfo->me() << " Topic" << std::endl;
 
     // Create read condition
     read_condition = myReaderThreadInfo->reader->create_readcondition(
@@ -152,7 +152,7 @@ void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo) {
     DDS_ReturnCode_t retcode;
     DDSConditionSeq active_conditions_seq;
 
-    std::cout << "\nCreated Writer Pthread: " << myWriterEventsThreadInfo->me() << " Topic" << std::endl;
+    std::cout << "Created Writer Pthread: " << myWriterEventsThreadInfo->me() << " Topic" << std::endl;
 
     // Configure Waitset for Writer Status ****
     DDSStatusCondition *status_condition = myWriterEventsThreadInfo->writer->get_statuscondition();
@@ -216,27 +216,27 @@ void*  pthreadToProcWriterEvents(void  * writerEventsThreadInfo) {
 }
 
 // PeriodicPublishThreadInfo member functions
-PeriodicPublishThreadInfo::PeriodicPublishThreadInfo (enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod) 
+PeriodicWriterThreadInfo::PeriodicWriterThreadInfo (enum TOPICS_E topicEnum, DDS_Duration_t ratePeriod) 
         {
             enabled = false; //initialize disabled
             myRatePeriod = ratePeriod;
             myTopicEnum = topicEnum;
         }
 
-DDS_Duration_t PeriodicPublishThreadInfo::pubRatePeriod() { return myRatePeriod; };
-enum TOPICS_E PeriodicPublishThreadInfo::topic_enum() {return myTopicEnum; };
+DDS_Duration_t PeriodicWriterThreadInfo::pubRatePeriod() { return myRatePeriod; };
+enum TOPICS_E PeriodicWriterThreadInfo::topic_enum() {return myTopicEnum; };
 
-std::string PeriodicPublishThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
+std::string PeriodicWriterThreadInfo::me(){ return topic_name_array[myTopicEnum]; }
 
 void*  pthreadPeriodicWriter(void  * periodic_writer_thread_info) {
-	PeriodicPublishThreadInfo * myPeriodicPublishThreadInfo;
-    myPeriodicPublishThreadInfo = (PeriodicPublishThreadInfo *) periodic_writer_thread_info;
+	PeriodicWriterThreadInfo * myPeriodicPublishThreadInfo;
+    myPeriodicPublishThreadInfo = (PeriodicWriterThreadInfo *) periodic_writer_thread_info;
 	DDSWaitSet * waitset = waitset = new DDSWaitSet();;
     DDS_ReturnCode_t retcode;
     DDSConditionSeq active_conditions_seq;
     long int seq_count = 0;
 
-    std::cout << "\nCreated Periodic Publisher Pthread: " << myPeriodicPublishThreadInfo->me() << " Topic" << std::endl;
+    std::cout << "Created Periodic Publisher Pthread: " << myPeriodicPublishThreadInfo->me() << " Topic" << std::endl;
 
     // Configure Waitset for Writer Status ****
     DDSStatusCondition *status_condition = myPeriodicPublishThreadInfo->writer->get_statuscondition();
@@ -335,7 +335,7 @@ void*  pthreadOnChangeWriter(void  * on_change_writer_thread_info) {
     DDS_ReturnCode_t retcode;
     DDSConditionSeq active_conditions_seq;
 
-    std::cout << "\nCreated On Change State Writer Pthread: " << myOnChangeWriterThreadInfo->me() << " Topic" << std::endl;
+    std::cout << "Created On Change State Writer Pthread: " << myOnChangeWriterThreadInfo->me() << " Topic" << std::endl;
 
     // Configure Waitset for Writer Status ****
     DDSStatusCondition *status_condition = myOnChangeWriterThreadInfo->writer->get_statuscondition();
