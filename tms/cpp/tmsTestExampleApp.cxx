@@ -98,13 +98,12 @@ extern "C" int tms_app_main(int sample_count) {
 
     unsigned long long count = 0;  
     DDS_Duration_t send_period = {1,0};
-    DDS_Duration_t membership_request_period = {10,0};  // 30 sec is better, put at 10 for testing visibilty
 
     // Declare Reader and Writer thread Information structs
     PeriodicWriterThreadInfo * myHeartbeatThreadInfo = new PeriodicWriterThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, send_period);
     // OnChangeWriterThreadInfo * myOnChangeWriterHeartbeatThreadInfo = new OnChangeWriterThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, &heartbeatStateChangeCondit);
     WriterEventsThreadInfo * myDeviceAnnouncementEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_DEVICE_ANNOUNCEMENT_ENUM); 
-	PeriodicWriterThreadInfo * myMicrogridMembershipRequestEventThreadInfo = new PeriodicWriterThreadInfo (tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_ENUM, membership_request_period);
+	WriterEventsThreadInfo * myMicrogridMembershipRequestEventThreadInfo = new WriterEventsThreadInfo (tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_ENUM);
     WriterEventsThreadInfo * myRequestResponseEventThreadInfo = new WriterEventsThreadInfo(tms_TOPIC_REQUEST_RESPONSE_ENUM);
     OnChangeWriterThreadInfo * myOnChangeWriterSourceTransitionStateThreadInfo = new OnChangeWriterThreadInfo(tms_TOPIC_SOURCE_TRANSITION_STATE_ENUM, &sourceTransitionStateChangeCondit);
     ReaderThreadInfo * myMicrogridMembershipOutcomeReaderThreadInfo = new ReaderThreadInfo(tms_TOPIC_MICROGRID_MEMBERSHIP_OUTCOME_ENUM);
@@ -323,6 +322,14 @@ extern "C" int tms_app_main(int sample_count) {
         std::cerr << "heartbeat: Dynamic Data Set Error" << std::endl << std::flush;
         goto tms_app_main_end;
     }
+
+    retcode = microgrid_membership_request_data->set_octet_array("requestId.deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
+    retcode1 = microgrid_membership_request_data->set_octet_array("deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
+    if (retcode != DDS_RETCODE_OK || retcode1 != DDS_RETCODE_OK ) {
+        std::cerr << "heartbeat: Dynamic Data Set Error" << std::endl << std::flush;
+        goto tms_app_main_end;
+    }
+
 
     NDDSUtility::sleep(send_period); // Optional - to let periodic writer go first
 

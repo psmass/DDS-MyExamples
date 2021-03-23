@@ -88,5 +88,4 @@ class OnChangeWriterThreadInfo {
 void*  pthreadOnChangeWriter(void  * on_change_writer_thread_info);
 
 
-
 #endif
