@@ -1,8 +1,8 @@
 #ifndef tmsCommPatterns_h
 #define tmsCommPatterns_h
 
-#include "tmsTopicEnum.h"
 #include "tmsTestExample.h"
+#include "tmsTestExampleApp.h"
 
 /* This Interface provides threads for tms Communications Patterns
    (tms Microgrid Standard section 4.9.2)

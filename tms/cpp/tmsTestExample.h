@@ -5,10 +5,6 @@ WARNING: THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
 
 This file was generated from tmsTestExample.idl using "rtiddsgen".
 
-****** IT WAS THEN MANUALLY MODIFIED WITH THE #DEFINES AND 
-       topic_name_array [tms_TOPIC_LAST_SENTINEL_E][tms_MAXLEN_TopicName] 
-****** LINES 88 through 193
-
 The rtiddsgen tool is part of the RTI Connext distribution.
 For more information, type 'rtiddsgen -help' at a command shell
 or consult the RTI Connext manual.
@@ -25,8 +21,6 @@ or consult the RTI Connext manual.
 #else
 #include "ndds_standalone_type.h"
 #endif
-
-#include "tmsTopicEnum.h"
 
 static bool run_flag = true;
 
@@ -86,116 +80,6 @@ static const DDS_UnsignedLong tms_MINLEN_TopicName= 1;
 static const DDS_UnsignedLong tms_MAXLEN_TopicName= 64;
 typedef    DDS_Char *   tms_TopicName ;
 
-
-#define tms_TOPIC_ACTIVE_DIAGNOSTICS_NAME "ActiveDiagnostics"
-#define tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_OUTCOME_NAME "AuthorizationToEnergizeOutcome"
-#define tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_REQUEST_NAME "AuthorizationToEnergizeRequest"
-#define tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_RESPONSE_NAME "AuthorizationToEnergizeResponse"
-#define tms_TOPIC_CONFIG_RESERVATION_STATE_NAME "ConfigReservationState"
-#define tms_TOPIC_COPY_CONFIG_REQUEST_NAME "CopyConfigRequest"
-#define tms_TOPIC_DC_DEVICE_POWER_MEASUREMENT_LIST_NAME "DcDevicePowerMeasurementList"
-#define tms_TOPIC_DC_LOAD_SHARING_REQUEST_NAME "DcLoadSharingRequest"
-#define tms_TOPIC_DC_LOAD_SHARING_STATUS_NAME "DcLoadSharingStatus"
-#define tms_TOPIC_DEVICE_ANNOUNCEMENT_NAME "DeviceAnnouncement"
-#define tms_TOPIC_DEVICE_CLOCK_STATUS_NAME "DeviceClockStatus"
-#define tms_TOPIC_DEVICE_GROUNDING_NAME "DeviceGrounding"
-#define tms_TOPIC_DEVICE_GROUNDING_STATUS_NAME "DeviceGroundingStatus"
-#define tms_TOPIC_DEVICE_PARAMETER_REQUEST_NAME "DeviceParameterRequest"
-#define tms_TOPIC_DEVICE_PARAMETER_STATUS_NAME "DeviceParameterStatus"
-#define tms_TOPIC_DEVICE_POWER_MEASUREMENT_LIST_NAME "DevicePowerMeasurementList"
-#define tms_TOPIC_DEVICE_POWER_PORT_LIST_NAME "DevicePowerPortList"
-#define tms_TOPIC_DEVICE_POWER_STATUS_LIST_NAME "DevicePowerStatusList"
-#define tms_TOPIC_DISCOVERED_CONNECTION_LIST_NAME "DiscoveredConnectionList"
-#define tms_TOPIC_ENGINE_STATE_NAME "EngineState"
-#define tms_TOPIC_FINGERPRINT_NICKNAME_NAME "FingerprintNickname"
-#define tms_TOPIC_FINGERPRINT_NICKNAME_REQUEST_NAME "FingerprintNicknameRequest"
-#define tms_TOPIC_GET_CONFIG_CONTENTS_REQUEST_NAME "GetConfigContentsRequest"
-#define tms_TOPIC_GET_CONFIG_DC_LOAD_SHARING_RESPONSE_NAME "GetConfigDcLoadSharingResponse"
-#define tms_TOPIC_GET_CONFIG_DEVICE_PARAMETER_RESPONSE_NAME "GetConfigDeviceParameterResponse"
-#define tms_TOPIC_GET_CONFIG_GROUNDING_CIRCUIT_RESPONSE_NAME "GetConfigGroundingCircuitResponse"
-#define tms_TOPIC_GET_CONFIG_LOAD_SHARING_RESPONSE_NAME "GetConfigLoadSharingResponse"
-#define tms_TOPIC_GET_CONFIG_POWER_SWITCH_RESPONSE_NAME "GetConfigPowerSwitchResponse"
-#define tms_TOPIC_GET_CONFIG_SOURCE_TRANSITION_RESPONSE_NAME "GetConfigSourceTransitionResponse"
-#define tms_TOPIC_GET_CONFIG_STORAGE_CONTROL_RESPONSE_NAME "GetConfigStorageControlResponse"
-#define tms_TOPIC_GROUNDING_CIRCUIT_REQUEST_NAME "GroundingCircuitRequest"
-#define tms_TOPIC_HEARTBEAT_NAME "Heartbeat"
-#define tms_TOPIC_LOAD_SHARING_REQUEST_NAME "LoadSharingRequest"
-#define tms_TOPIC_LOAD_SHARING_STATUS_NAME "LoadSharingStatus"
-#define tms_TOPIC_MICROGRID_CONNECTION_LIST_NAME "MicrogridConnectionList"
-#define tms_TOPIC_MICROGRID_MEMBERSHIP_OUTCOME_NAME "MicrogridMembershipOutcome"
-#define tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_NAME "MicrogridMembershipRequest"
-#define tms_TOPIC_OPERATOR_CONNECTION_LIST_NAME "OperatorConnectionList"
-#define tms_TOPIC_OPERATOR_INTENT_REQUEST_NAME "OperatorIntentRequest"
-#define tms_TOPIC_OPERATOR_INTENT_STATE_NAME "OperatorIntentState"
-#define tms_TOPIC_POWER_SWITCH_REQUEST_NAME "PowerSwitchRequest"
-#define tms_TOPIC_RELEASE_CONFIG_REQUEST_NAME "ReleaseConfigRequest"
-#define tms_TOPIC_REQUEST_RESPONSE_NAME "RequestResponse"
-#define tms_TOPIC_RESERVE_CONFIG_REPLY_NAME "ReserveConfigReply"
-#define tms_TOPIC_RESERVE_CONFIG_REQUEST_NAME "ReserveConfigRequest"
-#define tms_TOPIC_SOURCE_TRANSITION_REQUEST_NAME "SourceTransitionRequest"
-#define tms_TOPIC_SOURCE_TRANSITION_STATE_NAME "SourceTransitionState"
-#define tms_TOPIC_STANDARD_CONFIG_MASTER_NAME "StandardConfigMaster"
-#define tms_TOPIC_STORAGE_CONTROL_REQUEST_NAME "StorageControlRequest"
-#define tms_TOPIC_STORAGE_CONTROL_STATUS_NAME "StorageControlStatus"
-#define tms_TOPIC_STORAGE_INFO_NAME "StorageInfo"
-#define tms_TOPIC_STORAGE_STATE_NAME "StorageState"
-
-// To Do - make this an array of pointers to static const DDS_Char * const and deprecate
-// the #define move the topic_name_array declaration to a separate file so that this file
-// is used untainted from rticode gen.
-static const char topic_name_array [tms_TOPIC_LAST_SENTINEL_ENUM][tms_MAXLEN_TopicName] = {
-    tms_TOPIC_ACTIVE_DIAGNOSTICS_NAME,
-    tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_OUTCOME_NAME,
-    tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_REQUEST_NAME,
-    tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_RESPONSE_NAME,
-    tms_TOPIC_CONFIG_RESERVATION_STATE_NAME,
-    tms_TOPIC_COPY_CONFIG_REQUEST_NAME,
-    tms_TOPIC_DC_DEVICE_POWER_MEASUREMENT_LIST_NAME,
-    tms_TOPIC_DC_LOAD_SHARING_REQUEST_NAME,
-    tms_TOPIC_DC_LOAD_SHARING_STATUS_NAME,
-    tms_TOPIC_DEVICE_ANNOUNCEMENT_NAME,
-    tms_TOPIC_DEVICE_CLOCK_STATUS_NAME,
-    tms_TOPIC_DEVICE_GROUNDING_NAME,
-    tms_TOPIC_DEVICE_GROUNDING_STATUS_NAME,
-    tms_TOPIC_DEVICE_PARAMETER_REQUEST_NAME,
-    tms_TOPIC_DEVICE_PARAMETER_STATUS_NAME,
-    tms_TOPIC_DEVICE_POWER_MEASUREMENT_LIST_NAME,
-    tms_TOPIC_DEVICE_POWER_PORT_LIST_NAME,
-    tms_TOPIC_DEVICE_POWER_STATUS_LIST_NAME,
-    tms_TOPIC_DISCOVERED_CONNECTION_LIST_NAME,
-    tms_TOPIC_ENGINE_STATE_NAME,
-    tms_TOPIC_FINGERPRINT_NICKNAME_NAME,
-    tms_TOPIC_FINGERPRINT_NICKNAME_REQUEST_NAME,
-    tms_TOPIC_GET_CONFIG_CONTENTS_REQUEST_NAME,
-    tms_TOPIC_GET_CONFIG_DC_LOAD_SHARING_RESPONSE_NAME,
-    tms_TOPIC_GET_CONFIG_DEVICE_PARAMETER_RESPONSE_NAME,
-    tms_TOPIC_GET_CONFIG_GROUNDING_CIRCUIT_RESPONSE_NAME,
-    tms_TOPIC_GET_CONFIG_LOAD_SHARING_RESPONSE_NAME,
-    tms_TOPIC_GET_CONFIG_POWER_SWITCH_RESPONSE_NAME,
-    tms_TOPIC_GET_CONFIG_SOURCE_TRANSITION_RESPONSE_NAME,
-    tms_TOPIC_GET_CONFIG_STORAGE_CONTROL_RESPONSE_NAME,
-    tms_TOPIC_GROUNDING_CIRCUIT_REQUEST_NAME,
-    tms_TOPIC_HEARTBEAT_NAME,
-    tms_TOPIC_LOAD_SHARING_REQUEST_NAME,
-    tms_TOPIC_LOAD_SHARING_STATUS_NAME,
-    tms_TOPIC_MICROGRID_CONNECTION_LIST_NAME,
-    tms_TOPIC_MICROGRID_MEMBERSHIP_OUTCOME_NAME,
-    tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_NAME,
-    tms_TOPIC_OPERATOR_CONNECTION_LIST_NAME,
-    tms_TOPIC_OPERATOR_INTENT_REQUEST_NAME,
-    tms_TOPIC_OPERATOR_INTENT_STATE_NAME,
-    tms_TOPIC_POWER_SWITCH_REQUEST_NAME,
-    tms_TOPIC_RELEASE_CONFIG_REQUEST_NAME,
-    tms_TOPIC_REQUEST_RESPONSE_NAME,
-    tms_TOPIC_RESERVE_CONFIG_REPLY_NAME,
-    tms_TOPIC_RESERVE_CONFIG_REQUEST_NAME,
-    tms_TOPIC_SOURCE_TRANSITION_REQUEST_NAME,
-    tms_TOPIC_SOURCE_TRANSITION_STATE_NAME,
-    tms_TOPIC_STANDARD_CONFIG_MASTER_NAME,
-    tms_TOPIC_STORAGE_CONTROL_STATUS_NAME,
-    tms_TOPIC_STORAGE_INFO_NAME,
-    tms_TOPIC_STORAGE_STATE_NAME
-};
 
 
 #if (defined(RTI_WIN32) || defined (RTI_WINCE) || defined(RTI_INTIME)) && defined(NDDS_USER_DLL_EXPORT)
