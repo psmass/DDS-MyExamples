@@ -4,6 +4,26 @@
 #include "tmsTestExample.h"
 
 
+static bool run_flag = true;
+static unsigned long long sequence_number=0; // ever monotonically increasing for each request sent
+
+// class to manage the static sequence_number used in requests
+class RequestSequenceNumber {
+    public:
+    // class to manage the static sequence_number used in requests
+    RequestSequenceNumber();
+    unsigned long long getNextSeqNo();
+
+    private:
+    unsigned long long * mySeqNum; // manages the single stati sequence_number
+};
+
+
+// Should probably intialize this_device_id in a loop since setting an array size tms_LEN_Fingerprint
+// to a "fixed string 32 chars + null" defeats the purpose of using tms_LEN_Fingerprint - but eventually
+// it would be populated via a CAN device ID access 
+static char this_device_id [tms_LEN_Fingerprint+1] = "00000000000000000000000000001234";  
+
 enum TOPICS_E { 
     tms_TOPIC_ACTIVE_DIAGNOSTICS_ENUM,
     tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_OUTCOME_ENUM,

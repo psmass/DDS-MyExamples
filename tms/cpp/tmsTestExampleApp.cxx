@@ -37,6 +37,12 @@ void handle_SIGINT(int unused)
   run_flag = false;
 }
 
+
+// class RequestSequenceNumber member function definitions (see class def in tmsTestExampleApp.h)
+// Used to manage the static sequence_number across all requests
+RequestSequenceNumber::RequestSequenceNumber() { mySeqNum = &sequence_number; }
+unsigned long long RequestSequenceNumber::getNextSeqNo() { (*mySeqNum)++; return (*mySeqNum);}
+
 /* Delete all entities */
 static int participant_shutdown(
     DDSDomainParticipant *participant)
@@ -89,16 +95,16 @@ extern "C" int tms_app_main(int sample_count) {
     DDS_DynamicData * heartbeat_data = NULL;
     DDS_DynamicData * source_transition_state_data = NULL;
     DDS_DynamicData * request_response_data = NULL;
-    DDS_ReturnCode_t retcode, retcode1;
+    DDS_ReturnCode_t retcode, retcode1, retcode2;  // compound retcodes to do one check
+
      
     // DDSGuardCondition heartbeatStateChangeCondit;  // example of publishing a periodic as a change state.
     DDSGuardCondition sourceTransitionStateChangeCondit;
 
-    char this_device_id [tms_LEN_Fingerprint] = \
-        {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1','2','3','4'};
-
     unsigned long long count = 0;  
     DDS_Duration_t send_period = {1,0};
+
+    RequestSequenceNumber * reqSeqNo = new RequestSequenceNumber();
 
     // Declare Reader and Writer thread Information structs
     PeriodicWriterThreadInfo * myHeartbeatThreadInfo = new PeriodicWriterThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, send_period);
@@ -292,11 +298,9 @@ extern "C" int tms_app_main(int sample_count) {
     pthread_t wda_tid; // writer device_announcement tid
     pthread_create(&wda_tid, NULL, pthreadToProcWriterEvents, (void*) myDeviceAnnouncementEventThreadInfo);
 
-    // Cerate the MembershipReqest as a periodic sending every 30sec. Enable / Disable gated by 
-    // MicrogridMembershipResult::MMR_COMPLETE
     myMicrogridMembershipRequestEventThreadInfo->writer = microgrid_membership_request_writer;
     pthread_t wmmr_tid; // writer microgrid_membership_request tid
-    pthread_create(&wmmr_tid, NULL, pthreadPeriodicWriter, (void*) myMicrogridMembershipRequestEventThreadInfo);
+    pthread_create(&wmmr_tid, NULL, pthreadToProcWriterEvents, (void*) myMicrogridMembershipRequestEventThreadInfo);
 
     myMicrogridMembershipOutcomeReaderThreadInfo->reader = microgrid_membership_outcome_reader;
     pthread_t rmmo_tid; // writer microgrid_membership_outcome tid
@@ -324,17 +328,25 @@ extern "C" int tms_app_main(int sample_count) {
         goto tms_app_main_end;
     }
 
+    // configure a request to join microgrid  - once configured - update the requestId.sequenceNumber and issue via the write below at will (not durable)
     retcode = microgrid_membership_request_data->set_octet_array("requestId.deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
+    retcode = microgrid_membership_request_data->set_ulonglong("requestId.sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, (DDS_UnsignedLongLong) reqSeqNo->getNextSeqNo()); 
     retcode1 = microgrid_membership_request_data->set_octet_array("deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
-    if (retcode != DDS_RETCODE_OK || retcode1 != DDS_RETCODE_OK ) {
-        std::cerr << "heartbeat: Dynamic Data Set Error" << std::endl << std::flush;
+    // note enums are compiler dependent and here seem to be 4 bytes long (the compiler will tell you- and you can always printf sizeof(MM_JOIN))
+    retcode2 = microgrid_membership_request_data->set_long("membership", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, (DDS_Long) MM_JOIN);
+    if (retcode != DDS_RETCODE_OK || retcode1 != DDS_RETCODE_OK || retcode2 != DDS_RETCODE_OK) {
+        std::cerr << "microgrid_membership_request: Dynamic Data Set Error" << std::endl << std::flush;
         goto tms_app_main_end;
     }
-
-
+ 
     NDDSUtility::sleep(send_period); // Optional - to let periodic writer go first
 
     // get approval to enter the grid
+    retcode = microgrid_membership_request_writer->write(* microgrid_membership_request_data, DDS_HANDLE_NIL);
+    if (retcode != DDS_RETCODE_OK) {
+        std::cerr << "product_info: Dynamic Data Set Error " << std::endl << std::flush;
+        goto tms_app_main_end;
+    }
 
     // Upon approval enable all Periodic and Change State Topics
     myHeartbeatThreadInfo->enabled=true;  

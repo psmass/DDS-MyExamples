@@ -22,8 +22,6 @@ or consult the RTI Connext manual.
 #include "ndds_standalone_type.h"
 #endif
 
-static bool run_flag = true;
-
 static const DDS_Char * const tms_TOPIC_ACTIVE_DIAGNOSTICS= "ActiveDiagnostics";
 static const DDS_Char * const tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_OUTCOME= "AuthorizationToEnergizeOutcome";
 static const DDS_Char * const tms_TOPIC_AUTHORIZATION_TO_ENERGIZE_REQUEST= "AuthorizationToEnergizeRequest";
