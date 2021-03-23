@@ -189,4 +189,45 @@ static const char topic_name_array [tms_TOPIC_LAST_SENTINEL_ENUM][tms_MAXLEN_Top
     tms_TOPIC_STORAGE_STATE_NAME
 };
 
+typedef struct {
+    unsigned long long sequenceNum;
+    enum TOPICS_E requestor_enum;
+} ReqQEntry;
+
+#define RQ_SIZE 10
+typedef struct {
+    unsigned int start, end;
+    ReqQEntry req_Q_entry[RQ_SIZE];
+} ReqQ;
+
+class ReqCmdQ {
+    // ReqCmdQ is a circular buffer that holds the last n Request Entries this device has written
+    // it is used with a RequestResponse sequence number to determine if we still have the request
+    // entry () (i.e. RequestResponse sequence number matches the saved sequence number in the 
+    // entry [RequestResponse sequence % qSize], if so the RequestResponse can be processed in
+    // the context of the request pended to the queue (what ever that means to you). If not the
+    // Request Response being process must be ignored since we no longer have context.
+
+    public:
+    // allocate and intializes the array of entries and stucture control vars that track the circular writes
+    ReqCmdQ();  
+
+    // There MUST be only one writer at a time (i.e. reqCmdQwrite() is not reentrant.
+    // reqCmdQWrite is intended to ONLY be used from the main thread. The write operation
+    // will wrap and not block, overwriting the oldest entry. 
+    void reqCmdQWrite(ReqQEntry reqQentry);
+
+    // Reading the reqCmdQ is non distructive, it simply takes the given sequenceNo and calculates
+    // and index modulo the queue size returning the enum TOPICS_E stored in the entry ReqQEntry.  
+    // HOWEVER, before it blindly returns the enum TOPICS_E it first verifes the stored sequence 
+    // number matches the requested sequence number. If it does not match, the SENTINEL_ENUM is
+    // returned instead of a correlating ENUM to the response.
+    // The reader needs needs to check the returned ENUM for the SENTINEL to determine if the 
+    // Response Request they are processing is known (i.e., it has not been overwritten. 
+    enum TOPICS_E reqCmdQRead(unsigned long long sequenceNo);
+
+    private:
+    ReqQ rq;  // The request queue
+};
+
 #endif

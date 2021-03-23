@@ -42,6 +42,32 @@ void handle_SIGINT(int unused)
 // Used to manage the static sequence_number across all requests
 RequestSequenceNumber::RequestSequenceNumber() { mySeqNum = &sequence_number; }
 unsigned long long RequestSequenceNumber::getNextSeqNo() { (*mySeqNum)++; return (*mySeqNum);}
+// END class RequestSequenceNumber member function definitions
+
+
+// class ReqCmdQ member function definitions (see class def in tmsTestExampleApp.h)
+ReqCmdQ::ReqCmdQ () {
+// main thing is to set the start=end indexes to 0, 
+// and sequence numbers to 0 to since we start at 1
+   memset(&rq, 0, sizeof(rq));  
+}
+
+void ReqCmdQ::reqCmdQWrite(ReqQEntry reqQentry) {
+    rq.req_Q_entry[rq.end].sequenceNum = reqQentry.sequenceNum;
+    rq.req_Q_entry[rq.end].requestor_enum = reqQentry.requestor_enum;
+    // match gets set by the read operation
+    rq.end = (rq.end + 1) % RQ_SIZE;
+}
+
+enum TOPICS_E  ReqCmdQ::reqCmdQRead(unsigned long long sequenceNo){
+    int idx = sequenceNo % RQ_SIZE;
+    enum TOPICS_E enumFound = tms_TOPIC_LAST_SENTINEL_ENUM;
+    if (rq.req_Q_entry[idx].sequenceNum == sequenceNo)
+        enumFound = rq.req_Q_entry[idx].requestor_enum;
+    return enumFound;
+}
+// END class ReqQEntry member function definitions
+
 
 /* Delete all entities */
 static int participant_shutdown(
