@@ -984,7 +984,7 @@
     </qos_library>
 
     <domain_library name="TMS_DomainLibrary1">
-      <domain name="TMS_Domain0" domain_id="0">
+      <domain name="TMS_Domain0" domain_id="1">
         <register_type name="DeviceAnnouncementType" type_ref="tms::ProductInfo"/>
         <register_type name="MicrogridMembershipRequestType" type_ref="tms::MicrogridMembershipRequest"/>
         <register_type name="MicrogridMembershipOutcomeType" type_ref="tms::MicrogridMembershipApproval"/>

@@ -178,9 +178,8 @@ static const char topic_name_array [tms_TOPIC_LAST_SENTINEL_ENUM][tms_MAXLEN_Top
 };
 
 
-class ReqCmdQ; // for forward reference
+class ReqCmdQ; // forward reference
 
-// class to manage the static sequence_number used in requests
 class RequestSequenceNumber {
     public:
     // class to manage the static sequence_number used in requests
@@ -188,7 +187,7 @@ class RequestSequenceNumber {
     unsigned long long getNextSeqNo(enum TOPICS_E topic_enum);
 
     private:
-    unsigned long long * mySeqNum; // manages the single stati sequence_number
+    unsigned long long * mySeqNum; // manages the single static sequence_number
     ReqCmdQ * myReqCmdQptr;
 };
 typedef struct {
@@ -210,7 +209,7 @@ class ReqCmdQ {
     // the context of the request pended to the queue (what ever that means to you). If not the
     // Request Response being process must be ignored since we no longer have context.
 
-    friend class RequestSequenceNumber; // allow eqCmdQWrite only by RequestSequenceNumber::getNextSeqNo()
+    friend class RequestSequenceNumber; // allow reqCmdQWrite only by RequestSequenceNumber::getNextSeqNo()
 
     public:
     // allocate and intializes the array of entries and structure control vars that track the circular writes
@@ -223,7 +222,9 @@ class ReqCmdQ {
     // number matches the requested sequence number. If it does not match, the SENTINEL_ENUM is
     // returned instead of a correlating ENUM to the response.
     // The reader needs needs to check the returned ENUM for the SENTINEL to determine if the 
-    // Response Request they are processing is known (i.e., it has not been overwritten.) 
+    // Response Request they are processing is known (i.e., it has not been overwritten.)
+    // Reading is expected to occur from a thread processing the ResponseRequests being returned
+    // from the Microgrid Controller to our prior requests (issued from the main loop) 
     enum TOPICS_E reqCmdQRead(unsigned long long sequenceNo);
 
     private:
@@ -235,7 +236,7 @@ class ReqCmdQ {
     // Writing is never blocked and will wrap, overwriting the oldest entry. 
     void reqCmdQWrite(ReqQEntry reqQentry);
 
-    ReqQ rq;  // The request queue
+    ReqQ rq;  // The actual request queue w/entries array
 };
 
 #endif

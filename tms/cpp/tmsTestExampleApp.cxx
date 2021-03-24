@@ -67,21 +67,21 @@ ReqCmdQ::ReqCmdQ () {
 
 // The code below must be used as follows: reqCmdQwrite is only ever done
 // from class RequestSequenceNumber::getNextSeqNo which is only ever used
-// when sending a request from the main loop. This guarantess that any
+// when sending a request from the main loop. This guarantees that any
 // response we are processing can not be from the sequenced request we are
 // about to write. To ensure the requestorEnum is paired with the
 // sequenceNum if we write the sequenceNum before the requestorEnum and
 // read the sequenceNum after the requestorEnum they MUST necessarily 
-// be a pair if the read seqenceNum matches the requested seqnceNo.
+// be a pair IFF the read seqenceNum matches the requested seqnceNo.
 void ReqCmdQ::reqCmdQWrite(ReqQEntry reqQentry) {
-    // CAUTION: Keep Order - Write sequence number first, read sequence last
+    // CAUTION: Keep Order - Write sequence number first, read sequence number last
     rq.req_Q_entry[rq.end].sequenceNum = reqQentry.sequenceNum;
     rq.req_Q_entry[rq.end].requestorEnum = reqQentry.requestorEnum;
     rq.end = (rq.end + 1) % RQ_SIZE;
 }
 
 enum TOPICS_E  ReqCmdQ::reqCmdQRead(unsigned long long sequenceNo){
-    // CAUTION: Keep Order - Write squence number first, read sequence last
+    // CAUTION: Keep Order - Write squence number first, read sequence number last
     int idx = sequenceNo % RQ_SIZE;
     enum TOPICS_E enumFound = rq.req_Q_entry[idx].requestorEnum;
     if (rq.req_Q_entry[idx].sequenceNum != sequenceNo)
@@ -353,9 +353,21 @@ extern "C" int tms_app_main(int sample_count) {
     pthread_create(&wmmr_tid, NULL, pthreadToProcWriterEvents, (void*) myMicrogridMembershipRequestEventThreadInfo);
 
     myMicrogridMembershipOutcomeReaderThreadInfo->reader = microgrid_membership_outcome_reader;
-    pthread_t rmmo_tid; // writer microgrid_membership_outcome tid
+    pthread_t rmmo_tid; // Reader microgrid_membership_outcome tid
     pthread_create(&rmmo_tid, NULL, pthreadToProcReaderEvents, (void*) myMicrogridMembershipOutcomeReaderThreadInfo);
-    
+
+    mySourceTransitionRequestReaderThreadInfo->reader = source_transition_request_reader;
+    pthread_t rstr_tid; // Reader Source Transition Request tid
+    pthread_create(&rstr_tid, NULL, pthreadToProcReaderEvents, (void*) mySourceTransitionRequestReaderThreadInfo);
+
+    myRequestResponseReaderThreadInfo->reader = request_response_reader;
+    pthread_t rrr_tid; // Reader Request Response tid - a regular pirate rrr
+    pthread_create(&rrr_tid, NULL, pthreadToProcReaderEvents, (void*) myRequestResponseReaderThreadInfo);
+
+    myRequestResponseEventThreadInfo->writer = request_response_writer;
+    pthread_t wrr_tid; // Wroter Request Response tid
+    pthread_create(&wrr_tid, NULL, pthreadToProcWriterEvents, (void*) myRequestResponseEventThreadInfo);
+
     NDDSUtility::sleep(send_period); // wait a second for thread initialization to complete printing (printing is not sychronized)
 
 
@@ -433,6 +445,10 @@ extern "C" int tms_app_main(int sample_count) {
     pthread_cancel(wda_tid); 
     pthread_cancel(wmmr_tid); 
     pthread_cancel(rmmo_tid); 
+    pthread_cancel(rrr_tid);
+    pthread_cancel(wrr_tid);
+    pthread_cancel(rstr_tid);
+
 
     return participant_shutdown(participant);
 }
