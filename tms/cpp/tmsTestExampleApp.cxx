@@ -40,8 +40,21 @@ void handle_SIGINT(int unused)
 
 // class RequestSequenceNumber member function definitions (see class def in tmsTestExampleApp.h)
 // Used to manage the static sequence_number across all requests
-RequestSequenceNumber::RequestSequenceNumber() { mySeqNum = &sequence_number; }
-unsigned long long RequestSequenceNumber::getNextSeqNo() { (*mySeqNum)++; return (*mySeqNum);}
+RequestSequenceNumber::RequestSequenceNumber(ReqCmdQ * req_cmd_q_ptr) {
+    myReqCmdQptr =req_cmd_q_ptr;
+    mySeqNum = &sequence_number; 
+}
+
+unsigned long long RequestSequenceNumber::getNextSeqNo(enum TOPICS_E topic_enum) { 
+    // this function increments and returns the next sequenceNo for the requestTopic write
+    // and enques the topic_enum and sequence number for later response processing
+    ReqQEntry rq_entry;
+    rq_entry.requestorEnum = topic_enum;
+    (*mySeqNum)++;
+    rq_entry.sequenceNum = (*mySeqNum);
+    myReqCmdQptr->reqCmdQWrite(rq_entry);
+    return (*mySeqNum);
+}
 // END class RequestSequenceNumber member function definitions
 
 
@@ -52,18 +65,28 @@ ReqCmdQ::ReqCmdQ () {
    memset(&rq, 0, sizeof(rq));  
 }
 
+// The code below must be used as follows: reqCmdQwrite is only ever done
+// from class RequestSequenceNumber::getNextSeqNo which is only ever used
+// when sending a request from the main loop. This guarantess that any
+// response we are processing can not be from the sequenced request we are
+// about to write. To ensure the requestorEnum is paired with the
+// sequenceNum if we write the sequenceNum before the requestorEnum and
+// read the sequenceNum after the requestorEnum they MUST necessarily 
+// be a pair if the read seqenceNum matches the requested seqnceNo.
 void ReqCmdQ::reqCmdQWrite(ReqQEntry reqQentry) {
+    // CAUTION: Keep Order - Write sequence number first, read sequence last
     rq.req_Q_entry[rq.end].sequenceNum = reqQentry.sequenceNum;
-    rq.req_Q_entry[rq.end].requestor_enum = reqQentry.requestor_enum;
-    // match gets set by the read operation
+    rq.req_Q_entry[rq.end].requestorEnum = reqQentry.requestorEnum;
     rq.end = (rq.end + 1) % RQ_SIZE;
 }
 
 enum TOPICS_E  ReqCmdQ::reqCmdQRead(unsigned long long sequenceNo){
+    // CAUTION: Keep Order - Write squence number first, read sequence last
     int idx = sequenceNo % RQ_SIZE;
-    enum TOPICS_E enumFound = tms_TOPIC_LAST_SENTINEL_ENUM;
-    if (rq.req_Q_entry[idx].sequenceNum == sequenceNo)
-        enumFound = rq.req_Q_entry[idx].requestor_enum;
+    enum TOPICS_E enumFound = rq.req_Q_entry[idx].requestorEnum;
+    if (rq.req_Q_entry[idx].sequenceNum != sequenceNo)
+        enumFound = tms_TOPIC_LAST_SENTINEL_ENUM;
+    
     return enumFound;
 }
 // END class ReqQEntry member function definitions
@@ -130,7 +153,8 @@ extern "C" int tms_app_main(int sample_count) {
     unsigned long long count = 0;  
     DDS_Duration_t send_period = {1,0};
 
-    RequestSequenceNumber * reqSeqNo = new RequestSequenceNumber();
+    ReqCmdQ  req_cmd_q;
+    RequestSequenceNumber * reqSeqNo = new RequestSequenceNumber(&req_cmd_q);
 
     // Declare Reader and Writer thread Information structs
     PeriodicWriterThreadInfo * myHeartbeatThreadInfo = new PeriodicWriterThreadInfo(tms_TOPIC_HEARTBEAT_ENUM, send_period);
@@ -356,7 +380,9 @@ extern "C" int tms_app_main(int sample_count) {
 
     // configure a request to join microgrid  - once configured - update the requestId.sequenceNumber and issue via the write below at will (not durable)
     retcode = microgrid_membership_request_data->set_octet_array("requestId.deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
-    retcode = microgrid_membership_request_data->set_ulonglong("requestId.sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, (DDS_UnsignedLongLong) reqSeqNo->getNextSeqNo()); 
+    retcode = microgrid_membership_request_data->\
+        set_ulonglong("requestId.sequenceNumber", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, (DDS_UnsignedLongLong)\
+        reqSeqNo->getNextSeqNo(tms_TOPIC_MICROGRID_MEMBERSHIP_REQUEST_ENUM)); 
     retcode1 = microgrid_membership_request_data->set_octet_array("deviceId", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, tms_LEN_Fingerprint, (const DDS_Octet *)&this_device_id); 
     // note enums are compiler dependent and here seem to be 4 bytes long (the compiler will tell you- and you can always printf sizeof(MM_JOIN))
     retcode2 = microgrid_membership_request_data->set_long("membership", DDS_DYNAMIC_DATA_MEMBER_ID_UNSPECIFIED, (DDS_Long) MM_JOIN);

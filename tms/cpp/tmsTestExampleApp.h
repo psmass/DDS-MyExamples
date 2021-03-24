@@ -7,18 +7,6 @@
 static bool run_flag = true;
 static unsigned long long sequence_number=0; // ever monotonically increasing for each request sent
 
-// class to manage the static sequence_number used in requests
-class RequestSequenceNumber {
-    public:
-    // class to manage the static sequence_number used in requests
-    RequestSequenceNumber();
-    unsigned long long getNextSeqNo();
-
-    private:
-    unsigned long long * mySeqNum; // manages the single stati sequence_number
-};
-
-
 // Should probably intialize this_device_id in a loop since setting an array size tms_LEN_Fingerprint
 // to a "fixed string 32 chars + null" defeats the purpose of using tms_LEN_Fingerprint - but eventually
 // it would be populated via a CAN device ID access 
@@ -189,9 +177,23 @@ static const char topic_name_array [tms_TOPIC_LAST_SENTINEL_ENUM][tms_MAXLEN_Top
     tms_TOPIC_STORAGE_STATE_NAME
 };
 
+
+class ReqCmdQ; // for forward reference
+
+// class to manage the static sequence_number used in requests
+class RequestSequenceNumber {
+    public:
+    // class to manage the static sequence_number used in requests
+    RequestSequenceNumber(ReqCmdQ * req_cmd_q_ptr);
+    unsigned long long getNextSeqNo(enum TOPICS_E topic_enum);
+
+    private:
+    unsigned long long * mySeqNum; // manages the single stati sequence_number
+    ReqCmdQ * myReqCmdQptr;
+};
 typedef struct {
     unsigned long long sequenceNum;
-    enum TOPICS_E requestor_enum;
+    enum TOPICS_E requestorEnum;
 } ReqQEntry;
 
 #define RQ_SIZE 10
@@ -200,33 +202,39 @@ typedef struct {
     ReqQEntry req_Q_entry[RQ_SIZE];
 } ReqQ;
 
-class ReqCmdQ {
+class ReqCmdQ {   
     // ReqCmdQ is a circular buffer that holds the last n Request Entries this device has written
     // it is used with a RequestResponse sequence number to determine if we still have the request
     // entry () (i.e. RequestResponse sequence number matches the saved sequence number in the 
-    // entry [RequestResponse sequence % qSize], if so the RequestResponse can be processed in
+    // entry [RequestResponse sequence % qSize]), if so, the RequestResponse can be processed in
     // the context of the request pended to the queue (what ever that means to you). If not the
     // Request Response being process must be ignored since we no longer have context.
 
+    friend class RequestSequenceNumber; // allow eqCmdQWrite only by RequestSequenceNumber::getNextSeqNo()
+
     public:
-    // allocate and intializes the array of entries and stucture control vars that track the circular writes
+    // allocate and intializes the array of entries and structure control vars that track the circular writes
     ReqCmdQ();  
 
-    // There MUST be only one writer at a time (i.e. reqCmdQwrite() is not reentrant.
-    // reqCmdQWrite is intended to ONLY be used from the main thread. The write operation
-    // will wrap and not block, overwriting the oldest entry. 
-    void reqCmdQWrite(ReqQEntry reqQentry);
-
+  
     // Reading the reqCmdQ is non distructive, it simply takes the given sequenceNo and calculates
     // and index modulo the queue size returning the enum TOPICS_E stored in the entry ReqQEntry.  
     // HOWEVER, before it blindly returns the enum TOPICS_E it first verifes the stored sequence 
     // number matches the requested sequence number. If it does not match, the SENTINEL_ENUM is
     // returned instead of a correlating ENUM to the response.
     // The reader needs needs to check the returned ENUM for the SENTINEL to determine if the 
-    // Response Request they are processing is known (i.e., it has not been overwritten. 
+    // Response Request they are processing is known (i.e., it has not been overwritten.) 
     enum TOPICS_E reqCmdQRead(unsigned long long sequenceNo);
 
     private:
+    // There MUST be only one writer at a time (i.e. reqCmdQwrite() is not reentrant.
+    // reqCmdQWrite is intended to ONLY be used from the main thread on a request. This
+    // is enforced by only allowing the reqCmdQWrite() executed from the 
+    // RequestSequenceNumber::getNextSeqNo() function which is to only be used from the
+    // main loop when you send a request.
+    // Writing is never blocked and will wrap, overwriting the oldest entry. 
+    void reqCmdQWrite(ReqQEntry reqQentry);
+
     ReqQ rq;  // The request queue
 };
 
