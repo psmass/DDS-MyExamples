@@ -27,88 +27,15 @@ $NDDSHOME/resource/xml/ directory.
 
 You may use any of these QoS configurations in your application simply by 
 referring to them by the name shown in the 
-BuiltinProfiles.documentationONLY.xml file and listed below: 
-
-* Library "BuiltinQosLib":
-** Baseline
-** Baseline.5.0.0
-** Baseline.5.1.0
-** Baseline.5.2.0
-** Generic.Common
-** Generic.510TransportCompatibility
-** Generic.Monitoring.Common
-** Generic.ConnextMicroCompatibility
-** Generic.OtherDDSVendorCompatibility
-** Generic.StrictReliable
-** Generic.KeepLastReliable
-** Generic.BestEffort
-** Generic.StrictReliable.HighThroughput
-** Generic.StrictReliable.LowLatency
-** Generic.Participant.LargeData
-** Generic.Participant.LargeData.Monitoring
-** Generic.StrictReliable.LargeData
-** Generic.KeepLastReliable.LargeData
-** Generic.StrictReliable.LargeData.FastFlow
-** Generic.StrictReliable.LargeData.MediumFlow
-** Generic.StrictReliable.LargeData.SlowFlow
-** Generic.KeepLastReliable.LargeData.FastFlow
-** Generic.KeepLastReliable.LargeData.MediumFlow
-** Generic.KeepLastReliable.LargeData.SlowFlow
-** Generic.KeepLastReliable.TransientLocal
-** Generic.KeepLastReliable.Transient
-** Generic.KeepLastReliable.Persistent
-** Generic.AutoTuning
-** Pattern.PeriodicData
-** Pattern.Streaming
-** Pattern.ReliableStreaming
-** Pattern.Event
-** Pattern.AlarmEvent
-** Pattern.Status
-** Pattern.AlarmStatus
-** Pattern.LastValueCache
+BuiltinProfiles.documentationONLY.xml file.
 
 Also, following the QoS Profile composition pattern you can use QoS Snippets
 to easily create your final QoS Profile. For further information visit:
 https://community.rti.com/best-practices/qos-profile-inheritance-and-composition-guidance
 
 There is a QoS Snippet library that contains a collection of
-QoS Snippets that set some specific features or configurations.
-
-* Library "BuiltinQosSnippetLib":
-** Optimization.ReliabilityProtocol.Common
-** Optimization.ReliabilityProtocol.KeepAll
-** Optimization.ReliabilityProtocol.KeepLast
-** Optimization.ReliabilityProtocol.HighRate
-** Optimization.ReliabilityProtocol.LowLatency
-** Optimization.ReliabilityProtocol.LargeData
-** Optimization.DataCache.LargeData.DynamicMemAlloc
-** Optimization.Discovery.Common
-** Optimization.Discovery.Participant.Properties.Compact
-** Optimization.Discovery.Endpoint.Fast
-** Optimization.Transport.LargeBuffers
-** QosPolicy.Reliability.Reliable
-** QosPolicy.Reliability.BestEffort
-** QosPolicy.History.KeepLast_1
-** QosPolicy.History.KeepAll
-** QosPolicy.PublishMode.Asynchronous
-** QosPolicy.Durability.TransientLocal
-** QosPolicy.Durability.Transient
-** QosPolicy.Durability.Persistent
-** QosPolicy.Batching.Enable
-** Feature.FlowController.838Mbps
-** Feature.FlowController.209Mbps
-** Feature.FlowController.52Mbps
-** Feature.AutoTuning.Enable
-** Feature.Monitoring.Enable
-** Feature.Security.Enable
-** Feature.TopicQuery.Enable
-** Transport.TCP.LAN.Client
-** Transport.TCP.WAN.Symetric.Client
-** Transport.TCP.WAN.Asymetric.Server
-** Transport.TCP.WAN.Asymetric.Client
-** Compatibility.ConnextMicro.Version243
-** Compatibility.OtherDDSVendor.Enable
-** Compatibility.510Transport.Enable
+QoS Snippets that set some specific features or configurations. You can find
+them in the BuiltinProfiles.documentationONLY.xml file as well.
 
 You should not edit the file BuiltinProfiles.documentationONLY.xml directly.
 However, if you wish to modify any of the values in a built-in profile, the
@@ -122,7 +49,7 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
 -->
 
 <dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:noNamespaceSchemaLocation="/Applications/rti_connext_dds-6.0.1/resource/schema/rti_dds_qos_profiles.xsd">
+     xsi:noNamespaceSchemaLocation="file:////Applications/rti_connext_dds-6.1.1/resource/schema/rti_dds_qos_profiles.xsd">
     <!-- QoS Library containing the QoS profile used in the generated example.
 
         A QoS library is a named set of QoS profiles.
@@ -148,7 +75,7 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
                     <name>ShapeTypeDataReader</name>
                 </subscription_name>
             </datareader_qos>
-            <participant_qos>
+            <domain_participant_qos>
                 <!--
                 The participant name, if it is set, will be displayed in the
                 RTI tools, making it easier for you to tell one
@@ -159,7 +86,7 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
                     <role_name>ShapeTypeParticipantRole</role_name>
                 </participant_name>
 
-            </participant_qos>
+            </domain_participant_qos>
         </qos_profile>
 
     </qos_library>

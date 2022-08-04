@@ -3,10 +3,11 @@
 /*
 WARNING: THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
 
-This file was generated from ShapeType.idl using "rtiddsgen".
-The rtiddsgen tool is part of the RTI Connext distribution.
+This file was generated from ShapeType.idl
+using RTI Code Generator (rtiddsgen) version 3.1.1.
+The rtiddsgen tool is part of the RTI Connext DDS distribution.
 For more information, type 'rtiddsgen -help' at a command shell
-or consult the RTI Connext manual.
+or consult the Code Generator User's Manual.
 */
 
 #ifndef ShapeTypePlugin_434673741_h
@@ -258,13 +259,6 @@ ShapeTypePlugin_key_to_instance(
     const ShapeTypeKeyHolder *key);
 
 NDDSUSERDllExport extern RTIBool 
-ShapeTypePlugin_instance_to_keyhash(
-    PRESTypePluginEndpointData endpoint_data,
-    DDS_KeyHash_t *keyhash,
-    const ShapeType *instance,
-    RTIEncapsulationId encapsulationId);
-
-NDDSUSERDllExport extern RTIBool 
 ShapeTypePlugin_serialized_sample_to_keyhash(
     PRESTypePluginEndpointData endpoint_data,
     struct RTICdrStream *stream, 
@@ -472,13 +466,6 @@ ShapeTypeExtendedPlugin_key_to_instance(
     PRESTypePluginEndpointData endpoint_data,
     ShapeTypeExtended *instance, 
     const ShapeTypeExtendedKeyHolder *key);
-
-NDDSUSERDllExport extern RTIBool 
-ShapeTypeExtendedPlugin_instance_to_keyhash(
-    PRESTypePluginEndpointData endpoint_data,
-    DDS_KeyHash_t *keyhash,
-    const ShapeTypeExtended *instance,
-    RTIEncapsulationId encapsulationId);
 
 NDDSUSERDllExport extern RTIBool 
 ShapeTypeExtendedPlugin_serialized_sample_to_keyhash(

@@ -3,10 +3,11 @@
 /*
 WARNING: THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
 
-This file was generated from ShapeType.idl using "rtiddsgen".
-The rtiddsgen tool is part of the RTI Connext distribution.
+This file was generated from ShapeType.idl
+using RTI Code Generator (rtiddsgen) version 3.1.1.
+The rtiddsgen tool is part of the RTI Connext DDS distribution.
 For more information, type 'rtiddsgen -help' at a command shell
-or consult the RTI Connext manual.
+or consult the Code Generator User's Manual.
 */
 
 #include <string.h>
@@ -102,12 +103,12 @@ void ShapeFillKindPluginSupport_print_data(
 {
     if (description != NULL) {
         RTICdrType_printIndent(indent_level);
-        RTILog_debug("%s:\n", description);
+        RTILogParamString_printPlain("%s:\n", description);
     }
 
     if (sample == NULL) {
         RTICdrType_printIndent(indent_level+1);
-        RTILog_debug("NULL\n");
+        RTILogParamString_printPlain("NULL\n");
         return;
     }
 
@@ -130,7 +131,7 @@ ShapeType *
 ShapeTypePluginSupport_create_data(void)
 {
     try {
-        ShapeType *sample = new ShapeType;    
+        ShapeType *sample = new ShapeType();
         ::rti::topic::allocate_sample(*sample);
         return sample;
     } catch (...) {
@@ -338,9 +339,9 @@ ShapeTypePlugin_return_sample(
         RTICdrLog_logWithFunctionName(
             RTI_LOG_BIT_EXCEPTION,
             "ShapeTypePlugin_return_sample",
-            &RTI_LOG_ANY_FAILURE_s,
+            &RTI_LOG_ANY_FAILURE_ss,
             "exception: ",
-            ex.what());           
+            ex.what());
     }
 
     PRESTypePluginDefaultEndpointData_returnSample(
@@ -381,7 +382,7 @@ ShapeTypePlugin_serialize_to_cdr_buffer(
         struct PRESTypePluginDefaultEndpointData epd;
         RTIBool result;
         struct PRESTypePluginDefaultParticipantData pd;
-        struct RTIXCdrTypePluginProgramContext defaultProgramConext =
+        struct RTIXCdrTypePluginProgramContext defaultProgramContext =
         RTIXCdrTypePluginProgramContext_INTIALIZER;
         struct PRESTypePlugin plugin = PRES_TYPEPLUGIN_DEFAULT;
 
@@ -390,7 +391,7 @@ ShapeTypePlugin_serialize_to_cdr_buffer(
         }
 
         RTIOsapiMemory_zero(&epd, sizeof(struct PRESTypePluginDefaultEndpointData));
-        epd.programContext = defaultProgramConext;  
+        epd.programContext = defaultProgramContext;
         epd._participantData = &pd;
         epd.typePlugin = &plugin;
         epd.programContext.endpointPluginData = &epd;
@@ -459,7 +460,7 @@ ShapeTypePlugin_deserialize_from_cdr_buffer(
 {
     struct RTICdrStream stream;
     struct PRESTypePluginDefaultParticipantData pd;
-    struct RTIXCdrTypePluginProgramContext defaultProgramConext =
+    struct RTIXCdrTypePluginProgramContext defaultProgramContext =
     RTIXCdrTypePluginProgramContext_INTIALIZER;
     struct PRESTypePlugin plugin;
     struct PRESTypePluginDefaultEndpointData epd;
@@ -467,7 +468,7 @@ ShapeTypePlugin_deserialize_from_cdr_buffer(
     RTICdrStream_init(&stream);
     RTICdrStream_set(&stream, (char *)buffer, length);
 
-    epd.programContext = defaultProgramConext;  
+    epd.programContext = defaultProgramContext;
     epd._participantData = &pd;
     epd.typePlugin = &plugin;
     epd.programContext.endpointPluginData = &epd;
@@ -628,111 +629,6 @@ ShapeTypePlugin_key_to_instance(
 }
 
 RTIBool 
-ShapeTypePlugin_instance_to_keyhash(
-    PRESTypePluginEndpointData endpoint_data,
-    DDS_KeyHash_t *keyhash,
-    const ShapeType *instance,
-    RTIEncapsulationId encapsulationId)
-{
-    try {
-        struct RTICdrStream * md5Stream = NULL;
-        struct RTICdrStreamState cdrState;
-        char * buffer = NULL;
-        RTIXCdrBoolean iCdrv2;
-
-        iCdrv2 = RTIXCdrEncapsulationId_isCdrV2(encapsulationId);
-        RTICdrStreamState_init(&cdrState);
-        md5Stream = PRESTypePluginDefaultEndpointData_getMD5Stream(endpoint_data);
-
-        if (md5Stream == NULL) {
-            return RTI_FALSE;
-        }
-
-        RTICdrStream_resetPosition(md5Stream);
-        RTICdrStream_setDirtyBit(md5Stream, RTI_TRUE);
-
-        if (!PRESTypePlugin_interpretedSerializeKeyForKeyhash(
-            endpoint_data,
-            instance,
-            md5Stream,
-            iCdrv2?
-            RTI_CDR_ENCAPSULATION_ID_CDR2_BE:
-            RTI_CDR_ENCAPSULATION_ID_CDR_BE,
-            NULL)) 
-        {
-            int size;
-
-            RTICdrStream_pushState(md5Stream, &cdrState, -1);
-
-            size = (int)PRESTypePlugin_interpretedGetSerializedSampleSize(
-                endpoint_data,
-                RTI_FALSE,
-                iCdrv2?
-                RTI_CDR_ENCAPSULATION_ID_CDR2_BE:
-                RTI_CDR_ENCAPSULATION_ID_CDR_BE,
-                0,
-                instance);
-
-            if (size <= RTICdrStream_getBufferLength(md5Stream)) {
-                RTICdrStream_popState(md5Stream, &cdrState);        
-                return RTI_FALSE;
-            }   
-
-            RTIOsapiHeap_allocateBuffer(&buffer,size,0);
-
-            if (buffer == NULL) {
-                RTICdrStream_popState(md5Stream, &cdrState);
-                return RTI_FALSE;
-            }
-
-            RTICdrStream_set(md5Stream, buffer, size);
-            RTIOsapiMemory_zero(
-                RTICdrStream_getBuffer(md5Stream),
-                RTICdrStream_getBufferLength(md5Stream));
-            RTICdrStream_resetPosition(md5Stream);
-            RTICdrStream_setDirtyBit(md5Stream, RTI_TRUE);
-            if (!PRESTypePlugin_interpretedSerializeKeyForKeyhash(
-                endpoint_data,
-                instance,
-                md5Stream, 
-                iCdrv2?
-                RTI_CDR_ENCAPSULATION_ID_CDR2_BE:
-                RTI_CDR_ENCAPSULATION_ID_CDR_BE,
-                NULL)) 
-            {
-                RTICdrStream_popState(md5Stream, &cdrState);
-                RTIOsapiHeap_freeBuffer(buffer);
-                return RTI_FALSE;
-            }        
-        }   
-
-        if (PRESTypePluginDefaultEndpointData_getMaxSizeSerializedKey(endpoint_data, iCdrv2) > 
-        (unsigned int)(MIG_RTPS_KEY_HASH_MAX_LENGTH) ||
-        PRESTypePluginDefaultEndpointData_forceMD5KeyHash(endpoint_data)) {
-            RTICdrStream_computeMD5(md5Stream, keyhash->value);
-        } else {
-            RTIOsapiMemory_zero(keyhash->value,MIG_RTPS_KEY_HASH_MAX_LENGTH);
-            RTIOsapiMemory_copy(
-                keyhash->value, 
-                RTICdrStream_getBuffer(md5Stream), 
-                RTICdrStream_getCurrentPositionOffset(md5Stream));
-        }
-
-        keyhash->length = MIG_RTPS_KEY_HASH_MAX_LENGTH;
-
-        if (buffer != NULL) {
-            RTICdrStream_popState(md5Stream, &cdrState);
-            RTIOsapiHeap_freeBuffer(buffer);
-        }
-
-        return RTI_TRUE;
-
-    } catch (...) {
-        return RTI_FALSE;
-    }
-}
-
-RTIBool 
 ShapeTypePlugin_serialized_sample_to_keyhash(
     PRESTypePluginEndpointData endpoint_data,
     struct RTICdrStream *stream, 
@@ -755,7 +651,7 @@ ShapeTypePlugin_serialized_sample_to_keyhash(
         endpoint_plugin_qos)) {
         return RTI_FALSE;
     }
-    if (!ShapeTypePlugin_instance_to_keyhash(
+    if (!PRESTypePlugin_interpretedInstanceToKeyHash(
         endpoint_data,
         keyhash,
         sample,
@@ -842,7 +738,7 @@ struct PRESTypePlugin *ShapeTypePlugin_new(void)
 
     plugin-> instanceToKeyHashFnc = 
     (PRESTypePluginInstanceToKeyHashFunction)
-    ShapeTypePlugin_instance_to_keyhash;
+    PRESTypePlugin_interpretedInstanceToKeyHash;
     plugin->serializedSampleToKeyHashFnc = 
     (PRESTypePluginSerializedSampleToKeyHashFunction)
     ShapeTypePlugin_serialized_sample_to_keyhash;
@@ -912,7 +808,7 @@ ShapeTypeExtended *
 ShapeTypeExtendedPluginSupport_create_data(void)
 {
     try {
-        ShapeTypeExtended *sample = new ShapeTypeExtended;    
+        ShapeTypeExtended *sample = new ShapeTypeExtended();
         ::rti::topic::allocate_sample(*sample);
         return sample;
     } catch (...) {
@@ -1120,9 +1016,9 @@ ShapeTypeExtendedPlugin_return_sample(
         RTICdrLog_logWithFunctionName(
             RTI_LOG_BIT_EXCEPTION,
             "ShapeTypeExtendedPlugin_return_sample",
-            &RTI_LOG_ANY_FAILURE_s,
+            &RTI_LOG_ANY_FAILURE_ss,
             "exception: ",
-            ex.what());           
+            ex.what());
     }
 
     PRESTypePluginDefaultEndpointData_returnSample(
@@ -1163,7 +1059,7 @@ ShapeTypeExtendedPlugin_serialize_to_cdr_buffer(
         struct PRESTypePluginDefaultEndpointData epd;
         RTIBool result;
         struct PRESTypePluginDefaultParticipantData pd;
-        struct RTIXCdrTypePluginProgramContext defaultProgramConext =
+        struct RTIXCdrTypePluginProgramContext defaultProgramContext =
         RTIXCdrTypePluginProgramContext_INTIALIZER;
         struct PRESTypePlugin plugin = PRES_TYPEPLUGIN_DEFAULT;
 
@@ -1172,7 +1068,7 @@ ShapeTypeExtendedPlugin_serialize_to_cdr_buffer(
         }
 
         RTIOsapiMemory_zero(&epd, sizeof(struct PRESTypePluginDefaultEndpointData));
-        epd.programContext = defaultProgramConext;  
+        epd.programContext = defaultProgramContext;
         epd._participantData = &pd;
         epd.typePlugin = &plugin;
         epd.programContext.endpointPluginData = &epd;
@@ -1241,7 +1137,7 @@ ShapeTypeExtendedPlugin_deserialize_from_cdr_buffer(
 {
     struct RTICdrStream stream;
     struct PRESTypePluginDefaultParticipantData pd;
-    struct RTIXCdrTypePluginProgramContext defaultProgramConext =
+    struct RTIXCdrTypePluginProgramContext defaultProgramContext =
     RTIXCdrTypePluginProgramContext_INTIALIZER;
     struct PRESTypePlugin plugin;
     struct PRESTypePluginDefaultEndpointData epd;
@@ -1249,7 +1145,7 @@ ShapeTypeExtendedPlugin_deserialize_from_cdr_buffer(
     RTICdrStream_init(&stream);
     RTICdrStream_set(&stream, (char *)buffer, length);
 
-    epd.programContext = defaultProgramConext;  
+    epd.programContext = defaultProgramContext;
     epd._participantData = &pd;
     epd.typePlugin = &plugin;
     epd.programContext.endpointPluginData = &epd;
@@ -1412,111 +1308,6 @@ ShapeTypeExtendedPlugin_key_to_instance(
 }
 
 RTIBool 
-ShapeTypeExtendedPlugin_instance_to_keyhash(
-    PRESTypePluginEndpointData endpoint_data,
-    DDS_KeyHash_t *keyhash,
-    const ShapeTypeExtended *instance,
-    RTIEncapsulationId encapsulationId)
-{
-    try {
-        struct RTICdrStream * md5Stream = NULL;
-        struct RTICdrStreamState cdrState;
-        char * buffer = NULL;
-        RTIXCdrBoolean iCdrv2;
-
-        iCdrv2 = RTIXCdrEncapsulationId_isCdrV2(encapsulationId);
-        RTICdrStreamState_init(&cdrState);
-        md5Stream = PRESTypePluginDefaultEndpointData_getMD5Stream(endpoint_data);
-
-        if (md5Stream == NULL) {
-            return RTI_FALSE;
-        }
-
-        RTICdrStream_resetPosition(md5Stream);
-        RTICdrStream_setDirtyBit(md5Stream, RTI_TRUE);
-
-        if (!PRESTypePlugin_interpretedSerializeKeyForKeyhash(
-            endpoint_data,
-            instance,
-            md5Stream,
-            iCdrv2?
-            RTI_CDR_ENCAPSULATION_ID_CDR2_BE:
-            RTI_CDR_ENCAPSULATION_ID_CDR_BE,
-            NULL)) 
-        {
-            int size;
-
-            RTICdrStream_pushState(md5Stream, &cdrState, -1);
-
-            size = (int)PRESTypePlugin_interpretedGetSerializedSampleSize(
-                endpoint_data,
-                RTI_FALSE,
-                iCdrv2?
-                RTI_CDR_ENCAPSULATION_ID_CDR2_BE:
-                RTI_CDR_ENCAPSULATION_ID_CDR_BE,
-                0,
-                instance);
-
-            if (size <= RTICdrStream_getBufferLength(md5Stream)) {
-                RTICdrStream_popState(md5Stream, &cdrState);        
-                return RTI_FALSE;
-            }   
-
-            RTIOsapiHeap_allocateBuffer(&buffer,size,0);
-
-            if (buffer == NULL) {
-                RTICdrStream_popState(md5Stream, &cdrState);
-                return RTI_FALSE;
-            }
-
-            RTICdrStream_set(md5Stream, buffer, size);
-            RTIOsapiMemory_zero(
-                RTICdrStream_getBuffer(md5Stream),
-                RTICdrStream_getBufferLength(md5Stream));
-            RTICdrStream_resetPosition(md5Stream);
-            RTICdrStream_setDirtyBit(md5Stream, RTI_TRUE);
-            if (!PRESTypePlugin_interpretedSerializeKeyForKeyhash(
-                endpoint_data,
-                instance,
-                md5Stream, 
-                iCdrv2?
-                RTI_CDR_ENCAPSULATION_ID_CDR2_BE:
-                RTI_CDR_ENCAPSULATION_ID_CDR_BE,
-                NULL)) 
-            {
-                RTICdrStream_popState(md5Stream, &cdrState);
-                RTIOsapiHeap_freeBuffer(buffer);
-                return RTI_FALSE;
-            }        
-        }   
-
-        if (PRESTypePluginDefaultEndpointData_getMaxSizeSerializedKey(endpoint_data, iCdrv2) > 
-        (unsigned int)(MIG_RTPS_KEY_HASH_MAX_LENGTH) ||
-        PRESTypePluginDefaultEndpointData_forceMD5KeyHash(endpoint_data)) {
-            RTICdrStream_computeMD5(md5Stream, keyhash->value);
-        } else {
-            RTIOsapiMemory_zero(keyhash->value,MIG_RTPS_KEY_HASH_MAX_LENGTH);
-            RTIOsapiMemory_copy(
-                keyhash->value, 
-                RTICdrStream_getBuffer(md5Stream), 
-                RTICdrStream_getCurrentPositionOffset(md5Stream));
-        }
-
-        keyhash->length = MIG_RTPS_KEY_HASH_MAX_LENGTH;
-
-        if (buffer != NULL) {
-            RTICdrStream_popState(md5Stream, &cdrState);
-            RTIOsapiHeap_freeBuffer(buffer);
-        }
-
-        return RTI_TRUE;
-
-    } catch (...) {
-        return RTI_FALSE;
-    }
-}
-
-RTIBool 
 ShapeTypeExtendedPlugin_serialized_sample_to_keyhash(
     PRESTypePluginEndpointData endpoint_data,
     struct RTICdrStream *stream, 
@@ -1539,7 +1330,7 @@ ShapeTypeExtendedPlugin_serialized_sample_to_keyhash(
         endpoint_plugin_qos)) {
         return RTI_FALSE;
     }
-    if (!ShapeTypeExtendedPlugin_instance_to_keyhash(
+    if (!PRESTypePlugin_interpretedInstanceToKeyHash(
         endpoint_data,
         keyhash,
         sample,
@@ -1626,7 +1417,7 @@ struct PRESTypePlugin *ShapeTypeExtendedPlugin_new(void)
 
     plugin-> instanceToKeyHashFnc = 
     (PRESTypePluginInstanceToKeyHashFunction)
-    ShapeTypeExtendedPlugin_instance_to_keyhash;
+    PRESTypePlugin_interpretedInstanceToKeyHash;
     plugin->serializedSampleToKeyHashFnc = 
     (PRESTypePluginSerializedSampleToKeyHashFunction)
     ShapeTypeExtendedPlugin_serialized_sample_to_keyhash;

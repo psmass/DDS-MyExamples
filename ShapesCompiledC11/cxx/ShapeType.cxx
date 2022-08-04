@@ -3,10 +3,11 @@
 /*
 WARNING: THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
 
-This file was generated from ShapeType.idl using "rtiddsgen".
-The rtiddsgen tool is part of the RTI Connext distribution.
+This file was generated from ShapeType.idl
+using RTI Code Generator (rtiddsgen) version 3.1.1.
+The rtiddsgen tool is part of the RTI Connext DDS distribution.
 For more information, type 'rtiddsgen -help' at a command shell
-or consult the RTI Connext manual.
+or consult the Code Generator User's Manual.
 */
 
 #include <iosfwd>
@@ -22,7 +23,7 @@ or consult the RTI Connext manual.
 std::ostream& operator << (std::ostream& o,const ShapeFillKind& sample)
 {
     ::rti::util::StreamFlagSaver flag_saver (o);
-    switch(sample.underlying()){
+    switch(sample){
         case ShapeFillKind::SOLID_FILL:
         o << "ShapeFillKind::SOLID_FILL" << " ";
         break;
@@ -199,7 +200,7 @@ namespace rti {
     namespace topic {
 
         #ifndef NDDS_STANDALONE_TYPE
-
+        const ShapeFillKind default_enumerator<ShapeFillKind>::value = ShapeFillKind::SOLID_FILL;
         template<>
         struct native_type_code< ShapeFillKind > {
             static DDS_TypeCode * get()
@@ -219,7 +220,7 @@ namespace rti {
                             -1, /* Bitfield bits */
                             NULL/* Member type code is assigned later */
                         },
-                        ShapeFillKind::SOLID_FILL, 
+                        static_cast<int>(ShapeFillKind::SOLID_FILL), 
                         0, /* Ignored */
                         0, /* Ignored */
                         NULL, /* Ignored */
@@ -238,7 +239,7 @@ namespace rti {
                             -1, /* Bitfield bits */
                             NULL/* Member type code is assigned later */
                         },
-                        ShapeFillKind::TRANSPARENT_FILL, 
+                        static_cast<int>(ShapeFillKind::TRANSPARENT_FILL), 
                         0, /* Ignored */
                         0, /* Ignored */
                         NULL, /* Ignored */
@@ -257,7 +258,7 @@ namespace rti {
                             -1, /* Bitfield bits */
                             NULL/* Member type code is assigned later */
                         },
-                        ShapeFillKind::HORIZONTAL_HATCH_FILL, 
+                        static_cast<int>(ShapeFillKind::HORIZONTAL_HATCH_FILL), 
                         0, /* Ignored */
                         0, /* Ignored */
                         NULL, /* Ignored */
@@ -276,7 +277,7 @@ namespace rti {
                             -1, /* Bitfield bits */
                             NULL/* Member type code is assigned later */
                         },
-                        ShapeFillKind::VERTICAL_HATCH_FILL, 
+                        static_cast<int>(ShapeFillKind::VERTICAL_HATCH_FILL), 
                         0, /* Ignored */
                         0, /* Ignored */
                         NULL, /* Ignored */
@@ -348,9 +349,9 @@ namespace rti {
                 {
                     size_t candidateTypeSize = sizeof(ShapeFillKind);
 
-                    if (candidateTypeSize > RTIXCdrUnsignedLong_MAX) {
+                    if (candidateTypeSize > RTIXCdrLong_MAX) {
                         ShapeFillKind_g_sampleAccessInfo.typeSize[0] =
-                        RTIXCdrUnsignedLong_MAX;
+                        RTIXCdrLong_MAX;
                     } else {
                         ShapeFillKind_g_sampleAccessInfo.typeSize[0] =
                         (RTIXCdrUnsignedLong) candidateTypeSize;
@@ -403,7 +404,6 @@ namespace rti {
         }
 
         #ifndef NDDS_STANDALONE_TYPE
-
         template<>
         struct native_type_code< ShapeType > {
             static DDS_TypeCode * get()
@@ -514,7 +514,7 @@ namespace rti {
                     return &ShapeType_g_tc;
                 }
 
-                ShapeType_g_tc_color_string = initialize_string_typecode((128));
+                ShapeType_g_tc_color_string = initialize_string_typecode((128L));
 
                 ShapeType_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
@@ -597,9 +597,9 @@ namespace rti {
                 {
                     size_t candidateTypeSize = sizeof(ShapeType);
 
-                    if (candidateTypeSize > RTIXCdrUnsignedLong_MAX) {
+                    if (candidateTypeSize > RTIXCdrLong_MAX) {
                         ShapeType_g_sampleAccessInfo.typeSize[0] =
-                        RTIXCdrUnsignedLong_MAX;
+                        RTIXCdrLong_MAX;
                     } else {
                         ShapeType_g_sampleAccessInfo.typeSize[0] =
                         (RTIXCdrUnsignedLong) candidateTypeSize;
@@ -653,7 +653,6 @@ namespace rti {
         }
 
         #ifndef NDDS_STANDALONE_TYPE
-
         template<>
         struct native_type_code< ShapeTypeExtended > {
             static DDS_TypeCode * get()
@@ -787,9 +786,9 @@ namespace rti {
                 {
                     size_t candidateTypeSize = sizeof(ShapeTypeExtended);
 
-                    if (candidateTypeSize > RTIXCdrUnsignedLong_MAX) {
+                    if (candidateTypeSize > RTIXCdrLong_MAX) {
                         ShapeTypeExtended_g_sampleAccessInfo.typeSize[0] =
-                        RTIXCdrUnsignedLong_MAX;
+                        RTIXCdrLong_MAX;
                     } else {
                         ShapeTypeExtended_g_sampleAccessInfo.typeSize[0] =
                         (RTIXCdrUnsignedLong) candidateTypeSize;
@@ -911,9 +910,7 @@ namespace dds {
 
         void topic_type_support< ShapeType >::allocate_sample(ShapeType& sample, int, int) 
         {
-            RTIOsapiUtility_unusedParameter(sample); // [[maybe_unused]]
-
-            ::rti::topic::allocate_sample(sample.color(),  -1, 128);
+            ::rti::topic::allocate_sample(sample.color(),  -1, 128L);
         }
 
         void topic_type_support< ShapeTypeExtended >:: register_type(
@@ -981,10 +978,9 @@ namespace dds {
 
         void topic_type_support< ShapeTypeExtended >::allocate_sample(ShapeTypeExtended& sample, int, int) 
         {
-            RTIOsapiUtility_unusedParameter(sample); // [[maybe_unused]]
-
             // Initialize base
             topic_type_support< ShapeType >::allocate_sample(sample, -1, -1);
+
             ::rti::topic::allocate_sample(sample.fillKind(),  -1, -1);
         }
 

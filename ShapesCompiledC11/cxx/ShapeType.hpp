@@ -3,10 +3,11 @@
 /*
 WARNING: THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
 
-This file was generated from ShapeType.idl using "rtiddsgen".
-The rtiddsgen tool is part of the RTI Connext distribution.
+This file was generated from ShapeType.idl
+using RTI Code Generator (rtiddsgen) version 3.1.1.
+The rtiddsgen tool is part of the RTI Connext DDS distribution.
 For more information, type 'rtiddsgen -help' at a command shell
-or consult the RTI Connext manual.
+or consult the Code Generator User's Manual.
 */
 
 #ifndef ShapeType_434673741_hpp
@@ -56,17 +57,13 @@ or consult the RTI Connext manual.
 #define NDDSUSERDllExport __declspec(dllexport)
 #endif
 
-struct ShapeFillKind_def {
-    enum type {
-        SOLID_FILL,      
-        TRANSPARENT_FILL,      
-        HORIZONTAL_HATCH_FILL,      
-        VERTICAL_HATCH_FILL     
-    };
-    static type get_default(){ return SOLID_FILL;}
+enum class ShapeFillKind {
+    SOLID_FILL, 
+    TRANSPARENT_FILL, 
+    HORIZONTAL_HATCH_FILL, 
+    VERTICAL_HATCH_FILL
 };
 
-typedef ::dds::core::safe_enum< ShapeFillKind_def > ShapeFillKind;
 NDDSUSERDllExport std::ostream& operator << (std::ostream& o,const ShapeFillKind& sample);
 
 class NDDSUSERDllExport ShapeType {
@@ -103,6 +100,9 @@ class NDDSUSERDllExport ShapeType {
         m_color_ = value;
     }
 
+    void color(std::string&& value) {
+        m_color_ = std::move(value);
+    }
     int32_t& x() OMG_NOEXCEPT {
         return m_x_;
     }
@@ -197,6 +197,9 @@ class NDDSUSERDllExport ShapeTypeExtended
         m_fillKind_ = value;
     }
 
+    void fillKind(ShapeFillKind&& value) {
+        m_fillKind_ = std::move(value);
+    }
     float& angle() OMG_NOEXCEPT {
         return m_angle_;
     }
@@ -315,6 +318,11 @@ namespace dds {
 namespace rti { 
     namespace topic {
         #ifndef NDDS_STANDALONE_TYPE
+        template <>
+        struct default_enumerator<ShapeFillKind>
+        {
+            static const ShapeFillKind value;
+        };
         template<>
         struct dynamic_type< ShapeFillKind > {
             typedef ::dds::core::xtypes::EnumType type;

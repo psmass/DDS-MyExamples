@@ -61,10 +61,12 @@ void publisher_main(int domain_id, int sample_count)
 	const int xmax = 250;
 	const int ymax = 250;
 
+	sample.x(int32_t(sample.x() + 20)); // + offset swim late
+
     for (int count = 0; count < sample_count || sample_count == 0; count++) {
         // Modify the data to be written here
 
-        sample.x(int32_t(sample.x()+xdelta));
+
         sample.y(int32_t(sample.y()+ydelta));
         if (sample.x() > xmax || sample.x() < 0) xdelta = xdelta * -1;
         if (sample.y() > ymax || sample.y() < 0) ydelta = ydelta * -1;
