@@ -1,0 +1,7 @@
+FROM ubuntu
+
+WORKDIR /app
+ADD addfiles /app
+
+CMD /app/ShapeType_publisher_triangle
+
