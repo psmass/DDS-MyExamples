@@ -49,12 +49,12 @@ void publisher_main(int domain_id, int sample_count)
     dds::domain::DomainParticipant participant (domain_id);
 
     // Create a Topic -- and automatically register the type
-    dds::topic::Topic<ShapeTypeExtended> topic (participant, "Circle");
+    dds::topic::Topic<ShapeType> topic (participant, "Circle");
 
     // Create a DataWriter with default Qos (Publisher created in-line)
-    dds::pub::DataWriter<ShapeTypeExtended> writer(dds::pub::Publisher(participant), topic);
+    dds::pub::DataWriter<ShapeType> writer(dds::pub::Publisher(participant), topic);
 
-    ShapeTypeExtended sample( "red", 0, 0, 30, ShapeFillKind::SOLID_FILL, 0);
+    ShapeType sample( "RED", 0, 0, 30);
 
     int xdelta = 2;
 	int ydelta = 5;
@@ -71,7 +71,7 @@ void publisher_main(int domain_id, int sample_count)
         if (sample.x() > xmax || sample.x() < 0) xdelta = xdelta * -1;
         if (sample.y() > ymax || sample.y() < 0) ydelta = ydelta * -1;
 
-        std::cout << "Writing ShapeTypeExtended, count " << count << std::endl;
+        std::cout << "Writing Circle Base ShapeType, count " << count << std::endl;
 
         writer.write(sample);
 
