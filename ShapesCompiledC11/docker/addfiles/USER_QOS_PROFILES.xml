@@ -86,7 +86,7 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
                     <role_name>ShapeTypeParticipantRole</role_name>
                 </participant_name>
 
-		<!--transport_builtin><mask>UDPv4</mask></transport_builtin>
+		<!--transport_builtin><mask>UDPv4</mask></transport_builtin-->
 
             </domain_participant_qos>
         </qos_profile>
