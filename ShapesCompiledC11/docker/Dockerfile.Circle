@@ -1,0 +1,8 @@
+FROM ubuntu
+
+# place all the images in a dir named addfiles in the current directory
+WORKDIR /app
+ADD addfiles /app
+
+#CMD /app/rticonnextdds-connector-go/writer
+CMD /app/ShapeType_publisher_circle
