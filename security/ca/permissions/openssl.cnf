@@ -3,7 +3,7 @@
 
 # Set the environment variable DDS_SECURE_DEMO_HOME to use this script
 #HOME=$ENV::DDS_SECURE_DEMO_HOME/ca/permissions
-HOME = /Users/pschmitt/eLearning/security/ca/permissions
+HOME = /Users/pschmitt/GitHub/DDSexamples/security/ca/permissions
 
 ####################################################################
 [ ca ]

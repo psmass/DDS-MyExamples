@@ -15,7 +15,7 @@
             <participant_factory_qos>
                 <logging>
                     <verbosity>ERROR</verbosity>
-                    <category>ALL</category>>
+                    <category>ALL</category>
                     <print_format>VERBOSE</print_format>
                     <output_file>trireader_log.txt</output_file>
                 </logging>
