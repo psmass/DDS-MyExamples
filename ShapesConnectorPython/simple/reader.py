@@ -6,22 +6,25 @@
 # This code contains trade secrets of Real-Time Innovations, Inc.             #
 ###############################################################################
 
-from __future__ import print_function
+# from __future__ import print_function
 
 # Updating the system path is not required if you have pip-installed
 # rticonnextdds-connector
 from sys import path as sys_path
 from os import path as os_path
 file_path = os_path.dirname(os_path.realpath(__file__))
-sys_path.append(file_path + "/../../../")
+sys_path.append(file_path + "/../")
 
 import rticonnextdds_connector as rti
 
 with rti.open_connector(
-        config_name="MyParticipantLibrary::MySubParticipant",
-        url=file_path + "/../ShapeExample.xml") as connector:
-
-    input = connector.get_input("MySubscriber::MySquareReader")
+        # config_name="MyParticipantLibrary::MySubParticipant",
+        # url=file_path + "/../ShapeExample.xml") as connector:
+        config_name="NewParticipantLibrary1::ShapesParticipant1",
+        url=file_path + "/../system_designer_shapes.xml") as connector:
+        
+    # input = connector.get_input("MySubscriber::MySquareReader")
+    input = connector.get_input("TriangleSubscriber1::TriangleReader")
 
     print("Waiting for publications...")
     input.wait_for_publications() # wait for at least one matching publication

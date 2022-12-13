@@ -18,8 +18,7 @@
         <member name="angle" type="float32"/>
       </struct>
     </types>
-    
-    <!--
+
     <qos_library name="NewQosLibrary1">
       <qos_profile name="NewQosProfile1" base_name="BuiltinQosLib::Generic.BestEffort">
         <base_name>
@@ -38,8 +37,7 @@
         </datawriter_qos>
       </qos_profile>
     </qos_library>
-    -->
-    
+
     <domain_library name="NewDomainLibrary1">
       <domain name="NewDomain1" domain_id="0">
         <register_type name="ShapeType" type_ref="ShapeType"/>
