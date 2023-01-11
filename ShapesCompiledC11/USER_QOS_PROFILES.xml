@@ -67,6 +67,16 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
                 <publication_name>
                     <name>ShapeTypeDataWriter</name>
                 </publication_name>
+                <property>
+                    <value> 
+                        <!-- property tag example -->
+                       <element>
+                            <name>Smart</name>
+                            <value>86</value>
+			    <propagate>true</propagate>
+                        </element>
+                    </value>
+                  </property>
             </datawriter_qos>
 
             <!-- QoS used to configure the data reader created in the example code -->                
@@ -85,7 +95,49 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
                     <name>ShapeTypeParticipant</name>
                     <role_name>ShapeTypeParticipantRole</role_name>
                 </participant_name>
+                <transport_builtin>
+		   <mask>UDPv4</mask>
+                </transport_builtin>
 
+                <property>
+                    <value> 
+                        <!-- property tag example -->
+                       <element>
+                            <name>Bond</name>
+                            <value>007</value>
+			    <propagate>true</propagate>
+                        </element>
+                    </value>
+                  </property>
+		
+                <!--<discovery>
+                    <initial_peers>
+                        <element>45@127.0.0.1</element>
+                    </initial_peers>
+                    <accept_unknown_peers>true</accept_unknown_peers>
+                </discovery> -->
+                <resource_limits>
+                    <type_code_max_serialized_length>0</type_code_max_serialized_length>
+                    <!--<type_object_max_serialized_length>0</type_object_max_serialized_length>-->
+                </resource_limits>
+
+                <!-- monitoring configurations >
+                <property>
+                    <value>
+                        <element>
+                            <name>rti.monitor.config.publish_period</name>
+                            <value>5</value>
+                            <propagate>false</propagate>
+                        </element>
+                        <element>
+                            <name>rti.monitor.library</name>
+                            <value>rtimonitoring</value>
+			                <propagate>false</propagate>
+                        </element>
+                    </value>
+                </property> -->
+
+		
             </domain_participant_qos>
         </qos_profile>
 
